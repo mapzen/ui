@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <title>demo</title>
+
+  <link rel='stylesheet' href='//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css'>
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+  <link rel='stylesheet' href='./original/application.css'>
+  <!-- all the fonts just in case -->
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700' rel='stylesheet' type='text/css'>
+  <link rel='stylesheet' href='demo.css'>
+  <style>
+  .mapzen-logo {
+  background-image: url("//mapzen.com/assets/mapzen-logo_h.png");
+  }
+  .mapzen-logo:hover {
+    background-image: url("//mapzen.com/assets/mapzen-logo_h_hover.png");
+  }
+  </style>
+</head>
+<body>
+
+<nav class='navbar navbar-default' role='navigation'>
+  <div class='container'>
+    <div class='navbar-header'>
+      <button type='button' class='navbar-toggle' data-toggle='collapse' data-target='#navbar-menu'>
+        <span class='sr-only'>Toggle navigation</span>
+        <span class='icon-bar'></span>
+        <span class='icon-bar'></span>
+        <span class='icon-bar'></span>
+      </button>
+      <a class='navbar-brand' href='/'>
+        <div class='hidden-xs'>
+          <div class='mapzen-logo'></div>
+          <h1 class='sr-only'>Mapzen</h1>
+        </div>
+        <div class='hidden-lg hidden-md hidden-sm'>
+          <img src='//mapzen.com/assets/mapzen-logo_h_hover.png' alt='Mapzen'>
+        </div>
+      </a>
+    </div>
+    <div class='collapse navbar-collapse' id='navbar-menu'>
+      <ul class='nav navbar-nav navbar-right'>
+        <li class='projects'><a href='//mapzen.com/projects'>Projects</a></li>
+        <li class='data'><a href='//mapzen.com/data'>Data</a></li>
+        <li class='blog'><a href='//mapzen.com/blog'>Blog</a></li>
+        <li class='about'><a href='//mapzen.com/about'>About</a></li>
+        <li class='jobs'><a href='//mapzen.com/jobs'>Jobs</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class='demo-content'>
+<!-- ALL DEMO CONTENT GOES HERE -->
+
+  <section class='top-thing'>
+    <div class='container'>
+
+    <div class='top-thing-text'>
+    <h2>Tangram</h2>
+    <p class='tagline'>Tangram is a set of libraries for rendering 2D & 3D maps with WebGL/Open GL ES & vector tiles.</p>
+    </div></div>
+  </section>
+
+  <section class='top-nav' id='product-nav'>
+    <div class='container'>
+    <div class='top-nav-item active' id='nav-demo'>Demo</div>
+    <div class='top-nav-item' id='nav-highlights'>Highlights</div>
+    <div class='top-nav-item' id='nav-examples'>Examples</div>
+    <div class='top-nav-item' id='nav-api'>API</div>
+    <div class='top-nav-item' id='nav-contribute'>Contribute</div>
+    <div class='top-nav-item' id='nav-github'>GitHub</div>
+    </div>
+  </section>
+
+  <section class='demo-map' id='section-demo'>
+    <!--
+    <iframe id="demoframe" src="https://tangrams.github.io/tangram/" class="demo" frameborder="0" width='100%' height='100%'></iframe>
+    // -->
+    <img src='images/mapzen_carousel-3.jpg'>
+  </section>
+
+  <section class='page-content-filler headroom-large'>
+  <div class='container'>
+  <div class='row'>
+  <div class='col-xs-12'>
+
+    <div id='section-highlights'>
+
+  <h3>Highlights</h3>
+
+  <p>Fap narwhal literally try-hard, food truck Kickstarter forage messenger bag leggings hoodie scenester beard banjo small batch. Dreamcatcher 90's leggings gastropub, skateboard DIY blog salvia. Blue Bottle lumbersexual pug asymmetrical scenester cred. Carles cred mixtape, 3 wolf moon deep v cold-pressed letterpress Austin swag Kickstarter dreamcatcher mustache. Retro ﬂannel narwhal beard, American Apparel umami actually. Polaroid ennui vegan artisan, tilde vinyl bitters +1 migas stumptown Schlitz ﬂannel meh squid cardigan. Brunch gentrify bicycle rights, Neutra artisan cred paleo raw denim pork belly Truﬀaut bespoke.</p>
+
+  <img src='images/1.jpg'>
+
+</div><div id='section-examples'>
+  <h3>Examples</h3>
+  <p>Neutra small batch roof party, try-hard pickled chia meggings Blue Bottle cardigan McSweeney's slow-carb ﬂexitarian asymmetrical fap. Godard listicle cliche wolf, hashtag seitan pickled.</p>
+
+  <img src='images/2.jpg'>
+
+
+  <p>Kogi letterpress leggings taxidermy retro, keytar Neutra pour-over salvia 90's roof party. Selvage meditation umami.</p>
+</div><div id='section-api'>
+
+  <h3>API</h3>
+  <p>VHS iPhone blog, salvia PBR&B YOLO cliche gluten-free McSweeney's. Wolf lomo selﬁes 3 wolf moon. Ennui Shoreditch Bushwick Pitchfork church-key, stumptown shabby chic. Small batch Etsy hashtag vinyl narwhal 8-bit, cliche Marfa.</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">git clone https://github.com/tangrams/ProceduralTextures
+cd ProceduralTextures 
+python -m SimpleHTTPServer 8000
+</code></pre></div>
+
+</div><div id='section-contribute'>
+
+  <h3>Contribute</h3>
+  <p>
+Disrupt pour-over readymade deep v, PBR&B flannel ethical Marfa selfies actually kitsch typewriter. Mlkshk health goth you probably haven't heard of them try-hard pickled Thundercats. Thundercats Williamsburg banjo Intelligentsia mlkshk street art. Hoodie Pinterest Helvetica, flannel pickled literally messenger bag paleo XOXO post-ironic yr. Meditation gastropub umami fap +1. Literally distillery banjo, drinking vinegar chillwave twee health goth American Apparel retro letterpress quinoa Kickstarter cliche Blue Bottle gastropub. Portland raw denim small batch chillwave, kitsch gluten-free salvia paleo biodiesel lumbersexual bespoke sartorial banjo put a bird on it yr.
+</p><p>
+Fanny pack pork belly cray, pop-up fingerstache gastropub hoodie stumptown mlkshk bespoke keffiyeh viral put a bird on it. Banjo VHS asymmetrical lo-fi mixtape, artisan four loko viral Carles. Tattooed McSweeney's PBR before they sold out keffiyeh Marfa, seitan stumptown messenger bag pour-over four dollar toast. 90's Godard cardigan bitters, polaroid before they sold out +1 Truffaut heirloom semiotics. Kickstarter dreamcatcher selfies selvage, keffiyeh slow-carb yr tousled church-key Vice listicle Portland. You probably haven't heard of them PBR Wes Anderson cold-pressed chia Echo Park. Banksy Tumblr selfies stumptown.
+</p><p>
+Odd Future locavore trust fund farm-to-table 8-bit. Typewriter synth Etsy, leggings gentrify Pitchfork hoodie chambray keytar pug plaid biodiesel Thundercats craft beer Tumblr. Squid iPhone 3 wolf moon banh mi, American Apparel authentic tofu Bushwick. Kitsch roof party fixie, raw denim fanny pack cold-pressed American Apparel Brooklyn scenester drinking vinegar seitan. Craft beer artisan chia chambray four loko twee small batch, stumptown pork belly Banksy crucifix PBR&B pickled salvia typewriter. Carles Williamsburg distillery chambray ennui next level. Raw denim bitters Portland bespoke, lumbersexual umami swag Helvetica.</p>
+</div><div id='section-github'>
+
+
+  <h3>GitHub</h3>
+  <p>VHS iPhone blog, salvia PBR&B YOLO cliche gluten-free McSweeney's. Wolf lomo selﬁes 3 wolf moon. Ennui Shoreditch Bushwick Pitchfork church-key, stumptown shabby chic. Small batch Etsy hashtag vinyl narwhal 8-bit, cliche Marfa.</p>
+</div>
+
+</div></div>
+  </div>
+  </section>
+
+
+
+<!-- // END DEMO CONTENT -->
+</div>
+
+<footer>
+  <div class='container'>
+    <div class='row headroom-extra-large'>
+      <div class='col-xs-12 text-center'>
+        <img src='//mapzen.com/assets/compass-lg-red.png'>
+        <h5 class="headroom dark-gray-text">Get involved</h5>
+      </div>
+    </div>
+    <div class='row headroom footroom-large'>
+      <div class='col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 text-center text-18 gray-text'>
+        <p>
+          Got an interesting problem? Want to know more about things we’re doing?
+          Just want to say hi?
+          <a href='mailto:hello@mapzen.com' target='_blank'>Send us &lt;3</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class='headroom-large footer-background'>
+    <div class='container'>
+      <div class='row headroom'>
+        <div class='col-xs-12 text-center'>
+          <img height='50px' src='//mapzen.com/assets/mapzen_logo@2x.png'>
+          <div class='text-18 gray-text headroom'>
+            <span class='slogan'>start where you are</span>
+          </div>
+        </div>
+      </div>
+      <div class='row headroom-large footer-menu'>
+        <div class='col-xs-12 col-sm-3'>
+          <h6>Projects</h6>
+          <ul>
+            <li><a href='//mapzen.com/pelias/'>Pelias</a></li>
+            <li><a href='//mapzen.com/tangram/'>Tangram</a></li>
+            <li><a href='https://play.google.com/store/apps/details?id=com.mapzen.open&hl=en'>Open by Mapzen</a></li>
+            <li><a href='//mapzen.com/vector/'>Vector Tile Service</a></li>
+            <li><a href='https://github.com/valhalla'>Valhalla</a></li>
+            <li><a href='http://transit.land/'>Transitland</a></li>
+          </ul>
+        </div>
+        <div class='col-xs-12 col-sm-3'>
+          <h6>Data</h6>
+          <ul>
+            <li><a href='//mapzen.com/metro-extracts/'>Metro Extracts</a></li>
+          </ul>
+
+          <!--h6>Developers</h6>
+          <ul>
+            <li><a href='/api'>API</a></li>
+          </ul-->
+        </div>
+        <div class='col-xs-12 col-sm-3'>
+          <h6>About</h6>
+          <ul>
+            <li><a href='//mapzen.com/about/'>Who we are</a></li>
+            <li><a href='//mapzen.com/about/#team'>Team</a></li>
+            <li><a href='//mapzen.com/jobs/'>Jobs</a></li>
+            <li><a href='//mapzen.com/media-resources/'>Media resources</a></li>
+          </ul>
+        </div>
+        <div class='col-xs-12 col-sm-3'>
+          <h6>Hello</h6>
+          <ul>
+            <li><a href='//mapzen.com/blog/'><i class='fa fa-fw fa-rss'></i>Blog</a></li>
+            <li><a href='https://github.com/mapzen/'><i class='fa fa-fw fa-github'></i>GitHub</a></li>
+            <li><a href='https://twitter.com/mapzen/'><i class='fa fa-fw fa-twitter'></i>Twitter</a></li>
+            <li><a href='http://www.pinterest.com/mapzen/'><i class='fa fa-fw fa-pinterest'></i>Pinterest</a></li>
+            <li><a href='mailto:hello@mapzen.com'><i class='fa fa-fw fa-envelope'></i>E-mail</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class='row headroom-large footroom-large'>
+        <div class='col-xs-12 text-center'>
+          <small class='copyright'>&#169; 2018 Mapzen</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- load scripts from CDNs -->
+<script src='https://code.jquery.com/jquery-2.1.3.min.js'></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-scrollTo/2.1.0/jquery.scrollTo.min.js"></script>
+<script src='demo.js'></script>
+</body>
+</html>
