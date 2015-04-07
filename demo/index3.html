@@ -19,7 +19,7 @@
   }
   </style>
 </head>
-<body class='version2'>
+<body class='version3'>
 
 <nav class='navbar navbar-default' role='navigation'>
   <div class='container'>
@@ -54,8 +54,6 @@
 
 <div class='demo-content'>
 <!-- ALL DEMO CONTENT GOES HERE -->
-
-  <section class='demo-map' id='section-demo'>
     <section class='top-thing'>
       <div class='container'>
 
@@ -64,23 +62,46 @@
       <p class='tagline'>Tangram is a set of libraries for rendering 2D & 3D maps with WebGL/Open GL ES & vector tiles.</p>
       </div></div>
     </section>
+
+  <section class='floating-container not-floating-yet'>
+    <div class='container'>
+
+  <section class='top-nav floating-nav' id='product-nav'>
+      <div class='product-nav'><span class='product-logo'></span>Tangram</div>
+      <div class='floating-nav-items'>
+        <div class='navscroller'>
+          <div class='top-nav-item active' id='nav-demo'>Demo</div>
+          <div class='top-nav-item' id='nav-highlights'>Highlights</div>
+          <div class='top-nav-item' id='nav-examples'>Examples</div>
+          <div class='top-nav-item' id='nav-api'>API</div>
+          <div class='top-nav-item' id='nav-contribute'>Contribute</div>
+          <div class='top-nav-item' id='nav-github'>GitHub</div>
+        </div>
+      </div>
+  </section>
+  </div></section>
+
+
+  <section class='reveal-floating'>
+    <div class='container'>
+    <section class='top-nav'>
+        <div class='product-nav ' style='left: 6px; top: 2px;'><span class='product-logo'></span>Tangram</div>
+            <div class='top-nav-item active' id='nav-demo'>Demo</div>
+            <div class='top-nav-item' id='nav-highlights'>Highlights</div>
+            <div class='top-nav-item' id='nav-examples'>Examples</div>
+            <div class='top-nav-item' id='nav-api'>API</div>
+            <div class='top-nav-item' id='nav-contribute'>Contribute</div>
+            <div class='top-nav-item' id='nav-github'>GitHub</div>
+    </section>
+  </div></section>
+
+  <section class='demo-map' id='section-demo'>
+
     <!--
     <iframe id="demoframe" src="https://tangrams.github.io/tangram/" class="demo" frameborder="0" width='100%' height='100%'></iframe>
     <img src='images/mapzen_carousel-3.jpg'>
     // -->
     <iframe id="demoframe" src="https://cdn.rawgit.com/pelias/demo/3way-toggle/index.html" class="demo" frameborder="0" width='100%' height='100%'></iframe>
-  </section>
-
-  <section class='top-nav' id='product-nav'>
-    <div class='container'>
-      <div class='product-nav'><span class='product-logo'></span>Tangram</div>
-      <div class='top-nav-item active' id='nav-demo'>Demo</div>
-      <div class='top-nav-item' id='nav-highlights'>Highlights</div>
-      <div class='top-nav-item' id='nav-examples'>Examples</div>
-      <div class='top-nav-item' id='nav-api'>API</div>
-      <div class='top-nav-item' id='nav-contribute'>Contribute</div>
-      <div class='top-nav-item' id='nav-github'>GitHub</div>
-    </div>
   </section>
 
 
@@ -229,6 +250,6 @@ Odd Future locavore trust fund farm-to-table 8-bit. Typewriter synth Etsy, leggi
 <script src='https://code.jquery.com/jquery-2.1.3.min.js'></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-scrollTo/2.1.0/jquery.scrollTo.min.js"></script>
-<script src='demo.js'></script>
+<script src='demo3.js'></script>
 </body>
 </html>
