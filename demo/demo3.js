@@ -1,10 +1,11 @@
 'use strict';
 
 $(document).on('ready', function (e) {
-  var $pNav = $('#product-nav')
   var $window = $(window)
   var $body = $('body')
-  var pNavTopPosition = $('#product-nav').offset().top
+  var $pNav = $('#product-nav')
+  var pNavTopPosition = $pNav.offset().top
+  var pNavHeight = $pNav.height()
 
   var sectDemoPos = $('#section-demo').position().top
   var sectHighlightsPos = $('#section-highlights').offset().top
@@ -16,11 +17,6 @@ $(document).on('ready', function (e) {
   var windowScrollPos
   var downCounter = 0
   var upCounter = 0
-  var pageVersion = 1
-
-  if ($body.hasClass('version3')) {
-    pageVersion = 3
-  }
 
   // nope
   $('iframe').on('scroll', function (e) {
@@ -59,47 +55,46 @@ $(document).on('ready', function (e) {
       $('nav').removeClass('navbar-fixed-top')
     }
 
-    //console.log($window.scrollTop())
-    if (windowScrollPos >= 200) { //(pNavTopPosition - 1 + 100)) {
-      $body.addClass("fix-floating-nav");
-      $('.floating-container').removeClass('not-floating-yet')
-      $('.product-nav').addClass('show-product-logo')
+    // 20 is the distance away from top of screen
+    if (windowScrollPos >= (pNavTopPosition - 20)) {
+      $body.addClass('floating-product-nav')
+      $('.product-nav-container').addClass('is-floating')
+      $('.product-name').addClass('is-visible')
     } else {
-      $body.removeClass("fix-floating-nav");
-      $('.floating-container').addClass('not-floating-yet')
-      $('.product-nav').removeClass('show-product-logo')
-    $('.reveal-floating').removeClass('reveal')
+      $body.removeClass('floating-product-nav')
+      $('.product-nav-container').removeClass('is-floating')
+      $('.product-name').removeClass('is-visible')
     }
 
     if (windowScrollPos >= sectGithubPos -150) {
-      $('.top-nav-item').removeClass('active')
+      $('.product-nav-item').removeClass('active')
       $('#nav-github').addClass('active')
-      $('.navscroller').css('top', -300)
+      $('.product-nav-scroll-container').css('top', -250)
     }
     else if (windowScrollPos >= sectContributePos -150) {
-      $('.top-nav-item').removeClass('active')
+      $('.product-nav-item').removeClass('active')
       $('#nav-contribute').addClass('active')
-      $('.navscroller').css('top', -240)
+      $('.product-nav-scroll-container').css('top', -200)
     }
     else if (windowScrollPos >= sectApiPos -150) {
-      $('.top-nav-item').removeClass('active')
+      $('.product-nav-item').removeClass('active')
       $('#nav-api').addClass('active')
-      $('.navscroller').css('top', -180)
+      $('.product-nav-scroll-container').css('top', -150)
     }
     else if (windowScrollPos >= sectExamplesPos -150) {
-      $('.top-nav-item').removeClass('active')
+      $('.product-nav-item').removeClass('active')
       $('#nav-examples').addClass('active')
-      $('.navscroller').css('top', -120)
+      $('.product-nav-scroll-container').css('top', -100)
     }
     else if (windowScrollPos >= sectHighlightsPos -150) {
-      $('.top-nav-item').removeClass('active')
+      $('.product-nav-item').removeClass('active')
       $('#nav-highlights').addClass('active')
-      $('.navscroller').css('top', -60)
+      $('.product-nav-scroll-container').css('top', -50)
     } else {
       // demo
-      $('.top-nav-item').removeClass('active')
+      $('.product-nav-item').removeClass('active')
       $('#nav-demo').addClass('active')
-      $('.navscroller').css('top', 0)
+      $('.product-nav-scroll-container').css('top', 0)
     }
 
   })
@@ -117,53 +112,70 @@ $(document).on('ready', function (e) {
       $body.removeClass('is-scrolling')
       // Clear counter here to prevent main nav from fixing
       upCounter = 0
-      $('.top-nav-item').removeClass('activated')
+      $('.product-nav-item').removeClass('activated')
     }
+  }
+
+  function scrollToSection (element, position) {
+    momentarilyDisableMainNavReveal()
+    $(element).addClass('activated')
+    $(window).scrollTo(position, 250, scrollToSettings)
   }
 
   // Clicks
   $('#nav-demo').on('click', function (e) {
-    momentarilyDisableMainNavReveal()
-    $(this).addClass('activated')
-    $(window).scrollTo(sectDemoPos, 250, scrollToSettings);
-    $('.navscroller').css('top', 0)
+    scrollToSection(this, sectDemoPos -100)
+    $('.product-nav-scroll-container').css('top', 0)
   })
   $('#nav-highlights').on('click', function (e) {
     momentarilyDisableMainNavReveal()
     $(this).addClass('activated')
-    $(window).scrollTo(sectHighlightsPos - 60, 250, scrollToSettings);
-    $('.navscroller').css('top', -60)
+    $(window).scrollTo(sectHighlightsPos - 150, 250, scrollToSettings);
+    $('.product-nav-scroll-container').css('top', -50)
   })
   $('#nav-examples').on('click', function (e) {
     momentarilyDisableMainNavReveal()
     $(this).addClass('activated')
-    $(window).scrollTo(sectExamplesPos - 60, 250, scrollToSettings);
-    $('.navscroller').css('top', -120)
+    $(window).scrollTo(sectExamplesPos - 150, 250, scrollToSettings);
+    $('.product-nav-scroll-container').css('top', -100)
   })
   $('#nav-api').on('click', function (e) {
     momentarilyDisableMainNavReveal()
     $(this).addClass('activated')
-    $(window).scrollTo(sectApiPos - 60, 250, scrollToSettings);
-    $('.navscroller').css('top', -180)
+    $(window).scrollTo(sectApiPos - 150, 250, scrollToSettings);
+    $('.product-nav-scroll-container').css('top', -150)
   })
   $('#nav-contribute').on('click', function (e) {
     momentarilyDisableMainNavReveal()
     $(this).addClass('activated')
-    $(window).scrollTo(sectContributePos - 60, 250, scrollToSettings);
-    $('.navscroller').css('top', -240)
+    $(window).scrollTo(sectContributePos - 150, 250, scrollToSettings);
+    $('.product-nav-scroll-container').css('top', -200)
   })
   $('#nav-github').on('click', function (e) {
     momentarilyDisableMainNavReveal()
     $(this).addClass('activated')
-    $(window).scrollTo(sectGithubPos - 60, 250, scrollToSettings);
-    $('.navscroller').css('top', -300)
+    $(window).scrollTo(sectGithubPos - 150, 250, scrollToSettings);
+    $('.product-nav-scroll-container').css('top', -250)
   })
 
-  $('.floating-container').on('mouseover', function (e) {
-    $('.reveal-floating').addClass('reveal')
+  $('.product-name').on('click', function (e) {
+    $body.addClass('is-scrolling')
+    $window.scrollTo(0, 250, scrollToSettings)
   })
-  $('.reveal-floating').on('mouseout', function (e) {
-    $('.reveal-floating').removeClass('reveal')
+
+  // In case someone overshoots the nav area
+  $('.product-nav-hitbox').on('mouseover', function (e) {
+    $('.product-nav-container').addClass('is-extended')
+  })
+  $('.product-nav-hitbox').on('mouseout', function (e) {
+    $('.product-nav-container').removeClass('is-extended')
+  })
+  // TODO: Also detect when the mouse exits top of viewport
+  $('.product-nav-container').on('mouseover', function (e) {
+    $('.product-nav-container').addClass('is-extended')
+  })
+  $('.product-nav-container').on('mouseout', function (e) {
+    $('.product-nav-container').removeClass('is-extended')
   })
 
 })

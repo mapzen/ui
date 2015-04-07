@@ -1,0 +1,275 @@
+/* demo styles */
+
+@product-nav-height: 50px;
+@product-nav-background-color: #333;
+@mz-red: #d4645c;
+
+.product-header {
+  height: 200px;
+  background-color: gray;
+  color: white;
+  position: relative;
+  font-weight: 300;
+}
+
+.product-header-text {
+  position: absolute;
+  bottom: 20px;
+}
+
+.product-nav-container {
+  position: relative;
+  top: 0;
+  width: 100%;
+  height: @product-nav-height;
+  overflow: hidden;
+  pointer-events: auto;
+  z-index: 2000;
+  background-color: #333;
+
+  &.is-floating {
+    position: fixed;
+    top: 20px;
+    pointer-events: none;
+    background-color: transparent;
+  }
+}
+
+.product-nav {
+  background-color: @product-nav-background-color;
+  height: @product-nav-height;
+  z-index: 2000;
+
+  overflow: hidden;
+  pointer-events: auto;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+
+  .container {
+    overflow: hidden;
+    position: relative;
+  }
+}
+
+.product-name {
+  // Product name and logo begins its life hidden from view
+  // It transitions by sliding in and gaining opacity
+  // when the .is-visible class is applied to it.
+  display: inline-block;
+  position: relative;
+  margin-left: -155px; // TODO this should be a variable number
+  margin-right: -4px; // TODO hack spacing between this and nav items
+  padding-right: 20px;
+  padding-left: 4px;
+  height: @product-nav-height;
+  line-height: @product-nav-height;
+  vertical-align: top;
+  font-size: 20px;
+  font-weight: 600;
+  color: white;
+  background-color: @product-nav-background-color;
+  opacity: 0;
+  cursor: pointer;
+
+  -webkit-transform: translate(0,0);
+     -moz-transform: translate(0,0);
+          transform: translate(0,0);
+  -webkit-transition: all .2s;
+     -moz-transition: all .2s;
+          transition: all .2s;
+
+  &.is-visible {
+    margin-left: 0;
+    opacity: 1;
+  }
+}
+
+.product-logo {
+  display: inline-block;
+  margin-right: 6px;
+  width: 35px;
+  height: 33px;
+  vertical-align: middle;
+  background-image: url('https://cdn1.vox-cdn.com/images/polygon/logos/logo_black.vbbf4076.png');
+}
+
+.product-nav-items {
+  display: inline-block;
+  position: relative;
+  height: @product-nav-height;
+}
+
+.product-nav-scroll-container {
+  display: inline-block;
+}
+
+.product-nav-item {
+  display: inline-block;
+  margin-right: -4px; // Spacing hack TODO fix
+  padding: 0 20px;
+  line-height: @product-nav-height;
+  text-transform: uppercase;
+  color: white;
+  cursor: pointer;
+
+  &:hover,
+  &.active:hover {
+    background-color: desaturate(darken(@mz-red, 10%), 10%);
+  }
+
+  body:not(.is-scrolling) &.active,
+  &.activated {
+    background-color: @mz-red;
+  }
+}
+
+.product-nav-dropdown {
+  display: none;
+  position: absolute;
+  height: @product-nav-height;
+  right: 15px;
+  top: 0;
+  line-height: @product-nav-height;
+  color: white;
+  pointer-events: none;
+}
+
+// Restyle the product nav, when it's floating!
+.product-nav-container.is-floating:not(.is-extended) {
+  .product-nav {
+    background: transparent;
+  }
+
+  .product-nav-items,
+  .product-nav-scroll-container {
+    width: 150px;
+  }
+
+  .product-nav-items {
+    background-color: @mz-red;
+  }
+
+  .product-nav-scroll-container {
+    position: absolute;
+    top: 0;
+
+    -webkit-transform: translate(0,0);
+       -moz-transform: translate(0,0);
+            transform: translate(0,0);
+    -webkit-transition: all .2s;
+       -moz-transition: all .2s;
+            transition: all .2s;
+  }
+
+  .product-nav-item {
+    display: block;
+    margin-right: 0; // Remove hack spacing
+  }
+
+  .product-nav-dropdown {
+    display: block;
+  }
+}
+
+.product-nav-hitbox {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 70px;
+  z-index: 2000;
+//  pointer-events: none;
+}
+
+.demo-map {
+  position: relative;
+  height: 600px;
+  overflow: hidden;
+
+  & > .product-header {
+    position: absolute;
+    background-color: rgba(0,0,0,0.65);
+    width: 100%;
+    text-shadow: 0 1px 1px black;
+    pointer-events: none;
+  }
+}
+
+.demo-overlay {
+  position:absolute;
+  background:transparent;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+
+
+.navbar-brand {
+  /* position hack */
+  padding: 8px 15px;
+}
+
+.page-content-filler h3 {
+  margin-top: 30px;
+  text-transform: uppercase;
+  color:  #d4645c;
+  font-size: inherit;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.highlight {
+  margin-top: 20px;
+}
+
+.page-content-filler h3,
+.page-content-filler p,
+.page-content-filler .highlight {
+  padding-left: 80px;
+  padding-right: 80px;
+}
+
+.page-content-filler img {
+  width: 100%;
+  margin: 20px 0;
+}
+
+
+body:not(.is-scrolling) .navbar-fixed-top {
+  top: 0 !important;
+}
+
+body.fix-main-nav:not(.is-scrolling) #product-nav {
+  top: 56px;
+}
+
+nav {
+  width: 100%;
+  -webkit-transform: translate(0,0);
+  -moz-transform: translate(0,0);
+  transform: translate(0,0);
+  -webkit-transition: all .25s;
+  -moz-transition: all .25s;
+  transition: all .25s;
+}
+
+.reveal-floating {
+  display: none;
+  opacity: 0;
+  position: fixed;
+  top: 30px;
+  z-index: 2500;
+  width: 100%;
+  -webkit-transform: translate(0,0);
+  -moz-transform: translate(0,0);
+  transform: translate(0,0);
+    -webkit-transition: all .2s;
+  -moz-transition: all .2s;
+  transition: all .2s;
+}
+.reveal-floating.reveal {
+  display: block;
+  opacity: 1;
+}

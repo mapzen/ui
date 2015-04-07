@@ -7,9 +7,13 @@
   <link rel='stylesheet' href='//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css'>
   <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
   <link rel='stylesheet' href='./original/application.css'>
+
   <!-- all the fonts just in case -->
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700' rel='stylesheet' type='text/css'>
-  <link rel='stylesheet' href='demo.css'>
+
+  <!-- LESS for organization -->
+  <link rel='stylesheet/less' type="text/css" href='demo3.less'>
+  <script src='//cdnjs.cloudflare.com/ajax/libs/less.js/2.5.0/less.min.js'></script>
   <style>
   .mapzen-logo {
   background-image: url("//mapzen.com/assets/mapzen-logo_h.png");
@@ -54,46 +58,34 @@
 
 <div class='demo-content'>
 <!-- ALL DEMO CONTENT GOES HERE -->
-    <section class='top-thing'>
-      <div class='container'>
-
-      <div class='top-thing-text'>
-      <h2>Tangram</h2>
-      <p class='tagline'>Tangram is a set of libraries for rendering 2D & 3D maps with WebGL/Open GL ES & vector tiles.</p>
-      </div></div>
-    </section>
-
-  <section class='floating-container not-floating-yet'>
+  <section class='product-header'>
     <div class='container'>
 
-  <section class='top-nav floating-nav' id='product-nav'>
-      <div class='product-nav'><span class='product-logo'></span>Tangram</div>
-      <div class='floating-nav-items'>
-        <div class='navscroller'>
-          <div class='top-nav-item active' id='nav-demo'>Demo</div>
-          <div class='top-nav-item' id='nav-highlights'>Highlights</div>
-          <div class='top-nav-item' id='nav-examples'>Examples</div>
-          <div class='top-nav-item' id='nav-api'>API</div>
-          <div class='top-nav-item' id='nav-contribute'>Contribute</div>
-          <div class='top-nav-item' id='nav-github'>GitHub</div>
-        </div>
-      </div>
+    <div class='product-header-text'>
+    <h2>Tangram</h2>
+    <p class='tagline'>Tangram is a set of libraries for rendering 2D & 3D maps with WebGL/Open GL ES & vector tiles.</p>
+    </div></div>
   </section>
-  </div></section>
 
-
-  <section class='reveal-floating'>
+  <div class='product-nav-hitbox'></div>
+  <section class='product-nav-container'>
     <div class='container'>
-    <section class='top-nav'>
-        <div class='product-nav ' style='left: 6px; top: 2px;'><span class='product-logo'></span>Tangram</div>
-            <div class='top-nav-item active' id='nav-demo'>Demo</div>
-            <div class='top-nav-item' id='nav-highlights'>Highlights</div>
-            <div class='top-nav-item' id='nav-examples'>Examples</div>
-            <div class='top-nav-item' id='nav-api'>API</div>
-            <div class='top-nav-item' id='nav-contribute'>Contribute</div>
-            <div class='top-nav-item' id='nav-github'>GitHub</div>
-    </section>
-  </div></section>
+      <section class='product-nav' id='product-nav'>
+        <div class='product-name'><span class='product-logo'></span>Tangram</div>
+        <div class='product-nav-items'>
+          <div class='product-nav-scroll-container'>
+            <div class='product-nav-item active' id='nav-demo'>Demo</div>
+            <div class='product-nav-item' id='nav-highlights'>Highlights</div>
+            <div class='product-nav-item' id='nav-examples'>Examples</div>
+            <div class='product-nav-item' id='nav-api'>API</div>
+            <div class='product-nav-item' id='nav-contribute'>Contribute</div>
+            <div class='product-nav-item' id='nav-github'>GitHub</div>
+          </div>
+          <div class='product-nav-dropdown'><i class="fa fa-angle-double-down"></i></div>
+        </div>
+      </section>
+    </div>
+  </section>
 
   <section class='demo-map' id='section-demo'>
 
@@ -101,6 +93,7 @@
     <iframe id="demoframe" src="https://tangrams.github.io/tangram/" class="demo" frameborder="0" width='100%' height='100%'></iframe>
     <img src='images/mapzen_carousel-3.jpg'>
     // -->
+    <div class="demo-overlay"></div>
     <iframe id="demoframe" src="https://cdn.rawgit.com/pelias/demo/3way-toggle/index.html" class="demo" frameborder="0" width='100%' height='100%'></iframe>
   </section>
 
