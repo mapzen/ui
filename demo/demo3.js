@@ -161,8 +161,17 @@ $(document).on('ready', function (e) {
     $('.product-nav-container').addClass('is-extended')
   })
   $('.product-nav-hitbox').on('mouseout', function (e) {
+    if (!e.relatedTarget) return // This is null if mouse exits the window
     $('.product-nav-container').removeClass('is-extended')
   })
+
+  $(window).on('mouseenter', function (e) {
+    // Unextend nav if mouse re-enters window not on the hitbox area
+    if (!e.relatedTarget && e.target.className !== 'product-nav-hitbox') {
+      $('.product-nav-container').removeClass('is-extended')
+    }
+  })
+
   // TODO: Also detect when the mouse exits top of viewport
   $('.product-nav-container').on('mouseover', function (e) {
     $('.product-nav-container').addClass('is-extended')
