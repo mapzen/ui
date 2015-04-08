@@ -59,27 +59,27 @@ $(document).on('ready', function (e) {
       $('.product-name').removeClass('is-visible')
     }
 
-    if (windowScrollPos >= sectGithubPos -150) {
+    if (windowScrollPos >= sectGithubPos -100) {
       $('.product-nav-item').removeClass('active')
       $('#nav-github').addClass('active')
       $('.product-nav-scroll-container').css('top', -250)
     }
-    else if (windowScrollPos >= sectContributePos -150) {
+    else if (windowScrollPos >= sectContributePos -100) {
       $('.product-nav-item').removeClass('active')
       $('#nav-contribute').addClass('active')
       $('.product-nav-scroll-container').css('top', -200)
     }
-    else if (windowScrollPos >= sectApiPos -150) {
+    else if (windowScrollPos >= sectApiPos -100) {
       $('.product-nav-item').removeClass('active')
       $('#nav-api').addClass('active')
       $('.product-nav-scroll-container').css('top', -150)
     }
-    else if (windowScrollPos >= sectExamplesPos -150) {
+    else if (windowScrollPos >= sectExamplesPos -100) {
       $('.product-nav-item').removeClass('active')
       $('#nav-examples').addClass('active')
       $('.product-nav-scroll-container').css('top', -100)
     }
-    else if (windowScrollPos >= sectHighlightsPos -150) {
+    else if (windowScrollPos >= sectHighlightsPos -100) {
       $('.product-nav-item').removeClass('active')
       $('#nav-highlights').addClass('active')
       $('.product-nav-scroll-container').css('top', -50)
@@ -123,31 +123,31 @@ $(document).on('ready', function (e) {
   $('#nav-highlights').on('click', function (e) {
     momentarilyDisableMainNavReveal()
     $(this).addClass('activated')
-    $(window).scrollTo(sectHighlightsPos - 150, 250, scrollToSettings);
+    $(window).scrollTo(sectHighlightsPos - 100, 250, scrollToSettings);
     $('.product-nav-scroll-container').css('top', -50)
   })
   $('#nav-examples').on('click', function (e) {
     momentarilyDisableMainNavReveal()
     $(this).addClass('activated')
-    $(window).scrollTo(sectExamplesPos - 150, 250, scrollToSettings);
+    $(window).scrollTo(sectExamplesPos - 100, 250, scrollToSettings);
     $('.product-nav-scroll-container').css('top', -100)
   })
   $('#nav-api').on('click', function (e) {
     momentarilyDisableMainNavReveal()
     $(this).addClass('activated')
-    $(window).scrollTo(sectApiPos - 150, 250, scrollToSettings);
+    $(window).scrollTo(sectApiPos - 100, 250, scrollToSettings);
     $('.product-nav-scroll-container').css('top', -150)
   })
   $('#nav-contribute').on('click', function (e) {
     momentarilyDisableMainNavReveal()
     $(this).addClass('activated')
-    $(window).scrollTo(sectContributePos - 150, 250, scrollToSettings);
+    $(window).scrollTo(sectContributePos - 100, 250, scrollToSettings);
     $('.product-nav-scroll-container').css('top', -200)
   })
   $('#nav-github').on('click', function (e) {
     momentarilyDisableMainNavReveal()
     $(this).addClass('activated')
-    $(window).scrollTo(sectGithubPos - 150, 250, scrollToSettings);
+    $(window).scrollTo(sectGithubPos - 100, 250, scrollToSettings);
     $('.product-nav-scroll-container').css('top', -250)
   })
 
