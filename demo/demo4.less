@@ -1,0 +1,275 @@
+/* demo styles */
+
+@product-nav-height: 50px;
+@product-nav-background-color: #333;
+@product-nav-background-translucent: fade(@product-nav-background-color, 90%);
+@mz-red: #d4645c;
+
+.demo-content {
+  position: relative;
+}
+
+.product-header {
+  height: 200px;
+  background-color: gray;
+  color: white;
+  position: relative;
+  font-weight: 300;
+}
+
+.product-header-text {
+  position: absolute;
+  bottom: 20px;
+}
+
+.product-nav-container {
+  position: absolute;
+  top: 20px;
+  width: 100%;
+  height: @product-nav-height;
+  overflow: hidden;
+  pointer-events: auto;
+  z-index: 2000;
+
+  &.is-floating {
+    position: fixed;
+    top: 20px;
+    pointer-events: none;
+  }
+}
+
+.product-nav {
+  background-color: @product-nav-background-translucent;
+  height: @product-nav-height;
+  z-index: 2000;
+
+  overflow: hidden;
+  pointer-events: auto;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+
+  -webkit-transform: translate(0,0);
+     -moz-transform: translate(0,0);
+          transform: translate(0,0);
+  -webkit-transition: width .2s;
+     -moz-transition: width .2s;
+          transition: width .2s;
+
+  .container {
+    overflow: hidden;
+    position: relative;
+  }
+}
+
+.product-name {
+  // Product name and logo begins its life hidden from view
+  // It transitions by sliding in and gaining opacity
+  // when the .is-visible class is applied to it.
+  display: inline-block;
+  position: relative;
+  margin-left: 0; // TODO this should be a variable number
+  margin-right: -4px; // TODO hack spacing between this and nav items
+  padding-right: 20px;
+  padding-left: 20px;
+  height: @product-nav-height;
+  line-height: @product-nav-height;
+  vertical-align: top;
+  font-size: 20px;
+  font-weight: 600;
+  color: white;
+  background-color: transparent;
+  opacity: 1;
+  cursor: pointer;
+
+  -webkit-transform: translate(0,0);
+     -moz-transform: translate(0,0);
+          transform: translate(0,0);
+  -webkit-transition: margin .2s, background 0s;
+     -moz-transition: margin .2s, background 0s;
+          transition: margin .2s, background 0s;
+
+  text-shadow: 0 1px 1px black;
+
+  &.is-visible {
+    margin-left: 0;
+    opacity: 1;
+    background-color: @product-nav-background-translucent;
+  }
+
+  .product-nav-container.is-extended &.is-visible {
+    background-color: transparent;
+  }
+}
+
+.product-logo {
+  display: none;
+  //display: inline-block;
+  margin-right: 6px;
+  width: 35px;
+  height: 33px;
+  vertical-align: middle;
+  background-image: url('https://cdn1.vox-cdn.com/images/polygon/logos/logo_black.vbbf4076.png');
+}
+
+.product-nav-items {
+  display: inline-block;
+  position: relative;
+  height: @product-nav-height;
+  float: right;
+  .product-nav-container.is-floating & {
+    float: none;
+  }
+
+  .product-nav-container.is-floating.is-extended & {
+    float:right;
+  }
+
+  ul {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+    font-size: 0; // Prevent spaces between inline blocks
+  }
+
+  li {
+    display: inline-block;
+    padding: 0 20px;
+    line-height: @product-nav-height;
+    font-size: 14px;
+    text-transform: uppercase;
+    color: white;
+    cursor: pointer;
+
+    &:not(.active):not(:hover) {
+      text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+    }
+
+    &:hover,
+    body:not(.is-scrolling) &.active:hover,
+    .product-nav-container.is-floating:not(.is-extended) &.active:hover {
+      background-color: desaturate(darken(@mz-red, 10%), 20%);
+    }
+
+    &.activated,
+    body:not(.is-scrolling) &.active {
+      background-color: @mz-red;
+    }
+  }
+}
+
+
+.product-nav-dropdown {
+  display: none;
+  position: absolute;
+  height: @product-nav-height;
+  right: 15px;
+  top: 0;
+  line-height: @product-nav-height;
+  color: white;
+  pointer-events: none;
+  font-size: 140%;
+}
+
+// Restyle the product nav, when it's floating!
+.product-nav-container.is-floating:not(.is-extended) {
+
+  .product-nav {
+    background: transparent;
+  width: 301px;
+  }
+
+  .product-nav-items,
+  .product-nav-scroll-container {
+    width: 150px;
+  }
+
+  .product-nav-items {
+    background-color: @mz-red;
+  }
+
+  .product-nav-scroll-container {
+    position: absolute;
+    top: 0;
+
+    -webkit-transform: translate(0,0);
+       -moz-transform: translate(0,0);
+            transform: translate(0,0);
+    -webkit-transition: all .2s;
+       -moz-transition: all .2s;
+            transition: all .2s;
+  }
+
+  .product-nav-item {
+    display: block;
+    margin-right: 0; // Remove hack spacing
+  }
+
+  .product-nav-dropdown {
+    display: block;
+  }
+}
+
+.product-nav-hitbox {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 20px + @product-nav-height + 4px; // Top margin + nav height + lower buffer
+  z-index: 2000;
+  // Disable pointer events by default
+  pointer-events: none;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+
+  // Activate when floating thing is there.
+  body.floating-product-nav & {
+    pointer-events: all;
+  }
+}
+
+/*body.floating-product-nav {
+  margin-top: @product-nav-height;
+}*/
+
+.demo-map {
+  position: relative;
+  height: 600px;
+  overflow: hidden;
+
+  & > .product-header {
+    position: absolute;
+    background-color: rgba(0,0,0,0.65);
+    width: 100%;
+    text-shadow: 0 1px 1px black;
+    pointer-events: none;
+  }
+}
+
+.demo-overlay {
+  position:absolute;
+  background:transparent;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+
+body:not(.is-scrolling) .navbar-fixed-top {
+  top: 0 !important;
+}
+
+body.fix-main-nav:not(.is-scrolling) #product-nav {
+  top: 56px;
+}
+
+nav {
+  width: 100%;
+  -webkit-transform: translate(0,0);
+  -moz-transform: translate(0,0);
+  transform: translate(0,0);
+  -webkit-transition: all .25s;
+  -moz-transition: all .25s;
+  transition: all .25s;
+}
