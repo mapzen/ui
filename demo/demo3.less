@@ -134,7 +134,7 @@
     &:hover,
     body:not(.is-scrolling) &.active:hover,
     .product-nav-container.is-floating:not(.is-extended) &.active:hover {
-      background-color: desaturate(darken(@mz-red, 10%), 10%);
+      background-color: desaturate(darken(@mz-red, 10%), 20%);
     }
 
     &.activated,
@@ -200,11 +200,16 @@
   width: 100%;
   height: 20px + @product-nav-height + 4px; // Top margin + nav height + lower buffer
   z-index: 2000;
-//  pointer-events: none;
+  // Disable pointer events by default
+  pointer-events: none;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
 
+  // Activate when floating thing is there.
+  body.floating-product-nav & {
+    pointer-events: all;
+  }
 }
 
 body.floating-product-nav {
