@@ -18,13 +18,6 @@ $(document).on('ready', function (e) {
   var downCounter = 0
   var upCounter = 0
 
-  // nope
-  $('iframe').on('scroll', function (e) {
-    console.log(e)
-    e.preventDefault()
-    e.stopImmedatePropagation()
-  })
-
   $window.on('scroll', function (e) {
     windowScrollPrevPos = windowScrollPos
     windowScrollPos = $window.scrollTop()
@@ -176,6 +169,10 @@ $(document).on('ready', function (e) {
   })
   $('.product-nav-container').on('mouseout', function (e) {
     $('.product-nav-container').removeClass('is-extended')
+  })
+
+  $('.demo-overlay').on('click', function (e) {
+    console.log(e)
   })
 
 })

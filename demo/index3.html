@@ -12,16 +12,10 @@
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700' rel='stylesheet' type='text/css'>
 
   <!-- LESS for organization -->
+  <link rel='stylesheet/less' type="text/css" href='demo-chrome.less'>
+  <link rel='stylesheet/less' type="text/css" href='demo-ipsum.less'>
   <link rel='stylesheet/less' type="text/css" href='demo3.less'>
   <script src='//cdnjs.cloudflare.com/ajax/libs/less.js/2.5.0/less.min.js'></script>
-  <style>
-  .mapzen-logo {
-  background-image: url("//mapzen.com/assets/mapzen-logo_h.png");
-  }
-  .mapzen-logo:hover {
-    background-image: url("//mapzen.com/assets/mapzen-logo_h_hover.png");
-  }
-  </style>
 </head>
 <body class='version3'>
 
@@ -73,14 +67,14 @@
       <section class='product-nav' id='product-nav'>
         <div class='product-name'><span class='product-logo'></span>Tangram</div>
         <div class='product-nav-items'>
-          <div class='product-nav-scroll-container'>
-            <div class='product-nav-item active' id='nav-demo'>Demo</div>
-            <div class='product-nav-item' id='nav-highlights'>Highlights</div>
-            <div class='product-nav-item' id='nav-examples'>Examples</div>
-            <div class='product-nav-item' id='nav-api'>API</div>
-            <div class='product-nav-item' id='nav-contribute'>Contribute</div>
-            <div class='product-nav-item' id='nav-github'>GitHub</div>
-          </div>
+          <ul class='product-nav-scroll-container'>
+            <li class='product-nav-item active' id='nav-demo'>Demo</li>
+            <li class='product-nav-item' id='nav-highlights'>Highlights</li>
+            <li class='product-nav-item' id='nav-examples'>Examples</li>
+            <li class='product-nav-item' id='nav-api'>API</li>
+            <li class='product-nav-item' id='nav-contribute'>Contribute</li>
+            <li class='product-nav-item' id='nav-github'>GitHub</li>
+          </ul>
           <div class='product-nav-dropdown'><i class="fa fa-angle-double-down"></i></div>
         </div>
       </section>
@@ -88,7 +82,6 @@
   </section>
 
   <section class='demo-map' id='section-demo'>
-
     <!--
     <iframe id="demoframe" src="https://tangrams.github.io/tangram/" class="demo" frameborder="0" width='100%' height='100%'></iframe>
     <img src='images/mapzen_carousel-3.jpg'>

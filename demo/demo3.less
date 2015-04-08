@@ -2,6 +2,7 @@
 
 @product-nav-height: 50px;
 @product-nav-background-color: #333;
+@product-nav-background-translucent: fade(@product-nav-background-color, 90%);
 @mz-red: #d4645c;
 
 .product-header {
@@ -46,6 +47,10 @@
      -moz-user-select: none;
       -ms-user-select: none;
 
+  .product-nav-container.is-extended & {
+    background-color: @product-nav-background-translucent;
+  }
+
   .container {
     overflow: hidden;
     position: relative;
@@ -68,20 +73,27 @@
   font-size: 20px;
   font-weight: 600;
   color: white;
-  background-color: @product-nav-background-color;
+  background-color: transparent;
   opacity: 0;
   cursor: pointer;
 
   -webkit-transform: translate(0,0);
      -moz-transform: translate(0,0);
           transform: translate(0,0);
-  -webkit-transition: all .2s;
-     -moz-transition: all .2s;
-          transition: all .2s;
+  -webkit-transition: margin .2s, background 0s;
+     -moz-transition: margin .2s, background 0s;
+          transition: margin .2s, background 0s;
+
+  text-shadow: 0 1px 1px black;
 
   &.is-visible {
     margin-left: 0;
     opacity: 1;
+    background-color: @product-nav-background-translucent;
+  }
+
+  .product-nav-container.is-extended &.is-visible {
+    background-color: transparent;
   }
 }
 
@@ -98,31 +110,40 @@
   display: inline-block;
   position: relative;
   height: @product-nav-height;
-}
 
-.product-nav-scroll-container {
-  display: inline-block;
-}
-
-.product-nav-item {
-  display: inline-block;
-  margin-right: -4px; // Spacing hack TODO fix
-  padding: 0 20px;
-  line-height: @product-nav-height;
-  text-transform: uppercase;
-  color: white;
-  cursor: pointer;
-
-  &:hover,
-  &.active:hover {
-    background-color: desaturate(darken(@mz-red, 10%), 10%);
+  .product-nav-container.is-floating.is-extended & {
+    float: right;
   }
 
-  body:not(.is-scrolling) &.active,
-  &.activated {
-    background-color: @mz-red;
+  ul {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+    font-size: 0; // Prevent spaces between inline blocks
+  }
+
+  li {
+    display: inline-block;
+    padding: 0 20px;
+    line-height: @product-nav-height;
+    font-size: 14px;
+    text-transform: uppercase;
+    color: white;
+    cursor: pointer;
+
+    &:hover,
+    body:not(.is-scrolling) &.active:hover,
+    .product-nav-container.is-floating:not(.is-extended) &.active:hover {
+      background-color: desaturate(darken(@mz-red, 10%), 10%);
+    }
+
+    &.activated,
+    body:not(.is-scrolling) &.active {
+      background-color: @mz-red;
+    }
   }
 }
+
 
 .product-nav-dropdown {
   display: none;
@@ -133,6 +154,7 @@
   line-height: @product-nav-height;
   color: white;
   pointer-events: none;
+  font-size: 140%;
 }
 
 // Restyle the product nav, when it's floating!
@@ -176,13 +198,17 @@
   position: fixed;
   top: 0;
   width: 100%;
-  height: 70px;
+  height: 20px + @product-nav-height + 4px; // Top margin + nav height + lower buffer
   z-index: 2000;
 //  pointer-events: none;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
 
+}
+
+body.floating-product-nav {
+  margin-top: @product-nav-height;
 }
 
 .demo-map {
@@ -206,38 +232,6 @@
   left: 0;
   width: 100%;
   height: 100%;
-}
-
-
-
-.navbar-brand {
-  /* position hack */
-  padding: 8px 15px;
-}
-
-.page-content-filler h3 {
-  margin-top: 30px;
-  text-transform: uppercase;
-  color:  #d4645c;
-  font-size: inherit;
-  font-weight: 600;
-  margin-bottom: 10px;
-}
-
-.highlight {
-  margin-top: 20px;
-}
-
-.page-content-filler h3,
-.page-content-filler p,
-.page-content-filler .highlight {
-  padding-left: 80px;
-  padding-right: 80px;
-}
-
-.page-content-filler img {
-  width: 100%;
-  margin: 20px 0;
 }
 
 
