@@ -42,6 +42,7 @@
   background-color: @product-nav-background-translucent;
   height: @product-nav-height;
   z-index: 2000;
+  width: 100%;
 
   overflow: hidden;
   pointer-events: auto;
@@ -114,22 +115,41 @@
 
 .product-nav-items {
   display: inline-block;
-  position: relative;
   height: @product-nav-height;
-  float: right;
-  .product-nav-container.is-floating & {
-    float: none;
-  }
+  position: absolute;
+  right: 0;
+  left: 150px;
+  overflow: hidden;
 
+  .product-nav-container.is-floating:not(.is-extended) & {
+    position: relative;
+    left: 0;
+
+    ul {
+      position: relative;
+    }
+  }
+/*
   .product-nav-container.is-floating.is-extended & {
-    float:right;
-  }
+    position: absolute;
+    left: 150px;
+    right: 0;
 
+    ul {
+      position: absolute;
+      right: 0;
+    }
+  }
+*/
   ul {
     display: inline-block;
     padding: 0;
     margin: 0;
     font-size: 0; // Prevent spaces between inline blocks
+    float: right;
+    //position: absolute;
+    //right: 0;
+    white-space: nowrap;
   }
 
   li {
