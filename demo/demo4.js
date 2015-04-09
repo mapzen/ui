@@ -1,4 +1,44 @@
-'use strict';
+'use strict'
+
+// Constants (configurable)
+var SCROLL_COUNTER_LIFESPAN = 1000
+
+var FIXED_NAV_ENABLE_AT_Y_POSITION = 300
+var FIXED_NAV_REVEAL_ON_COUNTER = 4
+var FIXED_NAV_HIDE_ON_COUNTER = 2
+//var FIXED_NAV_HIDE_AT_Y_POSITION = 50
+var FIXED_NAV_ALWAYS_SHOW_BELOW_Y_POSITION = 50
+
+var windowPreviousYPosition
+var windowYPosition
+var scrollDownCounter = 0
+var scrollUpCounter = 0
+var scrollCounterLifespanTimer
+
+function resetScrollCounters () {
+  scrollDownCounter = 0
+  scrollUpCounter = 0
+}
+
+function revealFixedMainNav () {
+  document.body.classList.remove('hide-fixed-main-nav')
+  document.body.classList.add('fixed-main-nav')
+  //document.querySelector('nav').classList.add('navbar-fixed-top')
+}
+
+function hideFixedMainNav () {
+  document.body.classList.remove('fixed-main-nav')
+  document.body.classList.add('hide-fixed-main-nav')
+  //document.querySelector('nav').classList.remove('navbar-fixed-top')
+}
+
+function setDemoContainerHeight () {
+  var viewportHeight = document.documentElement.clientHeight
+  var demoContainerEl = document.getElementById('demo-container')
+  var minHeight = 600
+  var maxHeightPercentage = 0.8
+  demoContainerEl.style.height = Math.max(minHeight, Math.floor(maxHeightPercentage * viewportHeight)) + 'px'
+}
 
 $(document).on('ready', function (e) {
   var $window = $(window)
@@ -7,49 +47,72 @@ $(document).on('ready', function (e) {
   var pNavTopPosition = $pNav.offset().top
   var pNavHeight = $pNav.height()
 
-  var sectDemoPos = $('#section-demo').position().top
+  var sectDemoPos = $('#demo-container').position().top
   var sectHighlightsPos = $('#section-highlights').offset().top
   var sectExamplesPos = $('#section-examples').offset().top
   var sectApiPos = $('#section-api').offset().top
   var sectContributePos = $('#section-contribute').offset().top
   var sectGithubPos = $('#section-github').offset().top
-  var windowScrollPrevPos
-  var windowScrollPos
-  var downCounter = 0
-  var upCounter = 0
+
+  // Start out revealing fixed main nav
+  // It already does this, but record the state in DOM
+  revealFixedMainNav()
+
+  // Set demo height
+  setDemoContainerHeight()
+  window.addEventListener('resize', setDemoContainerHeight)
 
   $window.on('scroll', function (e) {
-    windowScrollPrevPos = windowScrollPos
-    windowScrollPos = $window.scrollTop()
+    // Determine window Y positioning
+    // documentElement.scrollTop returns 0 in Chrome for some reason
+    // document.body.scrollTop is deprecated, but is backwards-compatible
+    windowPreviousYPosition = windowYPosition
+    windowYPosition = window.pageYOffset || (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop
 
-    if (windowScrollPrevPos > windowScrollPos && windowScrollPos > 300) {
-      // scrolling up
-      downCounter = 0
-      upCounter++
-    } else  {
-      // scrolling down
-      upCounter = 0
-      downCounter++
+    // Return early if some other script is doing the scrolling, as
+    // indicated by the presence of the `is-scrolling` class that is
+    // momentarily applied to the body element
+    if (document.body.classList.contains('is-scrolling')) {
+      resetScrollCounters()
+      return
     }
 
+    // Determine window scroll direction
+    // The terms "up" and "down" are from the viewer's perspective.
+    // That is, "scrolling down" means that the page moves _up_ in space
+    // and "scrolling up" means that the page moves _down_ in space.
+    if (windowPreviousYPosition > windowYPosition) {
+      // Scrolling up
+      window.clearTimeout(scrollCounterLifespanTimer)
+      scrollDownCounter = 0
+      scrollUpCounter++
+    } else {
+      // Scrolling down
+      window.clearTimeout(scrollCounterLifespanTimer)
+      scrollUpCounter = 0
+      scrollDownCounter++
+    }
 
-    // TODO: clear the counters after a certain time has elapsed, if no other scroll action
-    // has taken place
+    // Set a timer to expire scroll counter after a set time
+    scrollCounterLifespanTimer = window.setTimeout(function () {
+      resetScrollCounters()
+    }, SCROLL_COUNTER_LIFESPAN)
 
-    if (upCounter >= 3) {
-      if (!$body.hasClass('is-scrolling')) {
-        // this eneds to be done better, timing is off
-        // disable in this demo
-        //$body.addClass('fix-main-nav')
-        //$('nav').addClass('navbar-fixed-top')
-      }
-    } else if (downCounter >= 1) {
-      $body.removeClass('fix-main-nav')
-      $('nav').removeClass('navbar-fixed-top')
+    // As user scrolls up, reveal main navigation
+    // or hide it, as user scrolls back down
+
+    if (windowYPosition < FIXED_NAV_ALWAYS_SHOW_BELOW_Y_POSITION) {
+      revealFixedMainNav()
+    }
+
+    if (scrollUpCounter >= FIXED_NAV_REVEAL_ON_COUNTER && windowYPosition > FIXED_NAV_ENABLE_AT_Y_POSITION) {
+      revealFixedMainNav()
+    } else if (scrollDownCounter >= FIXED_NAV_HIDE_ON_COUNTER) {
+      hideFixedMainNav()
     }
 
     // 20 is the distance away from top of screen
-    if (windowScrollPos >= (pNavTopPosition - 20)) {
+    if (windowYPosition >= (pNavTopPosition - 20)) {
       $body.addClass('floating-product-nav')
       $('.product-nav-container').addClass('is-floating')
       $('.product-name').addClass('is-visible')
@@ -59,27 +122,27 @@ $(document).on('ready', function (e) {
       $('.product-name').removeClass('is-visible')
     }
 
-    if (windowScrollPos >= sectGithubPos -100) {
+    if (windowYPosition >= sectGithubPos -100) {
       $('.product-nav-item').removeClass('active')
       $('#nav-github').addClass('active')
       $('.product-nav-scroll-container').css('top', -250)
     }
-    else if (windowScrollPos >= sectContributePos -100) {
+    else if (windowYPosition >= sectContributePos -100) {
       $('.product-nav-item').removeClass('active')
       $('#nav-contribute').addClass('active')
       $('.product-nav-scroll-container').css('top', -200)
     }
-    else if (windowScrollPos >= sectApiPos -100) {
+    else if (windowYPosition >= sectApiPos -100) {
       $('.product-nav-item').removeClass('active')
       $('#nav-api').addClass('active')
       $('.product-nav-scroll-container').css('top', -150)
     }
-    else if (windowScrollPos >= sectExamplesPos -100) {
+    else if (windowYPosition >= sectExamplesPos -100) {
       $('.product-nav-item').removeClass('active')
       $('#nav-examples').addClass('active')
       $('.product-nav-scroll-container').css('top', -100)
     }
-    else if (windowScrollPos >= sectHighlightsPos -100) {
+    else if (windowYPosition >= sectHighlightsPos -100) {
       $('.product-nav-item').removeClass('active')
       $('#nav-highlights').addClass('active')
       $('.product-nav-scroll-container').css('top', -50)
@@ -93,6 +156,7 @@ $(document).on('ready', function (e) {
   })
 
   function momentarilyDisableMainNavReveal () {
+    hideFixedMainNav()
     $body.addClass('do-not-reveal-main-nav')
     $body.addClass('is-scrolling')
     window.setTimeout(function () {
@@ -104,8 +168,13 @@ $(document).on('ready', function (e) {
     onAfter: function (target) {
       $body.removeClass('is-scrolling')
       // Clear counter here to prevent main nav from fixing
-      upCounter = 0
+      //scrollUpCounter = 0
       $('.product-nav-item').removeClass('activated')
+
+
+      if (windowYPosition < FIXED_NAV_ALWAYS_SHOW_BELOW_Y_POSITION) {
+        revealFixedMainNav()
+      }
     }
   }
 
@@ -178,10 +247,6 @@ $(document).on('ready', function (e) {
   })
   $('.product-nav-container').on('mouseout', function (e) {
     $('.product-nav-container').removeClass('is-extended')
-  })
-
-  $('.demo-overlay').on('click', function (e) {
-    console.log(e)
   })
 
 })

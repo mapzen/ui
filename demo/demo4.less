@@ -1,8 +1,9 @@
 /* demo styles */
 
 @product-nav-height: 50px;
-@product-nav-background-color: #333;
-@product-nav-background-translucent: fade(@product-nav-background-color, 90%);
+@product-nav-background-color: #0f0f0f;
+@product-nav-background-translucent: fade(@product-nav-background-color, 75%);
+@product-nav-hitbox-lower-buffer: 20px;
 @mz-red: #d4645c;
 
 .demo-content {
@@ -24,17 +25,28 @@
 
 .product-nav-container {
   position: absolute;
-  top: 20px;
+  top: 20px + 56px;
   width: 100%;
   height: @product-nav-height;
   overflow: hidden;
   pointer-events: auto;
   z-index: 2000;
 
+  -webkit-transform: translate(0,0);
+     -moz-transform: translate(0,0);
+          transform: translate(0,0);
+  -webkit-transition: all .2s;
+     -moz-transition: all .2s;
+          transition: all .2s;
+
   &.is-floating {
     position: fixed;
     top: 20px;
     pointer-events: none;
+  }
+
+  body.fixed-main-nav &.is-floating {
+    top: 20px + @product-nav-height;
   }
 }
 
@@ -234,7 +246,7 @@
   position: fixed;
   top: 0;
   width: 100%;
-  height: 20px + @product-nav-height + 4px; // Top margin + nav height + lower buffer
+  height: 20px + @product-nav-height + @product-nav-hitbox-lower-buffer; // Top margin + nav height + lower buffer
   z-index: 2000;
   // Disable pointer events by default
   pointer-events: none;
@@ -246,33 +258,33 @@
   body.floating-product-nav & {
     pointer-events: all;
   }
+
+  // Extend hitbox when fixed main nav is revealed
+  body.fixed-main-nav & {
+    height: 20px + @product-nav-height + @product-nav-hitbox-lower-buffer + 56px; // Top margin + nav height + lower buffer + main nav height
+  }
 }
 
-/*body.floating-product-nav {
+body.floating-product-nav {
   margin-top: @product-nav-height;
-}*/
+}
 
-.demo-map {
+.demo-container {
   position: relative;
   height: 600px;
   overflow: hidden;
 
-  & > .product-header {
-    position: absolute;
-    background-color: rgba(0,0,0,0.65);
+  > .demo-map {
     width: 100%;
-    text-shadow: 0 1px 1px black;
-    pointer-events: none;
+    height: 100%;
+    z-index: 100; // Fix a Leaflet stacking bug
   }
-}
 
-.demo-overlay {
-  position:absolute;
-  background:transparent;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  // Leaflet overrides
+  .leaflet-container .leaflet-control-attribution {
+    background-color: @product-nav-background-translucent;
+    color: #ddd;
+  }
 }
 
 
@@ -280,8 +292,12 @@ body:not(.is-scrolling) .navbar-fixed-top {
   top: 0 !important;
 }
 
-body.fix-main-nav:not(.is-scrolling) #product-nav {
+body.fixed-main-nav:not(.is-scrolling) #product-nav {
   top: 56px;
+}
+
+body.hide-fixed-main-nav nav {
+  margin-top: -60px;
 }
 
 nav {
@@ -292,4 +308,5 @@ nav {
   -webkit-transition: all .25s;
   -moz-transition: all .25s;
   transition: all .25s;
+  z-index: 3500 !important; // Position above top nav hitbox TODO: override Bootstrap properly
 }
