@@ -76,6 +76,7 @@ function scrollToSection (element, position) {
 var ProductNavigation = function () {
   this.el = null // Placeholder for product navigation element
   this.delayedCollapseTimer = null // Placeholder
+  this.isFloating = false
   this.hitboxIsActive = false
 }
 
@@ -105,6 +106,9 @@ ProductNavigation.prototype.initEvents = function () {
 
   // Collapse nav if mouse re-enters window not on the hitbox area
   window.addEventListener('mouseover', function (e) {
+    // Do not collapse if navigation is not in the floating state
+    if (this.isFloating === false) return
+
     if (!e.relatedTarget && !e.target.classList.contains('product-nav-hitbox')) {
       this.collapse()
     }
@@ -118,7 +122,7 @@ ProductNavigation.prototype.collapse = function () {
 ProductNavigation.prototype.expand = function () {
   // If there is a delayed collapse timer, clear it
   clearTimeout(this.delayedCollapseTimer)
-  $('.product-nav').removeClass('is-collapsed')
+  this.el.classList.remove('is-collapsed')
 }
 
 ProductNavigation.prototype.delayedCollapse = function (event) {
@@ -139,11 +143,13 @@ ProductNavigation.prototype.delayedCollapse = function (event) {
 }
 
 ProductNavigation.prototype.float = function () {
+  this.isFloating = true
   this.el.classList.add('is-floating')
   document.body.classList.add('floating-product-nav')
 }
 
 ProductNavigation.prototype.unfloat = function () {
+  this.isFloating = false
   this.el.classList.remove('is-floating')
   document.body.classList.remove('floating-product-nav')
 }
