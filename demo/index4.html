@@ -61,7 +61,9 @@
   <div class='product-nav' id='product-nav'>
     <div class='container'>
       <div class='product-nav-container'>
-        <div class='product-name'><span class='product-logo'></span>Tangram</div>
+        <div class='product-name'>
+          <h2>Tangram</h2>
+        </div>
         <div class='product-nav-items'>
           <ul class='product-nav-scroll-container'>
             <li class='product-nav-item active' id='nav-demo'>Demo</li>
@@ -70,6 +72,7 @@
             <li class='product-nav-item' id='nav-api'>API</li>
             <li class='product-nav-item' id='nav-contribute'>Contribute</li>
             <li class='product-nav-item' id='nav-github'>GitHub</li>
+            <li class='product-nav-item product-nav-item-egg' id='nav-bottom'>???</li>
           </ul>
           <div class='product-nav-dropdown'>&#9698;</div>
         </div>
@@ -78,7 +81,10 @@
   </div>
 
   <section class='demo-container' id='demo-container'>
+    <!--
     <div class='demo-map' id='map'></div>
+    // -->
+    <img src='images/mapzen_carousel-3.jpg'>
   </section>
 
   <section class='page-content-filler headroom-large'>
@@ -231,6 +237,8 @@ Odd Future locavore trust fund farm-to-table 8-bit. Typewriter synth Etsy, leggi
 <script type="text/javascript">
   (function () {
     'use strict';
+
+    if (!document.getElementById('map')) return false
 
     var map_start_location = [1.2937, 103.8381, 16];
     var style_file = 'tronish.yaml';

@@ -9,11 +9,15 @@ var FIXED_NAV_HIDE_ON_COUNTER = 2
 //var FIXED_NAV_HIDE_AT_Y_POSITION = 50
 var FIXED_NAV_ALWAYS_SHOW_BELOW_Y_POSITION = 50
 
+var PRODUCT_NAV_SELECTOR
+var PRODUCT_NAV_COLLAPSE_DELAY_TIMEOUT = 900
+
 var windowPreviousYPosition
 var windowYPosition
 var scrollDownCounter = 0
 var scrollUpCounter = 0
 var scrollCounterLifespanTimer
+var navigationDelayTimer
 
 function resetScrollCounters () {
   scrollDownCounter = 0
@@ -40,6 +44,110 @@ function setDemoContainerHeight () {
   demoContainerEl.style.height = Math.max(minHeight, Math.floor(maxHeightPercentage * viewportHeight)) + 'px'
 }
 
+function momentarilyDisableMainNavReveal () {
+  hideFixedMainNav()
+  document.body.classList.add('do-not-reveal-main-nav')
+  document.body.classList.add('is-scrolling')
+  window.setTimeout(function () {
+    document.body.classList.remove('do-not-reveal-main-nav')
+  }, 500)
+}
+
+var scrollToSettings = {
+  onAfter: function (target) {
+    document.body.classList.remove('is-scrolling')
+    // Clear counter here to prevent main nav from fixing
+    //scrollUpCounter = 0
+    $('.product-nav-item').removeClass('activated')
+
+    if (windowYPosition < FIXED_NAV_ALWAYS_SHOW_BELOW_Y_POSITION) {
+      revealFixedMainNav()
+    }
+  }
+}
+
+function scrollToSection (element, position) {
+  momentarilyDisableMainNavReveal()
+  element.classList.add('activated')
+  $(window).scrollTo(position, 250, scrollToSettings)
+}
+
+
+var ProductNavigation = function () {
+  this.el = null // Placeholder for product navigation element
+  this.delayedCollapseTimer = null // Placeholder
+  this.hitboxIsActive = false
+}
+
+ProductNavigation.prototype.init = function (el) {
+  var selector = el || PRODUCT_NAV_SELECTOR || '.product-nav'
+  this.el = document.querySelector(selector)
+
+  this.initEvents()
+
+  // Enable CSS transition time only after page has completed loading
+  // so that setting the navbar into initial state is not animated.
+  setTimeout(function () {
+    this.el.querySelector('.product-nav-container').classList.add('enable-animation')
+  }.bind(this), 0)
+}
+
+ProductNavigation.prototype.initEvents = function () {
+  // Add event listeners to things.
+  // The hitbox is an invisible area bigger than the navigation bar itself
+  // When the mouse enters this area, expand the navigation bar
+  var hitboxEl = document.querySelector('.product-nav-hitbox')
+
+  hitboxEl.addEventListener('mouseover', this.expand.bind(this))
+  hitboxEl.addEventListener('mouseout', this.delayedCollapse.bind(this))
+  this.el.addEventListener('mouseover', this.expand.bind(this))
+  this.el.addEventListener('mouseout', this.delayedCollapse.bind(this))
+
+  // Collapse nav if mouse re-enters window not on the hitbox area
+  window.addEventListener('mouseover', function (e) {
+    if (!e.relatedTarget && !e.target.classList.contains('product-nav-hitbox')) {
+      this.collapse()
+    }
+  }.bind(this))
+}
+
+ProductNavigation.prototype.collapse = function () {
+  this.el.classList.add('is-collapsed')
+}
+
+ProductNavigation.prototype.expand = function () {
+  // If there is a delayed collapse timer, clear it
+  clearTimeout(this.delayedCollapseTimer)
+  $('.product-nav').removeClass('is-collapsed')
+}
+
+ProductNavigation.prototype.delayedCollapse = function (event) {
+  // event.relatedTarget is null if mouse exits the window
+  // In that case, do not collapse the navigation
+  if (event && !event.relatedTarget) return false
+
+  // Timer priority: local, global, default
+  var timer = PRODUCT_NAV_COLLAPSE_DELAY_TIMEOUT || 1200
+
+  // Set a timer to collapse navigation in the future
+  // If the timer has not cleared by then, collapse navigation
+  this.delayedCollapseTimer = setTimeout(function () {
+    if (this.delayedCollapseTimer) {
+      this.collapse()
+    }
+  }.bind(this), timer)
+}
+
+ProductNavigation.prototype.float = function () {
+  this.el.classList.add('is-floating')
+  document.body.classList.add('floating-product-nav')
+}
+
+ProductNavigation.prototype.unfloat = function () {
+  this.el.classList.remove('is-floating')
+  document.body.classList.remove('floating-product-nav')
+}
+
 $(document).on('ready', function (e) {
   var $window = $(window)
   var $body = $('body')
@@ -53,6 +161,9 @@ $(document).on('ready', function (e) {
   var sectApiPos = $('#section-api').offset().top
   var sectContributePos = $('#section-contribute').offset().top
   var sectGithubPos = $('#section-github').offset().top
+  var sectFooterPos = $('footer').offset().top
+
+  var productNav = new ProductNavigation()
 
   // Start out revealing fixed main nav
   // It already does this, but record the state in DOM
@@ -61,6 +172,8 @@ $(document).on('ready', function (e) {
   // Set demo height
   setDemoContainerHeight()
   window.addEventListener('resize', setDemoContainerHeight)
+
+  productNav.init()
 
   $window.on('scroll', function (e) {
     // Determine window Y positioning
@@ -113,16 +226,18 @@ $(document).on('ready', function (e) {
 
     // 20 is the distance away from top of screen
     if (windowYPosition >= (pNavTopPosition - 20)) {
-      $body.addClass('floating-product-nav')
-      $('.product-nav').addClass('is-floating')
-      $('.product-name').addClass('is-visible')
+      productNav.float()
     } else {
-      $body.removeClass('floating-product-nav')
-      $('.product-nav').removeClass('is-floating')
-      $('.product-name').removeClass('is-visible')
+      productNav.unfloat()
+      productNav.expand()
     }
 
-    if (windowYPosition >= sectGithubPos -100) {
+    if (windowYPosition >= sectFooterPos) {
+      $('.product-nav-item').removeClass('active')
+      $('#nav-bottom').addClass('active')
+      $('.product-nav-scroll-container').css('top', -300)
+    }
+    else if (windowYPosition >= sectGithubPos -100) {
       $('.product-nav-item').removeClass('active')
       $('#nav-github').addClass('active')
       $('.product-nav-scroll-container').css('top', -250)
@@ -146,75 +261,56 @@ $(document).on('ready', function (e) {
       $('.product-nav-item').removeClass('active')
       $('#nav-highlights').addClass('active')
       $('.product-nav-scroll-container').css('top', -50)
+
+      productNav.collapse()
     } else {
       // demo
       $('.product-nav-item').removeClass('active')
       $('#nav-demo').addClass('active')
       $('.product-nav-scroll-container').css('top', 0)
+
+      productNav.expand()
     }
 
   })
-
-  function momentarilyDisableMainNavReveal () {
-    hideFixedMainNav()
-    $body.addClass('do-not-reveal-main-nav')
-    $body.addClass('is-scrolling')
-    window.setTimeout(function () {
-      $body.removeClass('do-not-reveal-main-nav')
-    }, 500)
-  }
-
-  var scrollToSettings = {
-    onAfter: function (target) {
-      $body.removeClass('is-scrolling')
-      // Clear counter here to prevent main nav from fixing
-      //scrollUpCounter = 0
-      $('.product-nav-item').removeClass('activated')
-
-
-      if (windowYPosition < FIXED_NAV_ALWAYS_SHOW_BELOW_Y_POSITION) {
-        revealFixedMainNav()
-      }
-    }
-  }
-
-  function scrollToSection (element, position) {
-    momentarilyDisableMainNavReveal()
-    $(element).addClass('activated')
-    $(window).scrollTo(position, 250, scrollToSettings)
-  }
 
   // Clicks
   $('#nav-demo').on('click', function (e) {
     scrollToSection(this, sectDemoPos -100)
+    $('.product-nav-item').removeClass('active')
     $('.product-nav-scroll-container').css('top', 0)
   })
   $('#nav-highlights').on('click', function (e) {
     momentarilyDisableMainNavReveal()
+    $('.product-nav-item').removeClass('active')
     $(this).addClass('activated')
     $(window).scrollTo(sectHighlightsPos - 100, 250, scrollToSettings);
     $('.product-nav-scroll-container').css('top', -50)
   })
   $('#nav-examples').on('click', function (e) {
     momentarilyDisableMainNavReveal()
+    $('.product-nav-item').removeClass('active')
     $(this).addClass('activated')
     $(window).scrollTo(sectExamplesPos - 100, 250, scrollToSettings);
     $('.product-nav-scroll-container').css('top', -100)
   })
   $('#nav-api').on('click', function (e) {
     momentarilyDisableMainNavReveal()
+    $('.product-nav-item').removeClass('active')
     $(this).addClass('activated')
     $(window).scrollTo(sectApiPos - 100, 250, scrollToSettings);
     $('.product-nav-scroll-container').css('top', -150)
   })
   $('#nav-contribute').on('click', function (e) {
     momentarilyDisableMainNavReveal()
+    $('.product-nav-item').removeClass('active')
     $(this).addClass('activated')
     $(window).scrollTo(sectContributePos - 100, 250, scrollToSettings);
     $('.product-nav-scroll-container').css('top', -200)
   })
   $('#nav-github').on('click', function (e) {
     momentarilyDisableMainNavReveal()
+    $('.product-nav-item').removeClass('active')
     $(this).addClass('activated')
     $(window).scrollTo(sectGithubPos - 100, 250, scrollToSettings);
     $('.product-nav-scroll-container').css('top', -250)
@@ -223,31 +319,6 @@ $(document).on('ready', function (e) {
   $('.product-name').on('click', function (e) {
     $body.addClass('is-scrolling')
     $window.scrollTo(0, 250, scrollToSettings)
-  })
-
-  // In case someone overshoots the nav area
-  $('.product-nav-hitbox').on('mouseover', function (e) {
-    $('.product-nav').addClass('is-extended')
-  })
-  $('.product-nav-hitbox').on('mouseout', function (e) {
-    if (!e.relatedTarget) return // This is null if mouse exits the window
-
-    // TODO: Use a timer instead of strict hitbox area
-    $('.product-nav').removeClass('is-extended')
-  })
-
-  $(window).on('mouseenter', function (e) {
-    // Unextend nav if mouse re-enters window not on the hitbox area
-    if (!e.relatedTarget && e.target.className !== 'product-nav-hitbox') {
-      $('.product-nav').removeClass('is-extended')
-    }
-  })
-
-  $('.product-nav').on('mouseover', function (e) {
-    $('.product-nav').addClass('is-extended')
-  })
-  $('.product-nav').on('mouseout', function (e) {
-    $('.product-nav').removeClass('is-extended')
   })
 
 })

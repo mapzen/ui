@@ -4,6 +4,8 @@
 @product-nav-background-color: #0f0f0f;
 @product-nav-background-translucent: fade(@product-nav-background-color, 75%);
 @product-nav-hitbox-lower-buffer: 20px;
+@product-nav-transition-time: 0.2s;
+@product-nav-scroll-time: 0.2s;
 @mz-red: #d4645c;
 
 .demo-content {
@@ -29,22 +31,11 @@
   width: 100%;
   height: @product-nav-height;
   overflow: hidden;
-  pointer-events: auto;
   z-index: 2000;
-
-/*
-  -webkit-transform: translate(0,0);
-     -moz-transform: translate(0,0);
-          transform: translate(0,0);
-  -webkit-transition: all .2s;
-     -moz-transition: all .2s;
-          transition: all .2s;
-*/
 
   &.is-floating {
     position: fixed;
     top: 20px;
-    pointer-events: none;
   }
 
   body.fixed-main-nav &.is-floating {
@@ -53,117 +44,110 @@
 }
 
 .product-nav-container {
-  background-color: @product-nav-background-translucent;
-  height: @product-nav-height;
-  z-index: 2000;
+  display: inline-block;
+  position: relative;
   width: 100%;
+  height: @product-nav-height;
+  background-color: @product-nav-background-translucent;
+  z-index: 2000;
 
   overflow: hidden;
-  pointer-events: auto;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
 
-  -webkit-transform: translate(0,0);
-     -moz-transform: translate(0,0);
-          transform: translate(0,0);
-  -webkit-transition: width .2s;
-     -moz-transition: width .2s;
-          transition: width .2s;
-
-  .container {
-    overflow: hidden;
-    position: relative;
+  &.enable-animation {
+    -webkit-transition: width @product-nav-transition-time;
+       -moz-transition: width @product-nav-transition-time;
+            transition: width @product-nav-transition-time;
   }
 }
 
+
+// Restyle the product nav, when it's collapsed!
+.product-nav.is-collapsed {
+
+  .product-nav-container {
+    width: 300px;
+  }
+
+  .product-nav-items,
+  .product-nav-scroll-container {
+    width: 150px;
+  }
+
+  .product-nav-items {
+    background-color: @mz-red;
+  }
+
+  // Set animation transition for scrolling through
+  // sections while the nav is collapsed.
+  ul {
+    position: absolute;
+    top: 0;
+    right: 0;
+    -webkit-transition: top @product-nav-scroll-time;
+       -moz-transition: top @product-nav-scroll-time;
+            transition: top @product-nav-scroll-time;
+  }
+
+  li {
+    display: block;
+  }
+
+  li.product-nav-item-egg {
+    // Override default display of none
+    display: block;
+  }
+
+  .product-nav-dropdown {
+    display: block;
+  }
+}
+
+
 .product-name {
-  // Product name and logo begins its life hidden from view
-  // It transitions by sliding in and gaining opacity
-  // when the .is-visible class is applied to it.
   display: inline-block;
   position: relative;
-  margin-left: 0; // TODO this should be a variable number
-  margin-right: -4px; // TODO hack spacing between this and nav items
-  padding-right: 20px;
-  padding-left: 20px;
+  padding: 0 20px;
   height: @product-nav-height;
-  line-height: @product-nav-height;
-  vertical-align: top;
-  font-size: 20px;
-  font-weight: 600;
   color: white;
-  background-color: transparent;
+  text-shadow: 0 1px 1px black;
+  vertical-align: top;
   opacity: 1;
   cursor: pointer;
 
-  -webkit-transform: translate(0,0);
-     -moz-transform: translate(0,0);
-          transform: translate(0,0);
-  -webkit-transition: margin .2s, background 0s;
-     -moz-transition: margin .2s, background 0s;
-          transition: margin .2s, background 0s;
-
-  text-shadow: 0 1px 1px black;
-
-  &.is-visible {
-    margin-left: 0;
-    opacity: 1;
-    background-color: @product-nav-background-translucent;
+  // Semantically, the product name is a h2 element
+  // Styles override default page h2
+  h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: @product-nav-height;
   }
-
-  .product-nav.is-extended &.is-visible {
-    background-color: transparent;
-  }
-}
-
-.product-logo {
-  display: none;
-  //display: inline-block;
-  margin-right: 6px;
-  width: 35px;
-  height: 33px;
-  vertical-align: middle;
-  background-image: url('https://cdn1.vox-cdn.com/images/polygon/logos/logo_black.vbbf4076.png');
 }
 
 .product-nav-items {
   display: inline-block;
   height: @product-nav-height;
   position: absolute;
-  right: 0;
   left: 150px;
+  right: 0;
   overflow: hidden;
 
-  .product-nav.is-floating:not(.is-extended) & {
-    position: relative;
-    left: 0;
-
-    ul {
-      position: relative;
-    }
-  }
-/*
-  .product-nav.is-floating.is-extended & {
-    position: absolute;
-    left: 150px;
-    right: 0;
-
-    ul {
-      position: absolute;
-      right: 0;
-    }
-  }
-*/
   ul {
     display: inline-block;
     padding: 0;
     margin: 0;
-    font-size: 0; // Prevent spaces between inline blocks
-    float: right;
-    //position: absolute;
-    //right: 0;
+
+    // Prevent spaces between inline blocks
+    font-size: 0;
     white-space: nowrap;
+
+    // Float is used for positioning in its default state,
+    // so it ignores the 'top' property used for positioning
+    // in its collapsed state.
+    float: right;
   }
 
   li {
@@ -181,13 +165,17 @@
 
     &:hover,
     body:not(.is-scrolling) &.active:hover,
-    .product-nav.is-floating:not(.is-extended) &.active:hover {
+    .product-nav.is-collapsed &.active:hover {
       background-color: desaturate(darken(@mz-red, 10%), 20%);
     }
 
     &.activated,
     body:not(.is-scrolling) &.active {
       background-color: @mz-red;
+    }
+
+    &.product-nav-item-egg {
+      display: none;
     }
   }
 }
@@ -202,45 +190,6 @@
   font-size: 8px;
   opacity: 0.85;
   pointer-events: none;
-}
-
-// Restyle the product nav, when it's floating!
-.product-nav.is-floating:not(.is-extended) {
-
-  .product-nav-container {
-    background: transparent;
-    width: 301px;
-  }
-
-  .product-nav-items,
-  .product-nav-scroll-container {
-    width: 150px;
-  }
-
-  .product-nav-items {
-    background-color: @mz-red;
-  }
-
-  .product-nav-scroll-container {
-    position: absolute;
-    top: 0;
-
-    -webkit-transform: translate(0,0);
-       -moz-transform: translate(0,0);
-            transform: translate(0,0);
-    -webkit-transition: all .2s;
-       -moz-transition: all .2s;
-            transition: all .2s;
-  }
-
-  .product-nav-item {
-    display: block;
-    margin-right: 0; // Remove hack spacing
-  }
-
-  .product-nav-dropdown {
-    display: block;
-  }
 }
 
 .product-nav-hitbox {
@@ -291,10 +240,6 @@ body.floating-product-nav {
 
 body:not(.is-scrolling) .navbar-fixed-top {
   top: 0 !important;
-}
-
-body.fixed-main-nav:not(.is-scrolling) .product-nav {
-  top: 56px;
 }
 
 body.hide-fixed-main-nav nav {
