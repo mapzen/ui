@@ -2,23 +2,26 @@
 <html>
 <head>
   <meta charset='utf-8'>
+  <meta http-equiv='x-ua-compatible' content='ie=edge'>
   <title>demo</title>
 
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+
   <link rel='stylesheet' href='//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css'>
-  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+  <link rel='stylesheet' href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css'>
   <link rel='stylesheet' href='//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css'>
   <link rel='stylesheet' href='./original/application.css'>
 
   <!-- all the fonts just in case -->
-  <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700' rel='stylesheet' type='text/css'>
+  <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700'>
 
   <!-- LESS for organization -->
-  <link rel='stylesheet/less' type="text/css" href='demo-chrome.less'>
-  <link rel='stylesheet/less' type="text/css" href='demo-ipsum.less'>
-  <link rel='stylesheet/less' type="text/css" href='demo4.less'>
+  <link rel='stylesheet/less' type='text/css' href='demo-chrome.less'>
+  <link rel='stylesheet/less' type='text/css' href='demo-ipsum.less'>
+  <link rel='stylesheet/less' type='text/css' href='demo4.less'>
   <script src='//cdnjs.cloudflare.com/ajax/libs/less.js/2.5.0/less.min.js'></script>
 </head>
-<body class='version3'>
+<body class=''>
 
 <nav class='navbar navbar-default navbar-fixed-top' role='navigation'>
   <div class='container'>
@@ -54,11 +57,10 @@
 <div class='demo-content'>
 <!-- ALL DEMO CONTENT GOES HERE -->
 
-
   <div class='product-nav-hitbox'></div>
-  <section class='product-nav-container'>
+  <div class='product-nav' id='product-nav'>
     <div class='container'>
-      <section class='product-nav' id='product-nav'>
+      <div class='product-nav-container'>
         <div class='product-name'><span class='product-logo'></span>Tangram</div>
         <div class='product-nav-items'>
           <ul class='product-nav-scroll-container'>
@@ -71,14 +73,13 @@
           </ul>
           <div class='product-nav-dropdown'>&#9698;</div>
         </div>
-      </section>
+      </div>
     </div>
-  </section>
+  </div>
 
   <section class='demo-container' id='demo-container'>
     <div class='demo-map' id='map'></div>
   </section>
-
 
   <section class='page-content-filler headroom-large'>
   <div class='container'>

@@ -114,11 +114,11 @@ $(document).on('ready', function (e) {
     // 20 is the distance away from top of screen
     if (windowYPosition >= (pNavTopPosition - 20)) {
       $body.addClass('floating-product-nav')
-      $('.product-nav-container').addClass('is-floating')
+      $('.product-nav').addClass('is-floating')
       $('.product-name').addClass('is-visible')
     } else {
       $body.removeClass('floating-product-nav')
-      $('.product-nav-container').removeClass('is-floating')
+      $('.product-nav').removeClass('is-floating')
       $('.product-name').removeClass('is-visible')
     }
 
@@ -227,26 +227,27 @@ $(document).on('ready', function (e) {
 
   // In case someone overshoots the nav area
   $('.product-nav-hitbox').on('mouseover', function (e) {
-    $('.product-nav-container').addClass('is-extended')
+    $('.product-nav').addClass('is-extended')
   })
   $('.product-nav-hitbox').on('mouseout', function (e) {
     if (!e.relatedTarget) return // This is null if mouse exits the window
-    $('.product-nav-container').removeClass('is-extended')
+
+    // TODO: Use a timer instead of strict hitbox area
+    $('.product-nav').removeClass('is-extended')
   })
 
   $(window).on('mouseenter', function (e) {
     // Unextend nav if mouse re-enters window not on the hitbox area
     if (!e.relatedTarget && e.target.className !== 'product-nav-hitbox') {
-      $('.product-nav-container').removeClass('is-extended')
+      $('.product-nav').removeClass('is-extended')
     }
   })
 
-  // TODO: Also detect when the mouse exits top of viewport
-  $('.product-nav-container').on('mouseover', function (e) {
-    $('.product-nav-container').addClass('is-extended')
+  $('.product-nav').on('mouseover', function (e) {
+    $('.product-nav').addClass('is-extended')
   })
-  $('.product-nav-container').on('mouseout', function (e) {
-    $('.product-nav-container').removeClass('is-extended')
+  $('.product-nav').on('mouseout', function (e) {
+    $('.product-nav').removeClass('is-extended')
   })
 
 })

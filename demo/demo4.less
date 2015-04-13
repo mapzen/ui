@@ -23,7 +23,7 @@
   bottom: 20px;
 }
 
-.product-nav-container {
+.product-nav {
   position: absolute;
   top: 20px + 56px;
   width: 100%;
@@ -32,12 +32,14 @@
   pointer-events: auto;
   z-index: 2000;
 
+/*
   -webkit-transform: translate(0,0);
      -moz-transform: translate(0,0);
           transform: translate(0,0);
   -webkit-transition: all .2s;
      -moz-transition: all .2s;
           transition: all .2s;
+*/
 
   &.is-floating {
     position: fixed;
@@ -50,7 +52,7 @@
   }
 }
 
-.product-nav {
+.product-nav-container {
   background-color: @product-nav-background-translucent;
   height: @product-nav-height;
   z-index: 2000;
@@ -110,7 +112,7 @@
     background-color: @product-nav-background-translucent;
   }
 
-  .product-nav-container.is-extended &.is-visible {
+  .product-nav.is-extended &.is-visible {
     background-color: transparent;
   }
 }
@@ -133,7 +135,7 @@
   left: 150px;
   overflow: hidden;
 
-  .product-nav-container.is-floating:not(.is-extended) & {
+  .product-nav.is-floating:not(.is-extended) & {
     position: relative;
     left: 0;
 
@@ -142,7 +144,7 @@
     }
   }
 /*
-  .product-nav-container.is-floating.is-extended & {
+  .product-nav.is-floating.is-extended & {
     position: absolute;
     left: 150px;
     right: 0;
@@ -179,7 +181,7 @@
 
     &:hover,
     body:not(.is-scrolling) &.active:hover,
-    .product-nav-container.is-floating:not(.is-extended) &.active:hover {
+    .product-nav.is-floating:not(.is-extended) &.active:hover {
       background-color: desaturate(darken(@mz-red, 10%), 20%);
     }
 
@@ -194,22 +196,20 @@
 .product-nav-dropdown {
   display: none;
   position: absolute;
-  height: @product-nav-height;
-  right: 8px;
-  top: 12px;
-  line-height: @product-nav-height;
+  right: 9px;
+  bottom: 9px;
   color: white;
-  pointer-events: none;
-  font-size: 60%;
+  font-size: 8px;
   opacity: 0.85;
+  pointer-events: none;
 }
 
 // Restyle the product nav, when it's floating!
-.product-nav-container.is-floating:not(.is-extended) {
+.product-nav.is-floating:not(.is-extended) {
 
-  .product-nav {
+  .product-nav-container {
     background: transparent;
-  width: 301px;
+    width: 301px;
   }
 
   .product-nav-items,
@@ -293,7 +293,7 @@ body:not(.is-scrolling) .navbar-fixed-top {
   top: 0 !important;
 }
 
-body.fixed-main-nav:not(.is-scrolling) #product-nav {
+body.fixed-main-nav:not(.is-scrolling) .product-nav {
   top: 56px;
 }
 
