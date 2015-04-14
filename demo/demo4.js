@@ -110,6 +110,10 @@ ProductNavigation.prototype.addEventListeners = function () {
   function onMouseLeavesHitboxArea (event) {
     this.hitboxIsActive = false
 
+    // If navbar is not floating, the do not allow
+    // collapse to occur
+    if (this.isFloating === false) return false
+
     // event.relatedTarget is null if mouse exits the window
     // In that case, do not collapse the navigation
     if (event && !event.relatedTarget) return false
@@ -138,7 +142,8 @@ ProductNavigation.prototype.addEventListeners = function () {
 }
 
 ProductNavigation.prototype.collapse = function () {
-  // Never allow a collapse if the hitbox area is active
+  // Never allow a collapse if the hitbox area is active or
+  // the navbar is not floating (should this be here?)
   if (this.hitboxIsActive) return
 
   this.isCollapsed === true
