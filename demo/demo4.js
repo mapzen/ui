@@ -97,6 +97,7 @@ ProductNavigation.prototype.addEventListeners = function () {
 
   // All the elements that act as hitboxes for the purpose of
   // expanding product navigation
+  // TODO make this work better -- this fires a lot of events
   hitboxEl.addEventListener('mouseover', onMouseEntersHitboxArea.bind(this))
   hitboxEl.addEventListener('mouseout', onMouseLeavesHitboxArea.bind(this))
   this.el.addEventListener('mouseover', onMouseEntersHitboxArea.bind(this))
@@ -112,11 +113,11 @@ ProductNavigation.prototype.addEventListeners = function () {
 
     // If navbar is not floating, the do not allow
     // collapse to occur
-    if (this.isFloating === false) return false
+    if (this.isFloating === false) return
 
     // event.relatedTarget is null if mouse exits the window
     // In that case, do not collapse the navigation
-    if (event && !event.relatedTarget) return false
+    if (event && !event.relatedTarget) return
 
     this.delayedCollapse()
   }
@@ -146,13 +147,13 @@ ProductNavigation.prototype.collapse = function () {
   // the navbar is not floating (should this be here?)
   if (this.hitboxIsActive) return
 
-  this.isCollapsed === true
+  this.isCollapsed = true
   this.el.classList.add('is-collapsed')
 }
 
 ProductNavigation.prototype.expand = function () {
   clearTimeout(this.delayedCollapseTimer)
-  this.isCollapsed === false
+  this.isCollapsed = false
   this.el.classList.remove('is-collapsed')
 }
 
