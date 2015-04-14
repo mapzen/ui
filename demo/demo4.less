@@ -33,6 +33,14 @@
   overflow: hidden;
   z-index: 2000;
 
+  -webkit-transform: translate(0,0);
+     -moz-transform: translate(0,0);
+          transform: translate(0,0);
+
+  -webkit-transition: top @product-nav-scroll-time;
+     -moz-transition: top @product-nav-scroll-time;
+          transition: top @product-nav-scroll-time;
+
   // When product nav is floating
   &.is-floating {
     position: fixed;
@@ -249,8 +257,10 @@ nav {
   -webkit-transform: translate(0,0);
   -moz-transform: translate(0,0);
   transform: translate(0,0);
-  -webkit-transition: all .25s;
-  -moz-transition: all .25s;
-  transition: all .25s;
+
+  // Safari has a bug where width of nav will animate when page loads
+  -webkit-transition: all .25s, width 0s;
+  -moz-transition: all .25s, width 0s;
+  transition: all .25s, width 0s;
   z-index: 3500 !important; // Position above top nav hitbox TODO: override Bootstrap properly
 }
