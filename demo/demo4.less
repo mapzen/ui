@@ -33,13 +33,55 @@
   overflow: hidden;
   z-index: 2000;
 
+  // When product nav is floating
   &.is-floating {
     position: fixed;
     top: 20px;
+
+    // Floating AND fixed main navigation
+    body.fixed-main-nav & {
+      top: 20px + @product-nav-height;
+    }
   }
 
-  body.fixed-main-nav &.is-floating {
-    top: 20px + @product-nav-height;
+  // When product nav is collapsed!
+  &.is-collapsed {
+    .product-nav-container {
+      width: 300px;
+    }
+
+    .product-nav-items,
+    .product-nav-scroll-container {
+      width: 150px;
+    }
+
+    .product-nav-items {
+      background-color: @mz-red;
+    }
+
+    // Set animation transition for scrolling through
+    // sections while the nav is collapsed.
+    ul {
+      position: absolute;
+      top: 0;
+      right: 0;
+      -webkit-transition: top @product-nav-scroll-time;
+         -moz-transition: top @product-nav-scroll-time;
+              transition: top @product-nav-scroll-time;
+    }
+
+    li {
+      display: block;
+    }
+
+    li.product-nav-item-egg {
+      // Override default display of none
+      display: block;
+    }
+
+    .product-nav-dropdown {
+      display: block;
+    }
   }
 }
 
@@ -62,49 +104,6 @@
             transition: width @product-nav-transition-time;
   }
 }
-
-
-// Restyle the product nav, when it's collapsed!
-.product-nav.is-collapsed {
-
-  .product-nav-container {
-    width: 300px;
-  }
-
-  .product-nav-items,
-  .product-nav-scroll-container {
-    width: 150px;
-  }
-
-  .product-nav-items {
-    background-color: @mz-red;
-  }
-
-  // Set animation transition for scrolling through
-  // sections while the nav is collapsed.
-  ul {
-    position: absolute;
-    top: 0;
-    right: 0;
-    -webkit-transition: top @product-nav-scroll-time;
-       -moz-transition: top @product-nav-scroll-time;
-            transition: top @product-nav-scroll-time;
-  }
-
-  li {
-    display: block;
-  }
-
-  li.product-nav-item-egg {
-    // Override default display of none
-    display: block;
-  }
-
-  .product-nav-dropdown {
-    display: block;
-  }
-}
-
 
 .product-name {
   display: inline-block;
@@ -179,7 +178,6 @@
     }
   }
 }
-
 
 .product-nav-dropdown {
   display: none;
