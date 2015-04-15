@@ -3,6 +3,7 @@ var SECTION_NAV_CSS_COMPONENT_PREFIX = 'section-nav-'
 var SECTION_NAV_DEFERRED_COLLAPSE_TIMEOUT = 900
 var SECTION_NAV_PAGE_ELEMENT_BUFFER = 0
 var SECTION_NAV_VIEWPORT_TOP_OFFSET = 20
+var SECTION_NAV_SCROLL_TIME = 250
 
 var SectionNavigation = function (el) {
   this.el = document.querySelector(el)
@@ -20,14 +21,22 @@ var SectionNavigation = function (el) {
   // Enable some CSS transitions only after page has completed loading.
   // This fixes browser issues where initial paint would sometimes
   // be animated, which looks out of place.
+  // TODO: FIX
   document.addEventListener('DOMContentLoaded', function (event) {
+    this.determineFloatState()
+    this.determineSection()
     this.el.classList.add('enable-animation')
   }.bind(this))
 }
 
 SectionNavigation.prototype.initSections = function () {
-  var ul = this.el.querySelector('ul')
   this.sections = document.querySelectorAll('.js-section-navigable')
+  var ul = this.el.querySelector('ul')
+  var handleClickEvent = function (index) {
+    return function () {
+      this.clickSection(index)
+    }
+  }
 
   // Empty the ul element, if needed
   while (ul.lastChild) {
@@ -40,11 +49,17 @@ SectionNavigation.prototype.initSections = function () {
     var name = section.getAttribute('data-section-name') || '???'
     var li = document.createElement('li')
     li.className = SECTION_NAV_CSS_COMPONENT_PREFIX + 'item'
+    li.setAttribute('data-section-index', i)
     li.textContent = name
+
     // The first element gets to start with the active state on
     if (i === 0) {
       li.classList.add('active')
     }
+
+    // Bind click event
+    li.addEventListener('click', handleClickEvent(i).bind(this), false)
+
     ul.appendChild(li)
   }
 
@@ -91,15 +106,17 @@ SectionNavigation.prototype.addEventListeners = function () {
   // All the elements that act as hitboxes for the purpose of
   // interacting with the product navigation bar
   // TODO make this work better -- this fires lots of duplicate events
-  hitboxEl.addEventListener('mouseover', onMouseEntersHitboxArea.bind(this))
-  hitboxEl.addEventListener('mouseout', onMouseLeavesHitboxArea.bind(this))
-  this.el.addEventListener('mouseover', onMouseEntersHitboxArea.bind(this))
-  this.el.addEventListener('mouseout', onMouseLeavesHitboxArea.bind(this))
-  document.querySelector('nav').addEventListener('mouseover', onMouseEntersHitboxArea.bind(this))
-  document.querySelector('nav').addEventListener('mouseout', onMouseLeavesHitboxArea.bind(this))
+  hitboxEl.addEventListener('mouseover', onMouseEntersHitboxArea.bind(this), false)
+  hitboxEl.addEventListener('mouseout', onMouseLeavesHitboxArea.bind(this), false)
+  this.el.addEventListener('mouseover', onMouseEntersHitboxArea.bind(this), false)
+  this.el.addEventListener('mouseout', onMouseLeavesHitboxArea.bind(this), false)
+  document.querySelector('nav').addEventListener('mouseover', onMouseEntersHitboxArea.bind(this), false)
+  document.querySelector('nav').addEventListener('mouseout', onMouseLeavesHitboxArea.bind(this), false)
 
   window.addEventListener('mouseover', onMouseReentersWindow.bind(this))
   window.addEventListener('scroll', onScrollWindow.bind(this))
+
+  this.el.querySelector(SECTION_NAV_CSS_COMPONENT_PREFIX + 'title', onClickNavigationTitle, false)
 
   function onMouseLeavesHitboxArea (event) {
     this.hitboxIsActive = false
@@ -134,6 +151,15 @@ SectionNavigation.prototype.addEventListeners = function () {
 
     this.determineFloatState(windowYPosition)
     this.determineSection(windowYPosition)
+  }
+
+  function onClickNavigationTitle (event) {
+    document.body.classList.add('is-scrolling')
+    $(window).scrollTo(0, SECTION_NAV_SCROLL_TIME, {
+      onAfter: function () {
+        document.body.classList.remove('is-scrolling')
+      }
+    })
   }
 }
 
@@ -234,3 +260,22 @@ SectionNavigation.prototype.changeSection = function (sectionIndex) {
   el.parentNode.style.top = '-' + listScrollPosition.toString() + 'px'
 }
 
+SectionNavigation.prototype.clickSection = function (sectionIndex) {
+  var listEls = this.el.querySelectorAll('li')
+  var el = listEls[sectionIndex]
+  var position = this.sectionPositions[sectionIndex]
+  var navEl = this.el
+
+  // Indicate that page is being mechanically scrolled
+  document.body.classList.add('is-scrolling')
+
+  // Indicate which section is being scrolled to
+  el.classList.add('activated')
+
+  $(window).scrollTo(position, SECTION_NAV_SCROLL_TIME, {
+    onAfter: function () {
+      document.body.classList.remove('is-scrolling')
+      el.classList.remove('activated')
+    }
+  })
+}
