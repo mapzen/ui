@@ -1,4 +1,4 @@
 mapzen ui
 ---------
 
-Hello world.
+Nothing is here, please check out `gh-pages` branch.
