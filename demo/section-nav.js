@@ -3,7 +3,7 @@ var SECTION_NAV_CSS_COMPONENT_PREFIX = 'section-nav-'
 var SECTION_NAV_DEFERRED_COLLAPSE_TIMEOUT = 900
 var SECTION_NAV_PAGE_ELEMENT_BUFFER = 0
 var SECTION_NAV_VIEWPORT_TOP_OFFSET = 20
-var SECTION_NAV_SCROLL_TIME = 250
+var SECTION_NAV_SCROLL_TIME = 250 // Time in ms to scroll page to section
 
 var SectionNavigation = function (el) {
   this.el = document.querySelector(el)
@@ -14,6 +14,7 @@ var SectionNavigation = function (el) {
   this.deferredCollapseTimer = null // Placeholder for setTimeout
   this.sections = [] // Placeholder for NodeList
   this.sectionPositions = [] // Placeholder for array of numbers
+  this.height = this.el.getBoundingClientRect().height
 
   this.initSections()
   this.addEventListeners()
@@ -25,6 +26,7 @@ var SectionNavigation = function (el) {
   document.addEventListener('DOMContentLoaded', function (event) {
     this.determineFloatState()
     this.determineSection()
+    // TODO: Verify this ...
     this.el.classList.add('enable-animation')
   }.bind(this))
 }
@@ -116,7 +118,7 @@ SectionNavigation.prototype.addEventListeners = function () {
   window.addEventListener('mouseover', onMouseReentersWindow.bind(this))
   window.addEventListener('scroll', onScrollWindow.bind(this))
 
-  this.el.querySelector(SECTION_NAV_CSS_COMPONENT_PREFIX + 'title', onClickNavigationTitle, false)
+  this.el.querySelector('.' + SECTION_NAV_CSS_COMPONENT_PREFIX + 'title').addEventListener('click', onClickNavigationTitle, false)
 
   function onMouseLeavesHitboxArea (event) {
     this.hitboxIsActive = false
@@ -246,7 +248,7 @@ SectionNavigation.prototype.determineSection = function (windowYPosition) {
 SectionNavigation.prototype.changeSection = function (sectionIndex) {
   var listEls = this.el.querySelectorAll('li')
   var el = listEls[sectionIndex]
-  var listScrollPosition = sectionIndex * 50
+  var listScrollPosition = sectionIndex * this.height
 
   // Remove active class on all list elements
   for (var i = 0, j = listEls.length; i < j; i++) {
