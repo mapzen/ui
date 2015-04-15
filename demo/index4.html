@@ -57,92 +57,113 @@
 <div class='demo-content'>
 <!-- ALL DEMO CONTENT GOES HERE -->
 
-  <div class='product-nav-hitbox'></div>
-  <div class='product-nav' id='product-nav'>
+  <div class='section-nav-hitbox'></div>
+  <div class='section-nav' id='product-nav'>
     <div class='container'>
-      <div class='product-nav-container'>
-        <div class='product-name'>
+      <div class='section-nav-container'>
+        <div class='section-nav-title'>
           <h2>Tangram</h2>
         </div>
-        <div class='product-nav-items'>
-          <ul class='product-nav-scroll-container'>
-            <li class='product-nav-item active' id='nav-demo'>Demo</li>
-            <li class='product-nav-item' id='nav-highlights'>Highlights</li>
-            <li class='product-nav-item' id='nav-examples'>Examples</li>
-            <li class='product-nav-item' id='nav-api'>API</li>
-            <li class='product-nav-item' id='nav-contribute'>Contribute</li>
-            <li class='product-nav-item' id='nav-github'>GitHub</li>
-            <li class='product-nav-item product-nav-item-egg' id='nav-bottom'>???</li>
+        <div class='section-nav-items'>
+          <ul class='section-nav-scroll-container'>
           </ul>
-          <div class='product-nav-dropdown'>&#9698;</div>
+          <div class='section-nav-dropdown'>&#9698;</div>
         </div>
       </div>
     </div>
   </div>
 
-  <section class='demo-container' id='demo-container'>
+  <section id='demo' class='demo-container js-section-navigable' data-section-name='Demo' data-section-nav-collapse='false'>
     <!--
     <div class='demo-map' id='map'></div>
     // -->
     <img src='images/mapzen_carousel-3.jpg'>
   </section>
 
-  <section class='page-content-filler headroom-large'>
-  <div class='container'>
-  <div class='row'>
-  <div class='col-xs-12'>
+  <div class='page-content-filler headroom-large'>
+    <div class='container'>
+      <div class='row'>
+        <div class='col-xs-12'>
 
-    <div id='section-highlights'>
+          <section id='highlights' class='js-section-navigable' data-section-name='Highlights'>
 
-  <h3>Highlights</h3>
+            <h3>Highlights</h3>
 
-  <p>Fap narwhal literally try-hard, food truck Kickstarter forage messenger bag leggings hoodie scenester beard banjo small batch. Dreamcatcher 90's leggings gastropub, skateboard DIY blog salvia. Blue Bottle lumbersexual pug asymmetrical scenester cred. Carles cred mixtape, 3 wolf moon deep v cold-pressed letterpress Austin swag Kickstarter dreamcatcher mustache. Retro ﬂannel narwhal beard, American Apparel umami actually. Polaroid ennui vegan artisan, tilde vinyl bitters +1 migas stumptown Schlitz ﬂannel meh squid cardigan. Brunch gentrify bicycle rights, Neutra artisan cred paleo raw denim pork belly Truﬀaut bespoke.</p>
+            <p>
+              Fap narwhal literally try-hard, food truck Kickstarter forage messenger bag leggings hoodie scenester beard banjo small batch. Dreamcatcher 90's leggings gastropub, skateboard DIY blog salvia. Blue Bottle lumbersexual pug asymmetrical scenester cred. Carles cred mixtape, 3 wolf moon deep v cold-pressed letterpress Austin swag Kickstarter dreamcatcher mustache. Retro ﬂannel narwhal beard, American Apparel umami actually. Polaroid ennui vegan artisan, tilde vinyl bitters +1 migas stumptown Schlitz ﬂannel meh squid cardigan. Brunch gentrify bicycle rights, Neutra artisan cred paleo raw denim pork belly Truﬀaut bespoke.
+            </p>
 
-  <img src='images/1.jpg'>
+            <img src='images/1.jpg'>
 
-</div><div id='section-examples'>
-  <h3>Examples</h3>
-  <p>Neutra small batch roof party, try-hard pickled chia meggings Blue Bottle cardigan McSweeney's slow-carb ﬂexitarian asymmetrical fap. Godard listicle cliche wolf, hashtag seitan pickled.</p>
+          </section>
+          <section id='examples' class='js-section-navigable' data-section-name='Examples'>
 
-  <img src='images/2.jpg'>
+            <h3>Examples</h3>
 
+            <p>
+              Neutra small batch roof party, try-hard pickled chia meggings Blue Bottle cardigan McSweeney's slow-carb ﬂexitarian asymmetrical fap. Godard listicle cliche wolf, hashtag seitan pickled.
+            </p>
 
-  <p>Kogi letterpress leggings taxidermy retro, keytar Neutra pour-over salvia 90's roof party. Selvage meditation umami.</p>
-</div><div id='section-api'>
+            <img src='images/2.jpg'>
 
-  <h3>API</h3>
-  <p>VHS iPhone blog, salvia PBR&B YOLO cliche gluten-free McSweeney's. Wolf lomo selﬁes 3 wolf moon. Ennui Shoreditch Bushwick Pitchfork church-key, stumptown shabby chic. Small batch Etsy hashtag vinyl narwhal 8-bit, cliche Marfa.</p>
+            <p>
+              Kogi letterpress leggings taxidermy retro, keytar Neutra pour-over salvia 90's roof party. Selvage meditation umami.
+            </p>
+
+          </section>
+          <section id='api' class='js-section-navigable' data-section-name='API'>
+
+            <h3>API</h3>
+
+            <p>
+              VHS iPhone blog, salvia PBR&B YOLO cliche gluten-free McSweeney's. Wolf lomo selﬁes 3 wolf moon. Ennui Shoreditch Bushwick Pitchfork church-key, stumptown shabby chic. Small batch Etsy hashtag vinyl narwhal 8-bit, cliche Marfa.
+            </p>
 
 <div class="highlight"><pre><code class="language-bash" data-lang="bash">git clone https://github.com/tangrams/ProceduralTextures
 cd ProceduralTextures 
 python -m SimpleHTTPServer 8000
 </code></pre></div>
 
-</div><div id='section-contribute'>
+          </section>
+          <section id='contribute' class='js-section-navigable' data-section-name='Contribute'>
 
-  <h3>Contribute</h3>
-  <p>
-Disrupt pour-over readymade deep v, PBR&B flannel ethical Marfa selfies actually kitsch typewriter. Mlkshk health goth you probably haven't heard of them try-hard pickled Thundercats. Thundercats Williamsburg banjo Intelligentsia mlkshk street art. Hoodie Pinterest Helvetica, flannel pickled literally messenger bag paleo XOXO post-ironic yr. Meditation gastropub umami fap +1. Literally distillery banjo, drinking vinegar chillwave twee health goth American Apparel retro letterpress quinoa Kickstarter cliche Blue Bottle gastropub. Portland raw denim small batch chillwave, kitsch gluten-free salvia paleo biodiesel lumbersexual bespoke sartorial banjo put a bird on it yr.
-</p><p>
-Fanny pack pork belly cray, pop-up fingerstache gastropub hoodie stumptown mlkshk bespoke keffiyeh viral put a bird on it. Banjo VHS asymmetrical lo-fi mixtape, artisan four loko viral Carles. Tattooed McSweeney's PBR before they sold out keffiyeh Marfa, seitan stumptown messenger bag pour-over four dollar toast. 90's Godard cardigan bitters, polaroid before they sold out +1 Truffaut heirloom semiotics. Kickstarter dreamcatcher selfies selvage, keffiyeh slow-carb yr tousled church-key Vice listicle Portland. You probably haven't heard of them PBR Wes Anderson cold-pressed chia Echo Park. Banksy Tumblr selfies stumptown.
-</p><p>
-Odd Future locavore trust fund farm-to-table 8-bit. Typewriter synth Etsy, leggings gentrify Pitchfork hoodie chambray keytar pug plaid biodiesel Thundercats craft beer Tumblr. Squid iPhone 3 wolf moon banh mi, American Apparel authentic tofu Bushwick. Kitsch roof party fixie, raw denim fanny pack cold-pressed American Apparel Brooklyn scenester drinking vinegar seitan. Craft beer artisan chia chambray four loko twee small batch, stumptown pork belly Banksy crucifix PBR&B pickled salvia typewriter. Carles Williamsburg distillery chambray ennui next level. Raw denim bitters Portland bespoke, lumbersexual umami swag Helvetica.</p>
-</div><div id='section-github'>
+            <h3>Contribute</h3>
 
+            <p>
+              Disrupt pour-over readymade deep v, PBR&B flannel ethical Marfa selfies actually kitsch typewriter. Mlkshk health goth you probably haven't heard of them try-hard pickled Thundercats. Thundercats Williamsburg banjo Intelligentsia mlkshk street art. Hoodie Pinterest Helvetica, flannel pickled literally messenger bag paleo XOXO post-ironic yr. Meditation gastropub umami fap +1. Literally distillery banjo, drinking vinegar chillwave twee health goth American Apparel retro letterpress quinoa Kickstarter cliche Blue Bottle gastropub. Portland raw denim small batch chillwave, kitsch gluten-free salvia paleo biodiesel lumbersexual bespoke sartorial banjo put a bird on it yr.
+            </p>
 
-  <h3>GitHub</h3>
-  <p>VHS iPhone blog, salvia PBR&B YOLO cliche gluten-free McSweeney's. Wolf lomo selﬁes 3 wolf moon. Ennui Shoreditch Bushwick Pitchfork church-key, stumptown shabby chic. Small batch Etsy hashtag vinyl narwhal 8-bit, cliche Marfa.</p>
+            <p>
+              Fanny pack pork belly cray, pop-up fingerstache gastropub hoodie stumptown mlkshk bespoke keffiyeh viral put a bird on it. Banjo VHS asymmetrical lo-fi mixtape, artisan four loko viral Carles. Tattooed McSweeney's PBR before they sold out keffiyeh Marfa, seitan stumptown messenger bag pour-over four dollar toast. 90's Godard cardigan bitters, polaroid before they sold out +1 Truffaut heirloom semiotics. Kickstarter dreamcatcher selfies selvage, keffiyeh slow-carb yr tousled church-key Vice listicle Portland. You probably haven't heard of them PBR Wes Anderson cold-pressed chia Echo Park. Banksy Tumblr selfies stumptown.
+            </p>
 
-<p>
-Fanny pack pork belly cray, pop-up fingerstache gastropub hoodie stumptown mlkshk bespoke keffiyeh viral put a bird on it. Banjo VHS asymmetrical lo-fi mixtape, artisan four loko viral Carles. Tattooed McSweeney's PBR before they sold out keffiyeh Marfa, seitan stumptown messenger bag pour-over four dollar toast. 90's Godard cardigan bitters, polaroid before they sold out +1 Truffaut heirloom semiotics. Kickstarter dreamcatcher selfies selvage, keffiyeh slow-carb yr tousled church-key Vice listicle Portland. You probably haven't heard of them PBR Wes Anderson cold-pressed chia Echo Park. Banksy Tumblr selfies stumptown.
-</p><p>
-Odd Future locavore trust fund farm-to-table 8-bit. Typewriter synth Etsy, leggings gentrify Pitchfork hoodie chambray keytar pug plaid biodiesel Thundercats craft beer Tumblr. Squid iPhone 3 wolf moon banh mi, American Apparel authentic tofu Bushwick. Kitsch roof party fixie, raw denim fanny pack cold-pressed American Apparel Brooklyn scenester drinking vinegar seitan. Craft beer artisan chia chambray four loko twee small batch, stumptown pork belly Banksy crucifix PBR&B pickled salvia typewriter. Carles Williamsburg distillery chambray ennui next level. Raw denim bitters Portland bespoke, lumbersexual umami swag Helvetica.</p>
-</div>
+            <p>
+              Odd Future locavore trust fund farm-to-table 8-bit. Typewriter synth Etsy, leggings gentrify Pitchfork hoodie chambray keytar pug plaid biodiesel Thundercats craft beer Tumblr. Squid iPhone 3 wolf moon banh mi, American Apparel authentic tofu Bushwick. Kitsch roof party fixie, raw denim fanny pack cold-pressed American Apparel Brooklyn scenester drinking vinegar seitan. Craft beer artisan chia chambray four loko twee small batch, stumptown pork belly Banksy crucifix PBR&B pickled salvia typewriter. Carles Williamsburg distillery chambray ennui next level. Raw denim bitters Portland bespoke, lumbersexual umami swag Helvetica.
+            </p>
 
-</div></div>
+          </section>
+          <section id='github' class='js-section-navigable' data-section-name='GitHub'>
+
+            <h3>GitHub</h3>
+
+            <p>
+              VHS iPhone blog, salvia PBR&B YOLO cliche gluten-free McSweeney's. Wolf lomo selﬁes 3 wolf moon. Ennui Shoreditch Bushwick Pitchfork church-key, stumptown shabby chic. Small batch Etsy hashtag vinyl narwhal 8-bit, cliche Marfa.
+            </p>
+
+            <p>
+              Fanny pack pork belly cray, pop-up fingerstache gastropub hoodie stumptown mlkshk bespoke keffiyeh viral put a bird on it. Banjo VHS asymmetrical lo-fi mixtape, artisan four loko viral Carles. Tattooed McSweeney's PBR before they sold out keffiyeh Marfa, seitan stumptown messenger bag pour-over four dollar toast. 90's Godard cardigan bitters, polaroid before they sold out +1 Truffaut heirloom semiotics. Kickstarter dreamcatcher selfies selvage, keffiyeh slow-carb yr tousled church-key Vice listicle Portland. You probably haven't heard of them PBR Wes Anderson cold-pressed chia Echo Park. Banksy Tumblr selfies stumptown.
+            </p>
+
+            <p>
+              Odd Future locavore trust fund farm-to-table 8-bit. Typewriter synth Etsy, leggings gentrify Pitchfork hoodie chambray keytar pug plaid biodiesel Thundercats craft beer Tumblr. Squid iPhone 3 wolf moon banh mi, American Apparel authentic tofu Bushwick. Kitsch roof party fixie, raw denim fanny pack cold-pressed American Apparel Brooklyn scenester drinking vinegar seitan. Craft beer artisan chia chambray four loko twee small batch, stumptown pork belly Banksy crucifix PBR&B pickled salvia typewriter. Carles Williamsburg distillery chambray ennui next level. Raw denim bitters Portland bespoke, lumbersexual umami swag Helvetica.
+            </p>
+
+          </section>
+
+        </div>
+      </div>
+    </div>
   </div>
-  </section>
-
 
 <!-- // END DEMO CONTENT -->
 </div>
@@ -264,6 +285,7 @@ Odd Future locavore trust fund farm-to-table 8-bit. Typewriter synth Etsy, leggi
     });
   }());
 </script>
+<script src='section-nav.js'></script>
 <script src='demo4.js'></script>
 </body>
 </html>
