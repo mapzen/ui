@@ -1,7 +1,7 @@
 
 var SECTION_NAV_CSS_COMPONENT_PREFIX = 'section-nav-'
 var SECTION_NAV_DEFERRED_COLLAPSE_TIMEOUT = 900
-var SECTION_NAV_PAGE_ELEMENT_BUFFER = 100
+var SECTION_NAV_SECTION_POSITION_BUFFER = 40
 var SECTION_NAV_VIEWPORT_TOP_OFFSET = 20
 var SECTION_NAV_SCROLL_TIME = 250 // Time in ms to scroll page to section
 
@@ -31,6 +31,16 @@ var SectionNavigation = function (selector) {
   window.setTimeout(function () {
     el.classList.add('enable-animation')
   }, 300)
+
+  // Recalculate everything when the window resizes
+  window.addEventListener('resize', function (e) {
+    // Recalculate Y positions of sections
+    this.sectionPositions = this.getSectionPositions()
+
+    // Determine state
+    this.determineFloatState()
+    this.determineActiveSection()
+  }.bind(this))
 }
 
 SectionNavigation.prototype.initSections = function () {
@@ -75,9 +85,6 @@ SectionNavigation.prototype.initSections = function () {
 
   // Remember the Y position of each section
   this.sectionPositions = this.getSectionPositions()
-
-  // Recalculate Y positions when layout changes
-  window.addEventListener('resize', this.getSectionPositions.bind(this))
 }
 
 SectionNavigation.prototype.getSectionPositions = function () {
@@ -85,7 +92,7 @@ SectionNavigation.prototype.getSectionPositions = function () {
 
   for (var i = 0, j = this.sections.length; i < j; i++) {
     var el = this.sections[i]
-    var position = el.getBoundingClientRect().top + document.body.scrollTop + SECTION_NAV_PAGE_ELEMENT_BUFFER
+    var position = el.getBoundingClientRect().top + ((document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop)
 
     // Clamp position value to zero if result is negative
     if (position < 0) {
@@ -152,10 +159,8 @@ SectionNavigation.prototype.addEventListeners = function () {
 
   // TODO: Throttle this event better
   function onScrollWindow (event) {
-    var windowYPosition = window.pageYOffset || (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop
-
-    this.determineFloatState(windowYPosition)
-    this.determineActiveSection(windowYPosition)
+    this.determineFloatState()
+    this.determineActiveSection()
   }
 
   function onClickNavigationTitle (event) {
@@ -206,8 +211,8 @@ SectionNavigation.prototype.unfloat = function () {
   document.body.classList.remove('floating-section-nav')
 }
 
-SectionNavigation.prototype.determineFloatState = function (windowYPosition) {
-  windowYPosition = windowYPosition || window.pageYOffset || (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop
+SectionNavigation.prototype.determineFloatState = function () {
+  var windowYPosition = window.pageYOffset || (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop
 
   // Set product navigation to be floating or not
   // depending on the window's current Y position
@@ -219,10 +224,14 @@ SectionNavigation.prototype.determineFloatState = function (windowYPosition) {
   }
 }
 
-SectionNavigation.prototype.determineActiveSection = function (windowYPosition) {
-  var positions = this.sectionPositions
+SectionNavigation.prototype.determineActiveSection = function () {
+  var windowYPosition = window.pageYOffset || (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop
+  var sourcePositions = this.sectionPositions
+  var navEl = this.el
 
-  windowYPosition = windowYPosition || window.pageYOffset || (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop
+  var positions = sourcePositions.map(function (x) {
+    return x - navEl.getBoundingClientRect().bottom - SECTION_NAV_SECTION_POSITION_BUFFER
+  })
 
   if (windowYPosition < positions[0]) {
     // Assume very first section for now
