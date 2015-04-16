@@ -1,7 +1,7 @@
 
 var SECTION_NAV_CSS_COMPONENT_PREFIX = 'section-nav-'
 var SECTION_NAV_DEFERRED_COLLAPSE_TIMEOUT = 900
-var SECTION_NAV_PAGE_ELEMENT_BUFFER = 0
+var SECTION_NAV_PAGE_ELEMENT_BUFFER = 100
 var SECTION_NAV_VIEWPORT_TOP_OFFSET = 20
 var SECTION_NAV_SCROLL_TIME = 250 // Time in ms to scroll page to section
 
@@ -14,21 +14,17 @@ var SectionNavigation = function (el) {
   this.deferredCollapseTimer = null // Placeholder for setTimeout
   this.sections = [] // Placeholder for NodeList
   this.sectionPositions = [] // Placeholder for array of numbers
-  this.height = this.el.getBoundingClientRect().height
 
   this.initSections()
   this.addEventListeners()
 
+  this.determineFloatState()
+  this.determineActiveSection()
+
   // Enable some CSS transitions only after page has completed loading.
   // This fixes browser issues where initial paint would sometimes
   // be animated, which looks out of place.
-  // TODO: FIX
-  document.addEventListener('DOMContentLoaded', function (event) {
-    this.determineFloatState()
-    this.determineSection()
-    // TODO: Verify this ...
-    this.el.classList.add('enable-animation')
-  }.bind(this))
+  this.el.classList.add('enable-animation')
 }
 
 SectionNavigation.prototype.initSections = function () {
@@ -148,11 +144,12 @@ SectionNavigation.prototype.addEventListeners = function () {
     }
   }
 
+  // TODO: Throttle this event better
   function onScrollWindow (event) {
     var windowYPosition = window.pageYOffset || (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop
 
     this.determineFloatState(windowYPosition)
-    this.determineSection(windowYPosition)
+    this.determineActiveSection(windowYPosition)
   }
 
   function onClickNavigationTitle (event) {
@@ -172,7 +169,7 @@ SectionNavigation.prototype.expand = function () {
 }
 
 SectionNavigation.prototype.collapse = function () {
-  // Never collapse if the hitbox area is active
+  // Refuse to collapse if the hitbox area is active
   if (this.hitboxIsActive) return
 
   this.isCollapsed = true
@@ -214,23 +211,23 @@ SectionNavigation.prototype.determineFloatState = function (windowYPosition) {
   }
 }
 
-SectionNavigation.prototype.determineSection = function (windowYPosition) {
+SectionNavigation.prototype.determineActiveSection = function (windowYPosition) {
   var positions = this.sectionPositions
 
   if (windowYPosition < positions[0]) {
     // Assume very first section for now
-    this.changeSection(0)
+    this.setSection(0)
     this.expand()
     return
   } else if (windowYPosition >= positions[positions.length - 1]) {
     // Last section
-    this.changeSection(positions.length - 1)
+    this.setSection(positions.length - 1)
     return
   }
 
   for (var i = 0, j = positions.length; i < j; i++) {
     if (windowYPosition >= positions[i] && windowYPosition < positions[i + 1]) {
-      this.changeSection(i)
+      this.setSection(i)
 
       // Depending on the section are on, set default collapse or expand state
       // TODO: Is this a thing that is here?
@@ -245,10 +242,10 @@ SectionNavigation.prototype.determineSection = function (windowYPosition) {
   }
 }
 
-SectionNavigation.prototype.changeSection = function (sectionIndex) {
+SectionNavigation.prototype.setSection = function (sectionIndex) {
   var listEls = this.el.querySelectorAll('li')
   var el = listEls[sectionIndex]
-  var listScrollPosition = sectionIndex * this.height
+  var listScrollPosition = sectionIndex * this.el.offsetHeight
 
   // Remove active class on all list elements
   for (var i = 0, j = listEls.length; i < j; i++) {

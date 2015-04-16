@@ -58,11 +58,6 @@ function scrollToSection (element, position) {
 })
 }
 
-
-var $window = $(window)
-
-var productNav = new SectionNavigation('#product-nav')
-
 // Explicitly declare that the main nav should be
 // fixed in place when the page is loaded
 revealFixedMainNav()
@@ -119,4 +114,8 @@ window.addEventListener('scroll', function (e) {
   } else if (scrollDownCounter >= FIXED_NAV_HIDE_ON_COUNTER) {
     hideFixedMainNav()
   }
+})
+
+$(document).ready(function () {
+  var productNav = new SectionNavigation('#product-nav')
 })
