@@ -115,7 +115,7 @@ window.addEventListener('scroll', function (e) {
     hideFixedMainNav()
   }
 })
-
+var productNav
 $(document).ready(function () {
-  var productNav = new SectionNavigation('#product-nav')
+  productNav = new SectionNavigation('#product-nav')
 })

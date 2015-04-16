@@ -5,8 +5,10 @@ var SECTION_NAV_PAGE_ELEMENT_BUFFER = 100
 var SECTION_NAV_VIEWPORT_TOP_OFFSET = 20
 var SECTION_NAV_SCROLL_TIME = 250 // Time in ms to scroll page to section
 
-var SectionNavigation = function (el) {
-  this.el = document.querySelector(el)
+var SectionNavigation = function (selector) {
+  var el = document.querySelector(selector)
+
+  this.el = el
   this.topPosition = this.el.offsetTop
   this.isFloating = false
   this.isCollapsed = false
@@ -24,7 +26,11 @@ var SectionNavigation = function (el) {
   // Enable some CSS transitions only after page has completed loading.
   // This fixes browser issues where initial paint would sometimes
   // be animated, which looks out of place.
-  this.el.classList.add('enable-animation')
+  // Make sure the timer is greater than the amount of the transition
+  // time in the CSS.
+  window.setTimeout(function () {
+    el.classList.add('enable-animation')
+  }, 300)
 }
 
 SectionNavigation.prototype.initSections = function () {
@@ -201,6 +207,8 @@ SectionNavigation.prototype.unfloat = function () {
 }
 
 SectionNavigation.prototype.determineFloatState = function (windowYPosition) {
+  windowYPosition = windowYPosition || window.pageYOffset || (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop
+
   // Set product navigation to be floating or not
   // depending on the window's current Y position
   if (windowYPosition >= (this.topPosition - SECTION_NAV_VIEWPORT_TOP_OFFSET)) {
@@ -213,6 +221,8 @@ SectionNavigation.prototype.determineFloatState = function (windowYPosition) {
 
 SectionNavigation.prototype.determineActiveSection = function (windowYPosition) {
   var positions = this.sectionPositions
+
+  windowYPosition = windowYPosition || window.pageYOffset || (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop
 
   if (windowYPosition < positions[0]) {
     // Assume very first section for now

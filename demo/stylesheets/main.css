@@ -81,16 +81,13 @@ nav {
   transform: translate(0, 0); }
   .section-nav.is-floating {
     position: fixed;
-    top: 20px;
-    /*
-    body.fixed-main-nav:not(.is-scrolling) & {
-      -webkit-transition: top $section-nav-transition-time;
-         -moz-transition: top $section-nav-transition-time;
-              transition: top $section-nav-transition-time;
-    }
-    */ }
+    top: 20px; }
     body.fixed-main-nav .section-nav.is-floating {
       top: 76px; }
+    body.fixed-main-nav:not(.is-scrolling) .section-nav.is-floating {
+      -webkit-transition: top 0.25s;
+      -moz-transition: top 0.25s;
+      transition: top 0.25s; }
   .section-nav.is-collapsed .section-nav-container {
     width: 300px; }
   .section-nav.is-collapsed .section-nav-items, .section-nav.is-collapsed .section-nav-scroll-container {

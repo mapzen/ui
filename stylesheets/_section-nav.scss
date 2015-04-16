@@ -30,15 +30,11 @@ $section-nav-z-index: 2000;
     }
 
     // This is the only time a transition time should exist
-    // Temporarily disabled, this is more trouble than its worth
-    // Because there is always a slight unwanted jitter when this is at the top
-/*
     body.fixed-main-nav:not(.is-scrolling) & {
       -webkit-transition: top $section-nav-transition-time;
          -moz-transition: top $section-nav-transition-time;
               transition: top $section-nav-transition-time;
     }
-    */
   }
 
   // When product nav is collapsed!
