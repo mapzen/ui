@@ -281,8 +281,11 @@ SectionNavigation.prototype.setSection = function (sectionIndex) {
 SectionNavigation.prototype.clickSection = function (sectionIndex) {
   var listEls = this.el.querySelectorAll('li')
   var el = listEls[sectionIndex]
-  var position = this.sectionPositions[sectionIndex]
   var navEl = this.el
+
+  // Scroll-to position is modified based on current position of the navbar
+  // and the value of the buffer space between it and the top of the section
+  var position = this.sectionPositions[sectionIndex] - navEl.getBoundingClientRect().bottom - (SECTION_NAV_SECTION_POSITION_BUFFER / 2)
 
   // Indicate that page is being mechanically scrolled
   document.body.classList.add('is-scrolling')
