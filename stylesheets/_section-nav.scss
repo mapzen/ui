@@ -18,6 +18,10 @@ $section-nav-z-index: 2000;
      -moz-transform: translate(0,0);
           transform: translate(0,0);
 
+  // Fix font rendering on Safari/OSX changing weight
+  // when position: fixed
+  -webkit-font-smoothing: subpixel-antialiased;
+
   // When product nav is floating
   &.is-floating {
     position: fixed;
