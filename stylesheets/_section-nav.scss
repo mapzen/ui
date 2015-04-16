@@ -22,6 +22,21 @@ $section-nav-z-index: 2000;
   // when position: fixed
   -webkit-font-smoothing: subpixel-antialiased;
 
+  // Links!
+  a {
+    display: block;
+    color: white;
+    width: 100%;
+    height: 100%;
+    padding: 0 20px;
+  }
+
+  a:hover,
+  a:visited,
+  a:active {
+    color: white;
+  }
+
   // When product nav is floating
   &.is-floating {
     position: fixed;
@@ -110,7 +125,6 @@ $section-nav-z-index: 2000;
   text-shadow: 0 1px 1px black;
   vertical-align: top;
   opacity: 1;
-  cursor: pointer;
 
   // Semantically, the title of this component is a h2 element
   // Styles override default page h2
@@ -119,14 +133,6 @@ $section-nav-z-index: 2000;
     font-size: 20px;
     font-weight: 600;
     line-height: $section-nav-height;
-  }
-
-  a {
-    display: block;
-    color: white;
-    width: 100%;
-    height: 100%;
-    padding: 0 20px;
   }
 }
 
@@ -155,12 +161,10 @@ $section-nav-z-index: 2000;
 
   li {
     display: inline-block;
-    padding: 0 20px;
     line-height: $section-nav-height;
     font-size: 14px;
     text-transform: uppercase;
     color: white;
-    cursor: pointer;
 
     &:not(.active):not(:hover) {
       text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
@@ -179,6 +183,7 @@ $section-nav-z-index: 2000;
 
     &.section-nav-item-egg {
       display: none;
+      padding: 0 20px; // No anchor tag, so apply padding here
     }
   }
 }

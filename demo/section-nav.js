@@ -17,7 +17,7 @@ var SectionNavigation = function (selector) {
   this.sections = [] // Placeholder for NodeList
   this.sectionPositions = [] // Placeholder for array of numbers
 
-  this.initSections()
+  this.initMenuItems()
   this.addEventListeners()
 
   this.determineFloatState()
@@ -45,12 +45,13 @@ SectionNavigation.prototype.invalidateCurrentState = function () {
   this.determineActiveSection()
 }
 
-SectionNavigation.prototype.initSections = function () {
+SectionNavigation.prototype.initMenuItems = function () {
   this.sections = document.querySelectorAll('.js-section-navigable')
   var ul = this.el.querySelector('ul')
 
   var handleClickEvent = function (index) {
-    return function () {
+    return function (event) {
+      event.preventDefault()
       this.clickSection(index)
     }
   }
@@ -65,9 +66,11 @@ SectionNavigation.prototype.initSections = function () {
     var section = this.sections[i]
     var name = section.getAttribute('data-section-name') || '???'
     var li = document.createElement('li')
+    var a = document.createElement('a')
     li.className = SECTION_NAV_CSS_COMPONENT_PREFIX + 'item'
-    li.setAttribute('data-section-index', i)
-    li.textContent = name
+    a.setAttribute('data-section-index', i)
+    a.textContent = name
+    a.href = '#' + section.id
 
     // The first element gets to start with the active state on
     if (i === 0) {
@@ -75,8 +78,9 @@ SectionNavigation.prototype.initSections = function () {
     }
 
     // Bind click event
-    li.addEventListener('click', handleClickEvent(i).bind(this), false)
+    a.addEventListener('click', handleClickEvent(i).bind(this), false)
 
+    li.appendChild(a)
     ul.appendChild(li)
   }
 

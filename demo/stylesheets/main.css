@@ -80,6 +80,14 @@ nav {
   -moz-transform: translate(0, 0);
   transform: translate(0, 0);
   -webkit-font-smoothing: subpixel-antialiased; }
+  .section-nav a {
+    display: block;
+    color: white;
+    width: 100%;
+    height: 100%;
+    padding: 0 20px; }
+  .section-nav a:hover, .section-nav a:visited, .section-nav a:active {
+    color: white; }
   .section-nav.is-floating {
     position: fixed;
     top: 20px; }
@@ -132,19 +140,12 @@ nav {
   color: white;
   text-shadow: 0 1px 1px black;
   vertical-align: top;
-  opacity: 1;
-  cursor: pointer; }
+  opacity: 1; }
   .section-nav-title h2 {
     margin: 0;
     font-size: 20px;
     font-weight: 600;
     line-height: 50px; }
-  .section-nav-title a {
-    display: block;
-    color: white;
-    width: 100%;
-    height: 100%;
-    padding: 0 20px; }
 
 .section-nav-items {
   display: inline-block;
@@ -162,12 +163,10 @@ nav {
     float: right; }
   .section-nav-items li {
     display: inline-block;
-    padding: 0 20px;
     line-height: 50px;
     font-size: 14px;
     text-transform: uppercase;
-    color: white;
-    cursor: pointer; }
+    color: white; }
     .section-nav-items li:not(.active):not(:hover) {
       text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5); }
     .section-nav-items li:hover, body:not(.is-scrolling) .section-nav-items li.active:hover, .section-nav.is-collapsed .section-nav-items li.active:hover {
@@ -175,7 +174,8 @@ nav {
     .section-nav-items li.activated, body:not(.is-scrolling) .section-nav-items li.active {
       background-color: #d4645c; }
     .section-nav-items li.section-nav-item-egg {
-      display: none; }
+      display: none;
+      padding: 0 20px; }
 
 .section-nav-dropdown {
   display: none;
