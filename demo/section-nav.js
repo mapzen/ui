@@ -33,19 +33,22 @@ var SectionNavigation = function (selector) {
   }, 300)
 
   // Recalculate everything when the window resizes
-  window.addEventListener('resize', function (e) {
-    // Recalculate Y positions of sections
-    this.sectionPositions = this.getSectionPositions()
+  window.addEventListener('resize', this.invalidateCurrentState.bind(this))
+}
 
-    // Determine state
-    this.determineFloatState()
-    this.determineActiveSection()
-  }.bind(this))
+SectionNavigation.prototype.invalidateCurrentState = function () {
+  // Recalculate Y positions of sections
+  this.sectionPositions = this.getSectionPositions()
+
+  // Determine state
+  this.determineFloatState()
+  this.determineActiveSection()
 }
 
 SectionNavigation.prototype.initSections = function () {
   this.sections = document.querySelectorAll('.js-section-navigable')
   var ul = this.el.querySelector('ul')
+
   var handleClickEvent = function (index) {
     return function () {
       this.clickSection(index)

@@ -118,4 +118,11 @@ window.addEventListener('scroll', function (e) {
 var productNav
 $(document).ready(function () {
   productNav = new SectionNavigation('#product-nav')
+
+  // TODO HACK
+  // After demo has finished loading, reset productNav info
+  window.setTimeout(function () {
+    productNav.invalidateCurrentState()
+  }, 0)
+
 })
