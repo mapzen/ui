@@ -130,7 +130,7 @@ SectionNavigation.prototype.addEventListeners = function () {
   window.addEventListener('mouseover', onMouseReentersWindow.bind(this))
   window.addEventListener('scroll', onScrollWindow.bind(this))
 
-  this.el.querySelector('.' + SECTION_NAV_CSS_COMPONENT_PREFIX + 'title').addEventListener('click', onClickNavigationTitle, false)
+  this.el.querySelector('.' + SECTION_NAV_CSS_COMPONENT_PREFIX + 'title a').addEventListener('click', onClickNavigationTitle, false)
 
   function onMouseLeavesHitboxArea (event) {
     this.hitboxIsActive = false
@@ -167,6 +167,7 @@ SectionNavigation.prototype.addEventListeners = function () {
   }
 
   function onClickNavigationTitle (event) {
+    event.preventDefault()
     document.body.classList.add('is-scrolling')
     $(window).scrollTo(0, SECTION_NAV_SCROLL_TIME, {
       onAfter: function () {

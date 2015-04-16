@@ -105,7 +105,6 @@ $section-nav-z-index: 2000;
 .section-nav-title {
   display: inline-block;
   position: relative;
-  padding: 0 20px;
   height: $section-nav-height;
   color: white;
   text-shadow: 0 1px 1px black;
@@ -120,6 +119,14 @@ $section-nav-z-index: 2000;
     font-size: 20px;
     font-weight: 600;
     line-height: $section-nav-height;
+  }
+
+  a {
+    display: block;
+    color: white;
+    width: 100%;
+    height: 100%;
+    padding: 0 20px;
   }
 }
 
