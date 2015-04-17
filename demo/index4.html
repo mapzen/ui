@@ -304,8 +304,13 @@ python -m SimpleHTTPServer 8000
     var style_file = 'tronish.yaml';
     var map = L.map('map', {
       keyboardZoomOffset: 0.05,
+      zoomControl: false,
+      dragging: false,
+      touchZoom: false,
       scrollWheelZoom: false,
-      zoomControl: false
+      doubleClickZoom: false,
+      boxZoom: false,
+      tap: false
     });
 
     var layer = Tangram.leafletLayer({
