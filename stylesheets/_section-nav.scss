@@ -1,42 +1,42 @@
-@section-nav-height: 50px;
-@section-nav-background-color: #0f0f0f;
-@section-nav-background-translucent: fade(@section-nav-background-color, 75%);
-@section-nav-hitbox-lower-buffer: 20px;
-@section-nav-transition-time: 0.25s; // All other animations
-@section-nav-scroll-time: 0.25s; // Time to scroll through section list
-@section-nav-z-index: 2000;
-
-@main-nav-height: 56px; // TODO: Combine with original
-@mz-red: #d4645c;
-
-.demo-content {
-  position: relative;
-}
-
-.product-header {
-  height: 200px;
-  background-color: gray;
-  color: white;
-  position: relative;
-  font-weight: 300;
-}
-
-.product-header-text {
-  position: absolute;
-  bottom: 20px;
-}
+$section-nav-height: 50px;
+$section-nav-background-color: #0f0f0f;
+$section-nav-background-translucent: transparentize($section-nav-background-color, .25);
+$section-nav-hitbox-lower-buffer: 20px;
+$section-nav-transition-time: 0.25s; // All other animations
+$section-nav-scroll-time: 0.25s; // Time to scroll through section list
+$section-nav-z-index: 2000;
 
 .section-nav {
   position: absolute;
-  top: 20px + @main-nav-height;
+  top: 20px + $main-nav-height;
   width: 100%;
-  height: @section-nav-height;
+  height: $section-nav-height;
   overflow: hidden;
   z-index: 2000;
 
   -webkit-transform: translate(0,0);
      -moz-transform: translate(0,0);
           transform: translate(0,0);
+
+  // Fix font rendering on Safari/OSX changing weight
+  // when position: fixed
+  -webkit-font-smoothing: subpixel-antialiased;
+
+  // Links!
+  a {
+    display: block;
+    color: white;
+    width: 100%;
+    height: 100%;
+    padding: 0 20px;
+    outline: 0;
+  }
+
+  a:hover,
+  a:visited,
+  a:active {
+    color: white;
+  }
 
   // When product nav is floating
   &.is-floating {
@@ -46,19 +46,15 @@
     // Floating AND fixed main navigation
     // Go back to regular top position
     body.fixed-main-nav & {
-      top: 20px + @main-nav-height;
+      top: 20px + $main-nav-height;
     }
 
     // This is the only time a transition time should exist
-    // Temporarily disabled, this is more trouble than its worth
-    // Because there is always a slight unwanted jitter when this is at the top
-/*
     body.fixed-main-nav:not(.is-scrolling) & {
-      -webkit-transition: top @section-nav-transition-time;
-         -moz-transition: top @section-nav-transition-time;
-              transition: top @section-nav-transition-time;
+      -webkit-transition: top $section-nav-transition-time;
+         -moz-transition: top $section-nav-transition-time;
+              transition: top $section-nav-transition-time;
     }
-    */
   }
 
   // When product nav is collapsed!
@@ -73,7 +69,7 @@
     }
 
     .section-nav-items {
-      background-color: @mz-red;
+      background-color: $mz-red;
     }
 
     // Set animation transition for scrolling through
@@ -82,9 +78,9 @@
       position: absolute;
       top: 0;
       right: 0;
-      -webkit-transition: top @section-nav-scroll-time;
-         -moz-transition: top @section-nav-scroll-time;
-              transition: top @section-nav-scroll-time;
+      -webkit-transition: top $section-nav-scroll-time;
+         -moz-transition: top $section-nav-scroll-time;
+              transition: top $section-nav-scroll-time;
     }
 
     li {
@@ -106,8 +102,8 @@
   display: inline-block;
   position: relative;
   width: 100%;
-  height: @section-nav-height;
-  background-color: @section-nav-background-translucent;
+  height: $section-nav-height;
+  background-color: $section-nav-background-translucent;
   z-index: 2000;
 
   overflow: hidden;
@@ -116,22 +112,20 @@
       -ms-user-select: none;
 
   .section-nav.enable-animation & {
-    -webkit-transition: width @section-nav-transition-time;
-       -moz-transition: width @section-nav-transition-time;
-            transition: width @section-nav-transition-time;
+    -webkit-transition: width $section-nav-transition-time;
+       -moz-transition: width $section-nav-transition-time;
+            transition: width $section-nav-transition-time;
   }
 }
 
 .section-nav-title {
   display: inline-block;
   position: relative;
-  padding: 0 20px;
-  height: @section-nav-height;
+  height: $section-nav-height;
   color: white;
   text-shadow: 0 1px 1px black;
   vertical-align: top;
   opacity: 1;
-  cursor: pointer;
 
   // Semantically, the title of this component is a h2 element
   // Styles override default page h2
@@ -139,13 +133,13 @@
     margin: 0;
     font-size: 20px;
     font-weight: 600;
-    line-height: @section-nav-height;
+    line-height: $section-nav-height;
   }
 }
 
 .section-nav-items {
   display: inline-block;
-  height: @section-nav-height;
+  height: $section-nav-height;
   position: absolute;
   left: 150px;
   right: 0;
@@ -168,12 +162,10 @@
 
   li {
     display: inline-block;
-    padding: 0 20px;
-    line-height: @section-nav-height;
+    line-height: $section-nav-height;
     font-size: 14px;
     text-transform: uppercase;
     color: white;
-    cursor: pointer;
 
     &:not(.active):not(:hover) {
       text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
@@ -182,16 +174,17 @@
     &:hover,
     body:not(.is-scrolling) &.active:hover,
     .section-nav.is-collapsed &.active:hover {
-      background-color: desaturate(darken(@mz-red, 10%), 20%);
+      background-color: desaturate(darken($mz-red, 10%), 20%);
     }
 
     &.activated,
     body:not(.is-scrolling) &.active {
-      background-color: @mz-red;
+      background-color: $mz-red;
     }
 
     &.section-nav-item-egg {
       display: none;
+      padding: 0 20px; // No anchor tag, so apply padding here
     }
   }
 }
@@ -211,8 +204,8 @@
   position: fixed;
   top: 0;
   width: 100%;
-  height: 20px + @section-nav-height + @section-nav-hitbox-lower-buffer; // Top margin + nav height + lower buffer
-  z-index: @section-nav-z-index - 1;
+  height: 20px + $section-nav-height + $section-nav-hitbox-lower-buffer; // Top margin + nav height + lower buffer
+  z-index: $section-nav-z-index - 1;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
@@ -227,46 +220,6 @@
 
   // Extend hitbox when fixed main nav is revealed
   body.fixed-main-nav & {
-    height: 20px + @section-nav-height + @section-nav-hitbox-lower-buffer + 56px; // Top margin + nav height + lower buffer + main nav height
+    height: 20px + $section-nav-height + $section-nav-hitbox-lower-buffer + 56px; // Top margin + nav height + lower buffer + main nav height
   }
-}
-
-.demo-container {
-  position: relative;
-  height: 600px;
-  overflow: hidden;
-
-  > .demo-map {
-    width: 100%;
-    height: 100%;
-    z-index: 100; // Fix a Leaflet stacking bug
-  }
-
-  // Leaflet overrides
-  .leaflet-container .leaflet-control-attribution {
-    background-color: @section-nav-background-translucent;
-    color: #ddd;
-  }
-}
-
-
-body:not(.is-scrolling) .navbar-fixed-top {
-  top: 0 !important;
-}
-
-body.hide-fixed-main-nav nav {
-  margin-top: -60px;
-}
-
-nav {
-  width: 100%;
-  -webkit-transform: translate(0,0);
-  -moz-transform: translate(0,0);
-  transform: translate(0,0);
-
-  // Safari has a bug where width of nav will animate when page loads
-  -webkit-transition: all .25s, width 0s;
-  -moz-transition: all .25s, width 0s;
-  transition: all .25s, width 0s;
-  z-index: 3500 !important; // Position above top nav hitbox TODO: override Bootstrap properly
 }

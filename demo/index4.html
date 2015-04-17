@@ -10,16 +10,11 @@
   <link rel='stylesheet' href='//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css'>
   <link rel='stylesheet' href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css'>
   <link rel='stylesheet' href='//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css'>
+  <link rel='stylesheet' href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700'>
+
   <link rel='stylesheet' href='./original/application.css'>
 
-  <!-- all the fonts just in case -->
-  <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700'>
-
-  <!-- LESS for organization -->
-  <link rel='stylesheet/less' type='text/css' href='demo-chrome.less'>
-  <link rel='stylesheet/less' type='text/css' href='demo-ipsum.less'>
-  <link rel='stylesheet/less' type='text/css' href='demo4.less'>
-  <script src='//cdnjs.cloudflare.com/ajax/libs/less.js/2.5.0/less.min.js'></script>
+  <link rel='stylesheet' type='text/css' href='stylesheets/main.css'>
 </head>
 <body class=''>
 
@@ -57,12 +52,11 @@
 <div class='demo-content'>
 <!-- ALL DEMO CONTENT GOES HERE -->
 
-  <div class='section-nav-hitbox'></div>
-  <div class='section-nav' id='product-nav'>
+  <div class='section-nav' id='product-nav' role='navigation' aria-label='product-name'>
     <div class='container'>
       <div class='section-nav-container'>
         <div class='section-nav-title'>
-          <h2>Tangram</h2>
+          <h2 id='product-name'><a href='#'>Tangram</a></h2>
         </div>
         <div class='section-nav-items'>
           <ul class='section-nav-scroll-container'>
@@ -72,12 +66,13 @@
       </div>
     </div>
   </div>
+  <div class='section-nav-hitbox'></div>
 
   <section id='demo' class='demo-container js-section-navigable' data-section-name='Demo' data-section-nav-collapse='false'>
-    <!--
     <div class='demo-map' id='map'></div>
-    // -->
+    <!--
     <img src='images/mapzen_carousel-3.jpg'>
+    // -->
   </section>
 
   <div class='page-content-filler headroom-large'>

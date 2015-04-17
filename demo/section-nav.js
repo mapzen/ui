@@ -1,12 +1,14 @@
 
 var SECTION_NAV_CSS_COMPONENT_PREFIX = 'section-nav-'
 var SECTION_NAV_DEFERRED_COLLAPSE_TIMEOUT = 900
-var SECTION_NAV_PAGE_ELEMENT_BUFFER = 0
+var SECTION_NAV_SECTION_POSITION_BUFFER = 40
 var SECTION_NAV_VIEWPORT_TOP_OFFSET = 20
-var SECTION_NAV_SCROLL_TIME = 250
+var SECTION_NAV_SCROLL_TIME = 250 // Time in ms to scroll page to section
 
-var SectionNavigation = function (el) {
-  this.el = document.querySelector(el)
+var SectionNavigation = function (selector) {
+  var el = document.querySelector(selector)
+
+  this.el = el
   this.topPosition = this.el.offsetTop
   this.isFloating = false
   this.isCollapsed = false
@@ -15,25 +17,41 @@ var SectionNavigation = function (el) {
   this.sections = [] // Placeholder for NodeList
   this.sectionPositions = [] // Placeholder for array of numbers
 
-  this.initSections()
+  this.initMenuItems()
   this.addEventListeners()
+
+  this.determineFloatState()
+  this.determineActiveSection()
 
   // Enable some CSS transitions only after page has completed loading.
   // This fixes browser issues where initial paint would sometimes
   // be animated, which looks out of place.
-  // TODO: FIX
-  document.addEventListener('DOMContentLoaded', function (event) {
-    this.determineFloatState()
-    this.determineSection()
-    this.el.classList.add('enable-animation')
-  }.bind(this))
+  // Make sure the timer is greater than the amount of the transition
+  // time in the CSS.
+  window.setTimeout(function () {
+    el.classList.add('enable-animation')
+  }, 300)
+
+  // Recalculate everything when the window resizes
+  window.addEventListener('resize', this.invalidateCurrentState.bind(this))
 }
 
-SectionNavigation.prototype.initSections = function () {
+SectionNavigation.prototype.invalidateCurrentState = function () {
+  // Recalculate Y positions of sections
+  this.sectionPositions = this.getSectionPositions()
+
+  // Determine state
+  this.determineFloatState()
+  this.determineActiveSection()
+}
+
+SectionNavigation.prototype.initMenuItems = function () {
   this.sections = document.querySelectorAll('.js-section-navigable')
   var ul = this.el.querySelector('ul')
+
   var handleClickEvent = function (index) {
-    return function () {
+    return function (event) {
+      event.preventDefault()
       this.clickSection(index)
     }
   }
@@ -48,9 +66,11 @@ SectionNavigation.prototype.initSections = function () {
     var section = this.sections[i]
     var name = section.getAttribute('data-section-name') || '???'
     var li = document.createElement('li')
+    var a = document.createElement('a')
     li.className = SECTION_NAV_CSS_COMPONENT_PREFIX + 'item'
-    li.setAttribute('data-section-index', i)
-    li.textContent = name
+    a.setAttribute('data-section-index', i)
+    a.textContent = name
+    a.href = '#' + section.id
 
     // The first element gets to start with the active state on
     if (i === 0) {
@@ -58,8 +78,9 @@ SectionNavigation.prototype.initSections = function () {
     }
 
     // Bind click event
-    li.addEventListener('click', handleClickEvent(i).bind(this), false)
+    a.addEventListener('click', handleClickEvent(i).bind(this), false)
 
+    li.appendChild(a)
     ul.appendChild(li)
   }
 
@@ -71,9 +92,6 @@ SectionNavigation.prototype.initSections = function () {
 
   // Remember the Y position of each section
   this.sectionPositions = this.getSectionPositions()
-
-  // Recalculate Y positions when layout changes
-  window.addEventListener('resize', this.getSectionPositions.bind(this))
 }
 
 SectionNavigation.prototype.getSectionPositions = function () {
@@ -81,7 +99,7 @@ SectionNavigation.prototype.getSectionPositions = function () {
 
   for (var i = 0, j = this.sections.length; i < j; i++) {
     var el = this.sections[i]
-    var position = el.getBoundingClientRect().top + document.body.scrollTop + SECTION_NAV_PAGE_ELEMENT_BUFFER
+    var position = el.getBoundingClientRect().top + ((document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop)
 
     // Clamp position value to zero if result is negative
     if (position < 0) {
@@ -116,7 +134,7 @@ SectionNavigation.prototype.addEventListeners = function () {
   window.addEventListener('mouseover', onMouseReentersWindow.bind(this))
   window.addEventListener('scroll', onScrollWindow.bind(this))
 
-  this.el.querySelector(SECTION_NAV_CSS_COMPONENT_PREFIX + 'title', onClickNavigationTitle, false)
+  this.el.querySelector('.' + SECTION_NAV_CSS_COMPONENT_PREFIX + 'title a').addEventListener('click', onClickNavigationTitle, false)
 
   function onMouseLeavesHitboxArea (event) {
     this.hitboxIsActive = false
@@ -146,14 +164,14 @@ SectionNavigation.prototype.addEventListeners = function () {
     }
   }
 
+  // TODO: Throttle this event better
   function onScrollWindow (event) {
-    var windowYPosition = window.pageYOffset || (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop
-
-    this.determineFloatState(windowYPosition)
-    this.determineSection(windowYPosition)
+    this.determineFloatState()
+    this.determineActiveSection()
   }
 
   function onClickNavigationTitle (event) {
+    event.preventDefault()
     document.body.classList.add('is-scrolling')
     $(window).scrollTo(0, SECTION_NAV_SCROLL_TIME, {
       onAfter: function () {
@@ -170,7 +188,7 @@ SectionNavigation.prototype.expand = function () {
 }
 
 SectionNavigation.prototype.collapse = function () {
-  // Never collapse if the hitbox area is active
+  // Refuse to collapse if the hitbox area is active
   if (this.hitboxIsActive) return
 
   this.isCollapsed = true
@@ -201,7 +219,9 @@ SectionNavigation.prototype.unfloat = function () {
   document.body.classList.remove('floating-section-nav')
 }
 
-SectionNavigation.prototype.determineFloatState = function (windowYPosition) {
+SectionNavigation.prototype.determineFloatState = function () {
+  var windowYPosition = window.pageYOffset || (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop
+
   // Set product navigation to be floating or not
   // depending on the window's current Y position
   if (windowYPosition >= (this.topPosition - SECTION_NAV_VIEWPORT_TOP_OFFSET)) {
@@ -212,23 +232,29 @@ SectionNavigation.prototype.determineFloatState = function (windowYPosition) {
   }
 }
 
-SectionNavigation.prototype.determineSection = function (windowYPosition) {
-  var positions = this.sectionPositions
+SectionNavigation.prototype.determineActiveSection = function () {
+  var windowYPosition = window.pageYOffset || (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop
+  var sourcePositions = this.sectionPositions
+  var navEl = this.el
+
+  var positions = sourcePositions.map(function (x) {
+    return x - navEl.getBoundingClientRect().bottom - SECTION_NAV_SECTION_POSITION_BUFFER
+  })
 
   if (windowYPosition < positions[0]) {
     // Assume very first section for now
-    this.changeSection(0)
+    this.setSection(0)
     this.expand()
     return
   } else if (windowYPosition >= positions[positions.length - 1]) {
     // Last section
-    this.changeSection(positions.length - 1)
+    this.setSection(positions.length - 1)
     return
   }
 
   for (var i = 0, j = positions.length; i < j; i++) {
     if (windowYPosition >= positions[i] && windowYPosition < positions[i + 1]) {
-      this.changeSection(i)
+      this.setSection(i)
 
       // Depending on the section are on, set default collapse or expand state
       // TODO: Is this a thing that is here?
@@ -243,10 +269,10 @@ SectionNavigation.prototype.determineSection = function (windowYPosition) {
   }
 }
 
-SectionNavigation.prototype.changeSection = function (sectionIndex) {
+SectionNavigation.prototype.setSection = function (sectionIndex) {
   var listEls = this.el.querySelectorAll('li')
   var el = listEls[sectionIndex]
-  var listScrollPosition = sectionIndex * 50
+  var listScrollPosition = sectionIndex * this.el.offsetHeight
 
   // Remove active class on all list elements
   for (var i = 0, j = listEls.length; i < j; i++) {
@@ -263,8 +289,11 @@ SectionNavigation.prototype.changeSection = function (sectionIndex) {
 SectionNavigation.prototype.clickSection = function (sectionIndex) {
   var listEls = this.el.querySelectorAll('li')
   var el = listEls[sectionIndex]
-  var position = this.sectionPositions[sectionIndex]
   var navEl = this.el
+
+  // Scroll-to position is modified based on current position of the navbar
+  // and the value of the buffer space between it and the top of the section
+  var position = this.sectionPositions[sectionIndex] - navEl.getBoundingClientRect().bottom - (SECTION_NAV_SECTION_POSITION_BUFFER / 2)
 
   // Indicate that page is being mechanically scrolled
   document.body.classList.add('is-scrolling')
