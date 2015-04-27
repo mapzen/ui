@@ -6,8 +6,8 @@ body {
   color: #191919;
 }
 
-.page-content-filler {
-  h3 {
+.static-content {
+  h1 {
     // font-family: 'Playfair Display';
     // font-size: 26px;
     // color: #d4645c;
@@ -21,7 +21,7 @@ body {
     margin-bottom: 30px;
   }
 
-  h4 {
+  h2 {
     padding-left: 80px;
     font-family: 'Open Sans', Helvetica, sans-serif;
     font-size: 24px;
@@ -31,7 +31,7 @@ body {
     margin-bottom: 15px;
   }
 
-  h5 {
+  h3, h4, h5, h6 {
     padding-left: 80px;
     font-family: 'Playfair Display', serif;
     //font-family: 'Open Sans', Helvetica, sans-serif;
@@ -48,7 +48,7 @@ body {
     margin-bottom: 20px;
   }
 
-  h3,
+  h1,
   p,
   .highlight {
     padding-left: 80px;

@@ -52,7 +52,7 @@ body {
   line-height: 30px;
   color: #191919; }
 
-.page-content-filler h3 {
+.static-content h1 {
   font-family: 'Open Sans', Helvetica, sans-serif;
   font-size: 34px;
   font-weight: 300;
@@ -61,7 +61,7 @@ body {
   letter-spacing: 1.5px;
   margin-top: 80px;
   margin-bottom: 30px; }
-.page-content-filler h4 {
+.static-content h2 {
   padding-left: 80px;
   font-family: 'Open Sans', Helvetica, sans-serif;
   font-size: 24px;
@@ -69,7 +69,7 @@ body {
   color: #333;
   margin-top: 40px;
   margin-bottom: 15px; }
-.page-content-filler h5 {
+.static-content h3, .static-content h4, .static-content h5, .static-content h6 {
   padding-left: 80px;
   font-family: 'Playfair Display', serif;
   font-weight: 100;
@@ -77,36 +77,36 @@ body {
   color: #191919;
   margin-top: 30px;
   margin-bottom: 10px; }
-.page-content-filler .caption {
+.static-content .caption {
   font-style: italic;
   margin-top: -15px;
   margin-bottom: 20px; }
-.page-content-filler h3, .page-content-filler p, .page-content-filler .highlight {
+.static-content h1, .static-content p, .static-content .highlight {
   padding-left: 80px;
   padding-right: 80px; }
-.page-content-filler .highlight {
+.static-content .highlight {
   margin-top: 30px;
   margin-bottom: 30px; }
-.page-content-filler a {
+.static-content a {
   color: #6EA0A4;
   font-weight: 600; }
-.page-content-filler img {
+.static-content img {
   width: 100%;
   margin: 20px 0; }
-.page-content-filler pre {
+.static-content pre {
   border: 3px solid #eee;
   border-radius: 0;
   padding: 20px;
   background-color: #fafafa;
   background-image: url('data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%208%208%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20stroke-linejoin%3D%22round%22%20stroke-miterlimit%3D%221.414%22%3E%3Cg%20fill-opacity%3D%22.031%22%3E%3Cpath%20d%3D%22M0%200v4l4-4H0zM8%200L0%208h4l4-4V0z%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E');
   background-size: 8px; }
-.page-content-filler ol {
+.static-content ol {
   margin-left: 70px;
   margin-top: 30px;
   margin-bottom: 10px; }
-.page-content-filler ul {
+.static-content ul {
   list-style-type: disc; }
-.page-content-filler .btn_transparent {
+.static-content .btn_transparent {
   margin-bottom: 20px;
   background: transparent;
   border: 1px solid black;

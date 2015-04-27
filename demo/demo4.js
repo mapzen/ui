@@ -116,11 +116,13 @@ var productNav
 // Initalize after page reports ready
 // TODO THIS BETTER
 $(document).ready(function () {
-  productNav = new SectionNavigation('#product-nav')
+  productNav = new SectionNavigation('#product-nav', {
+    sectionSelector: '.project-content h1, .js-section-navigable'
+  })
 
   // TODO HACK
   // After demo has finished loading, reset productNav info
   window.setTimeout(function () {
-    productNav.invalidateCurrentState()
+    productNav.reflow()
   }, 0)
 })
