@@ -38,7 +38,7 @@ $section-nav-z-index: 2000;
     color: white;
   }
 
-  // When product nav is floating
+  // When section nav is floating
   &.is-floating {
     position: fixed;
     top: 20px;
@@ -57,7 +57,7 @@ $section-nav-z-index: 2000;
     }
   }
 
-  // When product nav is collapsed!
+  // When section nav is collapsed!
   &.is-collapsed {
     .section-nav-container {
       width: 300px;

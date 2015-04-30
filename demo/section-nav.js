@@ -103,9 +103,15 @@ var SectionNavigation = (function () {
   SectionNavigation.prototype.getSectionPositions = function () {
     var positions = []
 
+    function _getTopPositionOfElement (element) {
+      if (element.getBoundingClientRect) {
+        return element.getBoundingClientRect().top + ((document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop)
+      }
+    }
+
     for (var i = 0, j = this.sections.length; i < j; i++) {
       var el = this.sections[i]
-      var position = el.getBoundingClientRect().top + ((document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop)
+      var position = _getTopPositionOfElement(el)
 
       // Clamp position value to zero if result is negative
       if (position < 0) {
@@ -116,7 +122,11 @@ var SectionNavigation = (function () {
 
       // Record the bottom edge of the last section
       if (i === j - 1) {
-        positions.push(position + el.getBoundingClientRect().height)
+        if (this.opts.sectionSelector) {
+          positions.push(_getTopPositionOfElement(document.querySelector('footer')))
+        } else {
+          positions.push(position + el.getBoundingClientRect().height)
+        }
       }
     }
 

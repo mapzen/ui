@@ -116,7 +116,7 @@ var productNav
 // Initalize after page reports ready
 // TODO THIS BETTER
 $(document).ready(function () {
-  productNav = new SectionNavigation('#product-nav', {
+  productNav = new SectionNavigation('#project-nav', {
     sectionSelector: '.project-content h1, .js-section-navigable'
   })
 

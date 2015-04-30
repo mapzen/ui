@@ -37,7 +37,6 @@ $mz-red: #d4645c;
   }
 }
 
-
 body:not(.is-scrolling) .navbar-fixed-top {
   top: 0 !important;
 }
@@ -58,3 +57,4 @@ nav {
   transition: all .25s, width 0s;
   z-index: 3500 !important; // Position above top nav hitbox TODO: override Bootstrap properly
 }
+
