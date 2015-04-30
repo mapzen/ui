@@ -52,6 +52,7 @@ var MapzenBug = (function () {
     el.style.boxShadow = '0 0 10px 1px rgba(0,0,0,0.10)'
     el.style.borderBottomRightRadius = '4px'
     el.style.borderBottomLeftRadius = '4px'
+    el.style.overflow = 'hidden'
     el.style.zIndex = 10010 // Mapzen zip code
 
     link.href = this.opts.link || 'https://mapzen.com/'
