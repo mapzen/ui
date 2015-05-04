@@ -10,7 +10,7 @@
 var MapzenBug = (function () {
   'use strict'
 
-  var STYLESHEET = 'http://localhost:8080/components/bug/bug.css'
+  var STYLESHEET = 'https://cdn.rawgit.com/mapzen/ui/master/components/bug/bug.css'
   var DEFAULT_LINK = 'https://mapzen.com/'
   var TWITTER_BASE_URL = 'http://twitter.com/home?status='
 
