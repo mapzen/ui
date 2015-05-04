@@ -11,6 +11,7 @@ var MapzenBug = (function () {
 
   var STYLESHEET = 'http://localhost:8080/components/bug/bug.css'
   var DEFAULT_LINK = 'https://mapzen.com/'
+  var TWITTER_BASE_URL = 'http://twitter.com/home?status='
 
   // Do not call this at initialize. Google Analytics may
   // not be loaded yet when this is loaded. Only call it
@@ -64,6 +65,20 @@ var MapzenBug = (function () {
     }
   }
 
+  function _buildTwitterLink (opts) {
+    var msg
+
+    if (opts.twitterShareMsg) {
+      msg = encodeURIComponent(opts.twitterShareMsg + ' ' + location.href)
+    } else if (opts.name) {
+      msg = encodeURIComponent(opts.name + ', powered by @mapzen ' + location.href)
+    } else {
+      msg = encodeURIComponent('Check out this project by @mapzen! ' + location.href)
+    }
+
+    return TWITTER_BASE_URL + msg
+  }
+
   function _createElsAndAppend (opts) {
     var el = document.createElement('div')
     var link = document.createElement('a')
@@ -93,20 +108,14 @@ var MapzenBug = (function () {
     logo.className = 'mz-bug-logo'
 
     // Create Twitter & Facebook link
-    if (opts.twitterShareMsg) {
-      twitterShareMsg = encodeURIComponent(opts.twitterShareMsg + ' ' + location.href)
-    } else if (opts.name) {
-      twitterShareMsg = encodeURIComponent(opts.name + ', powered by @mapzen ' + location.href)
-    } else {
-      twitterShareMsg = encodeURIComponent('Check out this project by @mapzen! ' + location.href)
-    }
-
-    twitterEl.href = 'http://twitter.com/home?status=' + twitterShareMsg + ''
+    twitterEl.href = _buildTwitterLink(opts) // Default link
     twitterEl.target = '_blank'
     twitterEl.className = 'mz-bug-twitter-link'
     twitterEl.addEventListener('click', function (e) {
       e.preventDefault()
-      _popupWindow(twitterEl.href, 'Twitter', 580, 470)
+      // Build a new link, in case viewport has changed.
+      var currentLink = _buildTwitterLink(opts)
+      _popupWindow(currentLink, 'Twitter', 580, 470)
     })
     twitterLogo.className = 'mz-bug-twitter-logo'
     facebookEl.href = 'http://facebook.com/'
