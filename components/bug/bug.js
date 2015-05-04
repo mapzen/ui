@@ -115,7 +115,9 @@ var MapzenBug = (function () {
       // Build a new link, in case viewport has changed.
       var currentLink = _buildTwitterLink(opts)
       _popupWindow(currentLink, 'Twitter', 580, 470)
-      _track()
+      if (opts.analytics) {
+        _track()
+      }
     })
     twitterLogo.className = 'mz-bug-twitter-logo'
     facebookEl.href = 'http://facebook.com/'
@@ -141,6 +143,7 @@ var MapzenBug = (function () {
     }
 
     opts = opts || {}
+    opts.analytics = true // Default value
     _loadExternalStylesheet()
     _createElsAndAppend(opts)
   }
