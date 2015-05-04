@@ -6,6 +6,7 @@
 // Identifies full-screen demo pages with Mapzen brand and
 // provides helpful social media links.
 // --------------------------------------------------------
+/* global ga */
 var MapzenBug = (function () {
   'use strict'
 
@@ -16,7 +17,7 @@ var MapzenBug = (function () {
   // Do not call this at initialize. Google Analytics may
   // not be loaded yet when this is loaded. Only call it
   // when the tracking event itself needs to be logged.
-  function _track() {
+  function _track (category, action, label, value) {
     // Is Google Analytics present?
     if (typeof ga === 'undefined') {
       return false
@@ -69,11 +70,11 @@ var MapzenBug = (function () {
     var msg
 
     if (opts.twitterShareMsg) {
-      msg = encodeURIComponent(opts.twitterShareMsg + ' ' + location.href)
+      msg = encodeURIComponent(opts.twitterShareMsg + ' ' + window.location.href)
     } else if (opts.name) {
-      msg = encodeURIComponent(opts.name + ', powered by @mapzen ' + location.href)
+      msg = encodeURIComponent(opts.name + ', powered by @mapzen ' + window.location.href)
     } else {
-      msg = encodeURIComponent('Check out this project by @mapzen! ' + location.href)
+      msg = encodeURIComponent('Check out this project by @mapzen! ' + window.location.href)
     }
 
     return TWITTER_BASE_URL + msg
@@ -87,8 +88,6 @@ var MapzenBug = (function () {
     var facebookEl = document.createElement('a')
     var twitterLogo = document.createElement('div')
     var facebookLogo = document.createElement('div')
-    var twitterShareMsg
-    var facebookShareMsg
 
     // Create container
     el.id = 'mz-bug'
@@ -116,6 +115,7 @@ var MapzenBug = (function () {
       // Build a new link, in case viewport has changed.
       var currentLink = _buildTwitterLink(opts)
       _popupWindow(currentLink, 'Twitter', 580, 470)
+      _track()
     })
     twitterLogo.className = 'mz-bug-twitter-logo'
     facebookEl.href = 'http://facebook.com/'
@@ -143,8 +143,6 @@ var MapzenBug = (function () {
     opts = opts || {}
     _loadExternalStylesheet()
     _createElsAndAppend(opts)
-
-    //_track()
   }
 
   return MapzenBug
