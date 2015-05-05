@@ -19,12 +19,16 @@ var MapzenBug = (function () {
   function _track (category, action, label, value) {
     // Is Google Analytics present?
     if (typeof ga === 'undefined') {
-      return false
+      // return false
     }
 
     // Tracking event
     console.log('Event tracked:', category, action, label)
     ga && ga('send', 'event', category, action, label, value)
+  }
+
+  function _loadga () {
+    !function(e,a,n,t,c,o,s){e.GoogleAnalyticsObject=c,e[c]=e[c]||function(){(e[c].q=e[c].q||[]).push(arguments)},e[c].l=1*new Date,o=a.createElement(n),s=a.getElementsByTagName(n)[0],o.async=1,o.src=t,s.parentNode.insertBefore(o,s)}(window,document,"script","//www.google-analytics.com/analytics.js","ga"),ga("create","UA-47035811-1","mapzen.com"),ga("send","pageview");
   }
 
   // Loads external stylesheet for the bug.
@@ -127,7 +131,7 @@ var MapzenBug = (function () {
       // Always rebuild most current link, just in case
       twitterEl.href = _buildTwitterLink(opts)
       _popupWindow(twitterEl.href, 'Twitter', 580, 470)
-      if (opts.analytics) {
+      if (opts.analytics === true) {
         _track()
       }
     })
@@ -144,7 +148,7 @@ var MapzenBug = (function () {
       // Always rebuild most current link, just in case
       facebookEl.href = _buildFacebookLink(opts)
       _popupWindow(facebookEl.href, 'Facebook', 580, 470)
-      if (opts.analytics) {
+      if (opts.analytics === true) {
         _track()
       }
     })
@@ -181,6 +185,14 @@ var MapzenBug = (function () {
         this.rebuildLinks()
       }.bind(this)
     }
+
+    // Check if Google Analytics is present soon in the future; if not, load it.
+    window.setTimeout(function () {
+      if (typeof ga === 'undefined') {
+        console.log('Analytics not detected; loading Mapzen default...')
+        _loadga()
+      }
+    }, 500)
   }
 
   MapzenBug.prototype.rebuildLinks = function () {
