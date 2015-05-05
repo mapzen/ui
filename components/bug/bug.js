@@ -12,7 +12,7 @@ var MapzenBug = (function () {
 
   var STYLESHEET = 'https://cdn.rawgit.com/mapzen/ui/master/components/bug/bug.css'
   var DEFAULT_LINK = 'https://mapzen.com/'
-  var TWITTER_BASE_URL = 'http://twitter.com/home?status='
+  var TWITTER_BASE_URL = 'https://twitter.com/home?status='
 
   // Do not call this at initialize. Google Analytics may
   // not be loaded yet when this is loaded. Only call it
