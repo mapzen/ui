@@ -198,15 +198,15 @@ var MapzenBug = (function () {
       if (typeof ga === 'undefined') {
         console.log('Analytics not detected; loading Mapzen default...')
         _loadAnalytics()
-        if (opts.analytics === true) {
+        if (this.opts.analytics === true) {
           _track('analytics', 'fallback', null, true)
         }
       }
 
-      if (opts.analytics === true) {
+      if (this.opts.analytics === true) {
         _track('bug', 'active', null, true)
       }
-    }, 0)
+    }.bind(this), 0)
 
   }
 
