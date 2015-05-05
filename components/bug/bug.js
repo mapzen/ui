@@ -83,6 +83,12 @@ var MapzenBug = (function () {
     return base + params
   }
 
+  function _buildFacebookLink (opts) {
+    var base = 'https://www.facebook.com/sharer/sharer.php?u='
+    var url = encodeURIComponent(window.location.href)
+    return base + url
+  }
+
   function _createElsAndAppend (opts) {
     var el = document.createElement('div')
     var link = document.createElement('a')
@@ -109,27 +115,41 @@ var MapzenBug = (function () {
 
     logo.className = 'mz-bug-logo'
 
-    // Create Twitter & Facebook link
+    // Create Twitter
+    twitterLogo.className = 'mz-bug-twitter-logo'
     twitterEl.href = _buildTwitterLink(opts) // Default link
     twitterEl.target = '_blank'
     twitterEl.className = 'mz-bug-twitter-link'
     twitterEl.title = 'Share this on Twitter'
     twitterEl.addEventListener('click', function (e) {
       e.preventDefault()
-      // Build a new link, in case viewport has changed.
-      var currentLink = _buildTwitterLink(opts)
-      _popupWindow(currentLink, 'Twitter', 580, 470)
+
+      // Always rebuild most current link, just in case
+      twitterEl.href = _buildTwitterLink(opts)
+      _popupWindow(twitterEl.href, 'Twitter', 580, 470)
       if (opts.analytics) {
         _track()
       }
     })
-    twitterLogo.className = 'mz-bug-twitter-logo'
-    facebookEl.href = 'http://facebook.com/'
+
+    // Create Facebook
+    facebookLogo.className = 'mz-bug-facebook-logo'
+    facebookEl.href = _buildFacebookLink(opts)
     facebookEl.target = '_blank'
     facebookEl.className = 'mz-bug-facebook-link'
     facebookEl.title = 'Share this on Facebook'
-    facebookLogo.className = 'mz-bug-facebook-logo'
+    facebookEl.addEventListener('click', function (e) {
+      e.preventDefault()
 
+      // Always rebuild most current link, just in case
+      facebookEl.href = _buildFacebookLink(opts)
+      _popupWindow(facebookEl.href, 'Facebook', 580, 470)
+      if (opts.analytics) {
+        _track()
+      }
+    })
+
+    // Build DOM
     link.appendChild(logo)
     el.appendChild(link)
     twitterEl.appendChild(twitterLogo)
@@ -147,10 +167,25 @@ var MapzenBug = (function () {
       return false
     }
 
-    opts = opts || {}
-    opts.analytics = true // Default value
+    this.opts = opts || {}
+    this.opts.analytics = true // Default value
+
     _loadExternalStylesheet()
-    _createElsAndAppend(opts)
+    this.el = _createElsAndAppend(this.opts)
+    this.twitterEl = this.el.querySelector('.mz-bug-twitter-link')
+    this.facebookEl = this.el.querySelector('.mz-bug-facebook-link')
+
+    // Rebuild links if hash changes
+    if ('onhashchange' in window) {
+      window.onhashchange = function () {
+        this.rebuildLinks()
+      }.bind(this)
+    }
+  }
+
+  MapzenBug.prototype.rebuildLinks = function () {
+    this.twitterEl.href = _buildTwitterLink(this.opts)
+    this.facebookEl.href = _buildFacebookLink(this.opts)
   }
 
   return MapzenBug
