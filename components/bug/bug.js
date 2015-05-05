@@ -10,22 +10,27 @@
 var MapzenBug = (function () {
   'use strict'
 
-  var STYLESHEET = 'https://cdn.rawgit.com/mapzen/ui/master/components/bug/bug.css'
+  var STYLESHEET = 'https://cdn.rawgit.com/mapzen/ui/v1/components/bug/bug.css'
   var DEFAULT_LINK = 'https://mapzen.com/'
-  var TRACKING_CATEGORY = 'Demo'
-  var TRACKING_ACTION_BUG = 'Bug loaded'
-  var TRACKING_ACTION_FRAMED = 'Loaded in iframe'
-  var TRACKING_ACTION_SHARE = 'Share'
-  var TRACKING_ACTION_CLICK = 'Click'
+  var TRACKING_CATEGORY = 'demo'
 
   function _track (action, label, value, nonInteraction) {
-    // Tracking event
+    if (typeof ga === 'undefined') {
+      return false
+    }
+
     console.log('Event tracked:', TRACKING_CATEGORY, action, label, nonInteraction)
-    ga && ga('send', 'event', TRACKING_CATEGORY, action, label, value, nonInteraction)
+    ga('send', 'event', TRACKING_CATEGORY, action, label, value, nonInteraction)
   }
 
   function _loadAnalytics () {
-    !function(e,a,n,t,c,o,s){e.GoogleAnalyticsObject=c,e[c]=e[c]||function(){(e[c].q=e[c].q||[]).push(arguments)},e[c].l=1*new Date,o=a.createElement(n),s=a.getElementsByTagName(n)[0],o.async=1,o.src=t,s.parentNode.insertBefore(o,s)}(window,document,"script","//www.google-analytics.com/analytics.js","ga"),ga("create","UA-47035811-1","mapzen.com"),ga("send","pageview");
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-47035811-1', 'auto');
+    ga('send', 'pageview');
   }
 
   // Loads external stylesheet for the bug.
@@ -113,6 +118,11 @@ var MapzenBug = (function () {
     } else {
       link.title = 'Powered by Mapzen'
     }
+    link.addEventListener('click', function (e) {
+      if (opts.analytics === true) {
+        _track('click', 'mapzen logo')
+      }
+    })
 
     logo.className = 'mz-bug-logo'
 
@@ -129,7 +139,7 @@ var MapzenBug = (function () {
       twitterEl.href = _buildTwitterLink(opts)
       _popupWindow(twitterEl.href, 'Twitter', 580, 470)
       if (opts.analytics === true) {
-        _track(TRACKING_ACTION_CLICK, 'Twitter')
+        _track('click', 'twitter')
       }
     })
 
@@ -146,7 +156,7 @@ var MapzenBug = (function () {
       facebookEl.href = _buildFacebookLink(opts)
       _popupWindow(facebookEl.href, 'Facebook', 580, 470)
       if (opts.analytics === true) {
-        _track(TRACKING_ACTION_CLICK, 'Facebook')
+        _track('click', 'facebook')
       }
     })
 
@@ -165,10 +175,6 @@ var MapzenBug = (function () {
   var MapzenBug = function (opts) {
     // If iframed, exit & do nothing.
     if (window.self !== window.top) {
-      // Track this
-      if (opts.analytics === true) {
-        _track(TRACKING_ACTION_FRAMED, null, null, true)
-      }
       return false
     }
 
@@ -190,18 +196,18 @@ var MapzenBug = (function () {
     // Check if Google Analytics is present soon in the future; if not, load it.
     window.setTimeout(function () {
       if (typeof ga === 'undefined') {
-        if (opts.analytics === true) {
-          _track(TRACKING_ACTION_BUG, 'Default Analytics loaded', null, true)
-        }
         console.log('Analytics not detected; loading Mapzen default...')
         _loadAnalytics()
+        if (opts.analytics === true) {
+          _track('analytics', 'fallback', null, true)
+        }
       }
-    }, 500)
 
-    // Track this
-    if (opts.analytics === true) {
-      _track(TRACKING_ACTION_BUG, 'Branded “bug” activated', null, true)
-    }
+      if (opts.analytics === true) {
+        _track('bug', 'active', null, true)
+      }
+    }, 0)
+
   }
 
   MapzenBug.prototype.rebuildLinks = function () {
