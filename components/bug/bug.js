@@ -110,6 +110,7 @@ var MapzenBug = (function () {
     twitterEl.href = _buildTwitterLink(opts) // Default link
     twitterEl.target = '_blank'
     twitterEl.className = 'mz-bug-twitter-link'
+    twitterEl.title = 'Share this on Twitter'
     twitterEl.addEventListener('click', function (e) {
       e.preventDefault()
       // Build a new link, in case viewport has changed.
@@ -123,6 +124,7 @@ var MapzenBug = (function () {
     facebookEl.href = 'http://facebook.com/'
     facebookEl.target = '_blank'
     facebookEl.className = 'mz-bug-facebook-link'
+    facebookEl.title = 'Share this on Facebook'
     facebookLogo.className = 'mz-bug-facebook-logo'
 
     link.appendChild(logo)
