@@ -12,22 +12,19 @@ var MapzenBug = (function () {
 
   var STYLESHEET = 'https://cdn.rawgit.com/mapzen/ui/master/components/bug/bug.css'
   var DEFAULT_LINK = 'https://mapzen.com/'
+  var TRACKING_CATEGORY = 'Demo'
+  var TRACKING_ACTION_BUG = 'Bug loaded'
+  var TRACKING_ACTION_FRAMED = 'Loaded in iframe'
+  var TRACKING_ACTION_SHARE = 'Share'
+  var TRACKING_ACTION_CLICK = 'Click'
 
-  // Do not call this at initialize. Google Analytics may
-  // not be loaded yet when this is loaded. Only call it
-  // when the tracking event itself needs to be logged.
-  function _track (category, action, label, value) {
-    // Is Google Analytics present?
-    if (typeof ga === 'undefined') {
-      // return false
-    }
-
+  function _track (action, label, value, nonInteraction) {
     // Tracking event
-    console.log('Event tracked:', category, action, label)
-    ga && ga('send', 'event', category, action, label, value)
+    console.log('Event tracked:', TRACKING_CATEGORY, action, label, nonInteraction)
+    ga && ga('send', 'event', TRACKING_CATEGORY, action, label, value, nonInteraction)
   }
 
-  function _loadga () {
+  function _loadAnalytics () {
     !function(e,a,n,t,c,o,s){e.GoogleAnalyticsObject=c,e[c]=e[c]||function(){(e[c].q=e[c].q||[]).push(arguments)},e[c].l=1*new Date,o=a.createElement(n),s=a.getElementsByTagName(n)[0],o.async=1,o.src=t,s.parentNode.insertBefore(o,s)}(window,document,"script","//www.google-analytics.com/analytics.js","ga"),ga("create","UA-47035811-1","mapzen.com"),ga("send","pageview");
   }
 
@@ -132,7 +129,7 @@ var MapzenBug = (function () {
       twitterEl.href = _buildTwitterLink(opts)
       _popupWindow(twitterEl.href, 'Twitter', 580, 470)
       if (opts.analytics === true) {
-        _track()
+        _track(TRACKING_ACTION_CLICK, 'Twitter')
       }
     })
 
@@ -149,7 +146,7 @@ var MapzenBug = (function () {
       facebookEl.href = _buildFacebookLink(opts)
       _popupWindow(facebookEl.href, 'Facebook', 580, 470)
       if (opts.analytics === true) {
-        _track()
+        _track(TRACKING_ACTION_CLICK, 'Facebook')
       }
     })
 
@@ -168,6 +165,10 @@ var MapzenBug = (function () {
   var MapzenBug = function (opts) {
     // If iframed, exit & do nothing.
     if (window.self !== window.top) {
+      // Track this
+      if (opts.analytics === true) {
+        _track(TRACKING_ACTION_FRAMED, null, null, true)
+      }
       return false
     }
 
@@ -189,10 +190,18 @@ var MapzenBug = (function () {
     // Check if Google Analytics is present soon in the future; if not, load it.
     window.setTimeout(function () {
       if (typeof ga === 'undefined') {
+        if (opts.analytics === true) {
+          _track(TRACKING_ACTION_BUG, 'Default Analytics loaded', null, true)
+        }
         console.log('Analytics not detected; loading Mapzen default...')
-        _loadga()
+        _loadAnalytics()
       }
     }, 500)
+
+    // Track this
+    if (opts.analytics === true) {
+      _track(TRACKING_ACTION_BUG, 'Branded “bug” activated', null, true)
+    }
   }
 
   MapzenBug.prototype.rebuildLinks = function () {
