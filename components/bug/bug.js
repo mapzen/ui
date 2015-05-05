@@ -12,7 +12,6 @@ var MapzenBug = (function () {
 
   var STYLESHEET = 'https://cdn.rawgit.com/mapzen/ui/master/components/bug/bug.css'
   var DEFAULT_LINK = 'https://mapzen.com/'
-  var TWITTER_BASE_URL = 'https://twitter.com/home?status='
 
   // Do not call this at initialize. Google Analytics may
   // not be loaded yet when this is loaded. Only call it
@@ -67,17 +66,21 @@ var MapzenBug = (function () {
   }
 
   function _buildTwitterLink (opts) {
-    var msg
+    var base = 'https://twitter.com/intent/tweet'
+    var url = encodeURIComponent(window.location.href)
+    var text
+    var params
 
-    if (opts.twitterShareMsg) {
-      msg = encodeURIComponent(opts.twitterShareMsg + ' ' + window.location.href)
+    if (opts.tweet) {
+      text = encodeURIComponent(opts.tweet)
     } else if (opts.name) {
-      msg = encodeURIComponent(opts.name + ', powered by @mapzen ' + window.location.href)
+      text = encodeURIComponent(opts.name + ', powered by @mapzen')
     } else {
-      msg = encodeURIComponent('Check out this project by @mapzen! ' + window.location.href)
+      text = encodeURIComponent('Check out this project by @mapzen!')
     }
 
-    return TWITTER_BASE_URL + msg
+    params = '?text=' + text + '&url=' + url
+    return base + params
   }
 
   function _createElsAndAppend (opts) {
