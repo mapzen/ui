@@ -10,7 +10,7 @@
 var MapzenBug = (function () {
   'use strict'
 
-  var STYLESHEET = 'https://cdn.rawgit.com/mapzen/ui/v1/components/bug/bug.css'
+  var STYLESHEET = 'https://cdn.rawgit.com/mapzen/ui/0.1.0/components/bug/bug.css'
   var DEFAULT_LINK = 'https://mapzen.com/'
   var TRACKING_CATEGORY = 'demo'
 
