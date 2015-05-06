@@ -5,6 +5,8 @@ We make demo pages that are [meant to be iframed into other pages](https://tangr
 
 The term "bug" is borrowed from broadcast television (officially, ["digital on-screen graphic"](http://en.wikipedia.org/wiki/Digital_on-screen_graphic)) where a show is branded in the lower corner to identify the broadcast network. The other meaning of "bug" in computing might make this not a great term to use in the long run.
 
+![screenshot](https://cloud.githubusercontent.com/assets/2553268/7500762/b4f63e34-f3fd-11e4-9813-c8a012272472.png)
+
 The bug component is designed for the following functionality:
 
 1. __Branding:__ Show the Mapzen attribution and provide a link to our website.
