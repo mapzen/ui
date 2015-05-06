@@ -10,9 +10,18 @@
 var MapzenBug = (function () {
   'use strict'
 
-  var STYLESHEET = 'https://cdn.rawgit.com/mapzen/ui/0.1.0/components/bug/bug.css'
+  var STYLESHEET = 'https://cdn.rawgit.com/mapzen/ui/0.2.0/components/bug/bug.css'
   var DEFAULT_LINK = 'https://mapzen.com/'
+  var DEFAULT_GITHUB_LINK = 'https://github.com/mapzen/'
   var TRACKING_CATEGORY = 'demo'
+
+  // Globals
+  var opts
+    // opts.name      Name of demo
+    // opts.link      Link to go to
+    // opts.tweet     prewritten tweet
+    // opts.analytics track?
+    // opts.repo      Link to GitHub repository
 
   function _track (action, label, value, nonInteraction) {
     if (typeof ga === 'undefined') {
@@ -71,7 +80,7 @@ var MapzenBug = (function () {
     }
   }
 
-  function _buildTwitterLink (opts) {
+  function _buildTwitterLink () {
     var base = 'https://twitter.com/intent/tweet'
     var url = encodeURIComponent(window.location.href)
     var text
@@ -89,103 +98,103 @@ var MapzenBug = (function () {
     return base + params
   }
 
-  function _buildFacebookLink (opts) {
+  function _buildFacebookLink () {
     var base = 'https://www.facebook.com/sharer/sharer.php?u='
     var url = encodeURIComponent(window.location.href)
     return base + url
   }
 
-  function _createElsAndAppend (opts) {
+  function _createElsAndAppend () {
     var el = document.createElement('div')
-    var link = document.createElement('a')
+    var mapzenLink = opts.link || DEFAULT_LINK
+    var mapzenTitle = (opts.name) ? opts.name + ' · Powered by Mapzen' : 'Powered by Mapzen'
+    var githubLink = opts.repo || DEFAULT_GITHUB_LINK
     var logo = document.createElement('div')
-    var twitterEl = document.createElement('a')
-    var facebookEl = document.createElement('a')
-    var twitterLogo = document.createElement('div')
-    var facebookLogo = document.createElement('div')
 
     // Create container
     el.id = 'mz-bug'
     el.className = 'mz-bug-container'
     el.setAttribute('role', 'widget')
 
-    // Create link
-    link.href = opts.link || DEFAULT_LINK
-    link.target = '_blank'
-    link.className = 'mz-bug-anchor'
-    if (opts.name) {
-      link.title = opts.name + ' · Powered by Mapzen'
-    } else {
-      link.title = 'Powered by Mapzen'
-    }
-    link.addEventListener('click', function (e) {
-      if (opts.analytics === true) {
-        _track('click', 'mapzen logo', opts.name)
-      }
-    })
-
-    logo.className = 'mz-bug-logo'
-
-    // Create Twitter
-    twitterLogo.className = 'mz-bug-twitter-logo'
-    twitterEl.href = _buildTwitterLink(opts) // Default link
-    twitterEl.target = '_blank'
-    twitterEl.className = 'mz-bug-twitter-link'
-    twitterEl.title = 'Share this on Twitter'
-    twitterEl.addEventListener('click', function (e) {
-      e.preventDefault()
-
-      // Always rebuild most current link, just in case
-      twitterEl.href = _buildTwitterLink(opts)
-      _popupWindow(twitterEl.href, 'Twitter', 580, 470)
-      if (opts.analytics === true) {
-        _track('click', 'twitter', opts.name)
-      }
-    })
-
-    // Create Facebook
-    facebookLogo.className = 'mz-bug-facebook-logo'
-    facebookEl.href = _buildFacebookLink(opts)
-    facebookEl.target = '_blank'
-    facebookEl.className = 'mz-bug-facebook-link'
-    facebookEl.title = 'Share this on Facebook'
-    facebookEl.addEventListener('click', function (e) {
-      e.preventDefault()
-
-      // Always rebuild most current link, just in case
-      facebookEl.href = _buildFacebookLink(opts)
-      _popupWindow(facebookEl.href, 'Facebook', 580, 470)
-      if (opts.analytics === true) {
-        _track('click', 'facebook', opts.name)
-      }
-    })
+    // Create buttons
+    var mapzenEl = _createButtonEl('mapzen', mapzenLink, mapzenTitle, _onClickMapzen)
+    var twitterEl = _createButtonEl('twitter', _buildTwitterLink(), 'Share this on Twitter', _onClickTwitter)
+    var facebookEl = _createButtonEl('facebook', _buildFacebookLink(), 'Share this on Facebook', _onClickFacebook)
+    var githubEl = _createButtonEl('github', githubLink, 'View source on GitHub', _onClickGitHub)
 
     // Build DOM
-    link.appendChild(logo)
-    el.appendChild(link)
-    twitterEl.appendChild(twitterLogo)
-    facebookEl.appendChild(facebookLogo)
+    el.appendChild(mapzenEl)
     el.appendChild(twitterEl)
     el.appendChild(facebookEl)
+    el.appendChild(githubEl)
     document.body.appendChild(el)
 
     return el
   }
 
-  var MapzenBug = function (opts) {
+  function _createButtonEl (id, linkHref, linkTitle, clickHandler) {
+    var linkEl = document.createElement('a')
+    var logoEl = document.createElement('div')
+
+    logoEl.className = 'mz-bug-' + id + '-logo'
+    linkEl.href = linkHref
+    linkEl.target = '_blank'
+    linkEl.className = 'mz-bug-' + id + '-link'
+    linkEl.title = linkTitle
+    linkEl.addEventListener('click', clickHandler)
+
+    linkEl.appendChild(logoEl)
+    return linkEl
+  }
+
+  function _onClickMapzen (event) {
+    if (opts.analytics === true) {
+      _track('click', 'mapzen logo', opts.name)
+    }
+  }
+
+  function _onClickTwitter (event) {
+    event.preventDefault()
+    var link = _buildTwitterLink()
+    _popupWindow(link, 'Twitter', 580, 470)
+    if (opts.analytics === true) {
+      _track('click', 'twitter', opts.name)
+    }
+  }
+
+  function _onClickFacebook (event) {
+    event.preventDefault()
+    var link = _buildFacebookLink()
+    _popupWindow(link, 'Facebook', 580, 470)
+    if (opts.analytics === true) {
+      _track('click', 'facebook', opts.name)
+    }
+  }
+
+  function _onClickGitHub (event) {
+    if (opts.analytics === true) {
+      _track('click', 'github', opts.name)
+    }
+  }
+
+  var MapzenBug = function (options) {
     // If iframed, exit & do nothing.
     if (window.self !== window.top) {
       return false
     }
 
-    this.opts = opts || {}
-    this.opts.analytics = opts.analytics || true // Default value
-    this.opts.name = opts.name || null
+    opts = options || {}
+    opts.analytics = options.analytics || true
+    opts.name = options.name || null
+    this.opts = opts
 
     _loadExternalStylesheet()
     this.el = _createElsAndAppend(this.opts)
     this.twitterEl = this.el.querySelector('.mz-bug-twitter-link')
     this.facebookEl = this.el.querySelector('.mz-bug-facebook-link')
+
+    // Build links
+    this.rebuildLinks()
 
     // Rebuild links if hash changes
     if ('onhashchange' in window) {
@@ -199,16 +208,15 @@ var MapzenBug = (function () {
       if (typeof ga === 'undefined') {
         console.log('Analytics not detected; loading Mapzen default...')
         _loadAnalytics()
-        if (this.opts.analytics === true) {
+        if (opts.analytics === true) {
           _track('analytics', 'fallback', null, true)
         }
       }
 
-      if (this.opts.analytics === true) {
-        _track('bug', 'active', this.opts.name, true)
+      if (opts.analytics === true) {
+        _track('bug', 'active', opts.name, true)
       }
-    }.bind(this), 0)
-
+    }, 0)
   }
 
   MapzenBug.prototype.rebuildLinks = function () {

@@ -21,7 +21,7 @@ Insert the script into your demo's HTML markup:
 
 ```html
 <!-- Mapzen bug UI component -->
-<script src='https://cdn.rawgit.com/mapzen/ui/0.1.1/components/bug/bug.js'></script>
+<script src='https://cdn.rawgit.com/mapzen/ui/0.2.0/components/bug/bug.js'></script>
 ```
 
 > **Note:** The bug component is currently served from the [RawGit CDN](https://rawgit.com/), which caches content _permanently_. As a result, please use references to tagged releases in the URL so it's easy to see what version you are using. In the near future, we will serve the component from S3 so that the URL can be a true set-it-and-forget-it situation.
@@ -37,8 +37,9 @@ The bug component works without any additional configuration, but you can custom
 ```js
 var mzBug = new MapzenBug({
   name: 'Tangram',
-  link: 'https://github.com/tangrams/tangram/',
-  tweet: 'Wow, what a cool demo by @mapzen!'
+  link: 'https://mapzen.com/projects/',
+  tweet: 'Wow, what a cool WebGL map renderer by @mapzen!',
+  repo: 'https://github.com/tangrams/tangram/'
 });
 ```
 
@@ -51,6 +52,8 @@ key       | default value         | description
 __link__  | 'https://mapzen.com/' | _String._ URL to go to when viewer clicks on the Mapzen logo. This should be a valid absolute URL.
 __name__  | 'Mapzen demo'         | _String._ Name of the demo or product. This will be used in analytics tracking and pre-populating tweets.
 __tweet__ | (depends)             | _String._ Set a custom pre-written tweet message. The current URL of the page will be automatically appended to the end of the message. If not included, a default tweet (based on the _name_ option, if provided) will be used. ([see below](#twitter))
+__repo__  | 'https://github.com/mapzen/' | _String._ URL to source code repository. This should be a valid absolute URL. The logo is the GitHub logo but it won't magically prepend the GitHub domain for you.
+
 
 ### Advanced options
 
