@@ -120,7 +120,7 @@ var MapzenBug = (function () {
     }
     link.addEventListener('click', function (e) {
       if (opts.analytics === true) {
-        _track('click', 'mapzen logo')
+        _track('click', 'mapzen logo', opts.name)
       }
     })
 
@@ -139,7 +139,7 @@ var MapzenBug = (function () {
       twitterEl.href = _buildTwitterLink(opts)
       _popupWindow(twitterEl.href, 'Twitter', 580, 470)
       if (opts.analytics === true) {
-        _track('click', 'twitter')
+        _track('click', 'twitter', opts.name)
       }
     })
 
@@ -156,7 +156,7 @@ var MapzenBug = (function () {
       facebookEl.href = _buildFacebookLink(opts)
       _popupWindow(facebookEl.href, 'Facebook', 580, 470)
       if (opts.analytics === true) {
-        _track('click', 'facebook')
+        _track('click', 'facebook', opts.name)
       }
     })
 
@@ -179,7 +179,8 @@ var MapzenBug = (function () {
     }
 
     this.opts = opts || {}
-    this.opts.analytics = true // Default value
+    this.opts.analytics = opts.analytics || true // Default value
+    this.opts.name = opts.name || null
 
     _loadExternalStylesheet()
     this.el = _createElsAndAppend(this.opts)
@@ -204,7 +205,7 @@ var MapzenBug = (function () {
       }
 
       if (this.opts.analytics === true) {
-        _track('bug', 'active', null, true)
+        _track('bug', 'active', this.opts.name, true)
       }
     }.bind(this), 0)
 
