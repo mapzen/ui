@@ -48,7 +48,7 @@ key       | default value         | description
 ----------|-----------------------|-------------
 __link__  | 'https://mapzen.com/' | _String._ URL to go to when viewer clicks on the Mapzen logo. This should be a valid absolute URL.
 __name__  | 'Mapzen demo'         | _String._ Name of the demo or product. This will be used in analytics tracking and pre-populating tweets.
-__tweet__ | (depends)             | _String._ Set a custom pre-written tweet message. The current URL of the page will be automatically appended to the end of the message. If not included, a default tweet (based on the _name_ option, if provided) will be used. (see below)
+__tweet__ | (depends)             | _String._ Set a custom pre-written tweet message. The current URL of the page will be automatically appended to the end of the message. If not included, a default tweet (based on the _name_ option, if provided) will be used. ([see below](#twitter))
 
 ### Advanced options
 
@@ -84,7 +84,7 @@ The bug component loads an external stylesheet. Elements created by the bug have
 
 ### Social network sharing
 
-Currently, sharing functionality is borrowed from [RRSSB](https://github.com/kni-labs/rrssb)), the library used to create the social sharing buttons used on the Mapzen [blog](https://mapzen.com/blog/).
+Currently, sharing functionality is borrowed from [RRSSB](https://github.com/kni-labs/rrssb), the library used to create the social sharing buttons used on the Mapzen [blog](https://mapzen.com/blog/).
 
 #### Twitter
 
