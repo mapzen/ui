@@ -22,7 +22,7 @@ Insert the script into your demo's HTML markup:
 <script src='https://cdn.rawgit.com/mapzen/ui/0.1.1/components/bug/bug.js'></script>
 ```
 
-> **Note:** The bug component is currently served from the [RawGit CDN](https://rawgit.com/), which caches content _permanently_. As a result, please refer to tagged releases in the URL. In the near future, we will serve the component from S3 so that the URL can be a true set-it-and-forget-it situation, and demo pages will automatically fetch the latest version.
+> **Note:** The bug component is currently served from the [RawGit CDN](https://rawgit.com/), which caches content _permanently_. As a result, please use references to tagged releases in the URL so it's easy to see what version you are using. In the near future, we will serve the component from S3 so that the URL can be a true set-it-and-forget-it situation.
 
 Instantiate the bug component in JavaScript:
 
