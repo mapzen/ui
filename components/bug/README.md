@@ -5,7 +5,7 @@ We make demo pages that are [meant to be iframed into other pages](https://tangr
 
 The term "bug" is borrowed from broadcast television (officially, ["digital on-screen graphic"](http://en.wikipedia.org/wiki/Digital_on-screen_graphic)) where a show is branded in the lower corner to identify the broadcast network. The other meaning of "bug" in computing might make this not a great term to use in the long run.
 
-![screenshot](https://cloud.githubusercontent.com/assets/2553268/7500762/b4f63e34-f3fd-11e4-9813-c8a012272472.png)
+![screenshot](https://cloud.githubusercontent.com/assets/2553268/7524364/87423646-f4cf-11e4-897f-df25b01ec905.png)
 
 The bug component is designed for the following functionality:
 
