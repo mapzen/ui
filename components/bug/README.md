@@ -24,8 +24,6 @@ Insert the script into your demo's HTML markup:
 <script src='//s3.amazonaws.com/assets-staging.mapzen.com/ui/components/bug/bug.min.js'></script>
 ```
 
-> **Note:** The bug component is currently served from the [RawGit CDN](https://rawgit.com/), which caches content _permanently_. As a result, please use references to tagged releases in the URL so it's easy to see what version you are using. In the near future, we will serve the component from S3 so that the URL can be a true set-it-and-forget-it situation.
-
 Instantiate the bug component in JavaScript:
 
 ```js
