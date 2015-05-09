@@ -25,6 +25,8 @@ var MapzenBug = (function () {
     // opts.repo      Link to GitHub repository
 
   function _track (action, label, value, nonInteraction) {
+    if (opts.analytics === false) return false
+
     if (typeof ga === 'undefined') {
       return false
     }
@@ -106,11 +108,10 @@ var MapzenBug = (function () {
   }
 
   function _createElsAndAppend () {
-    var el = document.createElement('div')
     var mapzenLink = opts.link || DEFAULT_LINK
     var mapzenTitle = (opts.name) ? opts.name + ' · Powered by Mapzen' : 'Powered by Mapzen'
     var githubLink = opts.repo || DEFAULT_GITHUB_LINK
-    var logo = document.createElement('div')
+    var el = document.createElement('div')
 
     // Create container
     el.id = 'mz-bug'
@@ -149,33 +150,25 @@ var MapzenBug = (function () {
   }
 
   function _onClickMapzen (event) {
-    if (opts.analytics === true) {
-      _track('click', 'mapzen logo', opts.name)
-    }
+    _track('click', 'mapzen logo', opts.name)
   }
 
   function _onClickTwitter (event) {
     event.preventDefault()
     var link = _buildTwitterLink()
     _popupWindow(link, 'Twitter', 580, 470)
-    if (opts.analytics === true) {
-      _track('click', 'twitter', opts.name)
-    }
+    _track('click', 'twitter', opts.name)
   }
 
   function _onClickFacebook (event) {
     event.preventDefault()
     var link = _buildFacebookLink()
     _popupWindow(link, 'Facebook', 580, 470)
-    if (opts.analytics === true) {
-      _track('click', 'facebook', opts.name)
-    }
+    _track('click', 'facebook', opts.name)
   }
 
   function _onClickGitHub (event) {
-    if (opts.analytics === true) {
-      _track('click', 'github', opts.name)
-    }
+    _track('click', 'github', opts.name)
   }
 
   var MapzenBug = function (options) {
@@ -185,7 +178,7 @@ var MapzenBug = (function () {
     }
 
     opts = options || {}
-    opts.analytics = options.analytics || true
+    opts.analytics = (typeof options.analytics === 'undefined') ? true : options.analytics
     opts.name = options.name || null
     this.opts = opts
 
@@ -198,31 +191,25 @@ var MapzenBug = (function () {
     this.rebuildLinks()
 
     // Rebuild links if hash changes
-    if ('onhashchange' in window) {
-      window.onhashchange = function () {
-        this.rebuildLinks()
-      }.bind(this)
-    }
+    window.onhashchange = function () {
+      this.rebuildLinks()
+    }.bind(this)
 
     // Check if Google Analytics is present soon in the future; if not, load it.
     window.setTimeout(function () {
       if (typeof ga === 'undefined') {
         console.log('Analytics not detected; loading Mapzen default...')
         _loadAnalytics()
-        if (opts.analytics === true) {
-          _track('analytics', 'fallback', null, true)
-        }
+        _track('analytics', 'fallback', null, true)
       }
 
-      if (opts.analytics === true) {
-        _track('bug', 'active', opts.name, true)
-      }
+      _track('bug', 'active', opts.name, true)
     }, 0)
   }
 
   MapzenBug.prototype.rebuildLinks = function () {
-    this.twitterEl.href = _buildTwitterLink(this.opts)
-    this.facebookEl.href = _buildFacebookLink(this.opts)
+    this.twitterEl.href = _buildTwitterLink()
+    this.facebookEl.href = _buildFacebookLink()
   }
 
   return MapzenBug
