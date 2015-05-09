@@ -11,9 +11,7 @@ var s3 = require('gulp-s3-upload')({
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
 })
 
-gulp.task('default', ['css', 'js'], function () {
-  gulp.start('s3')
-})
+gulp.task('default', ['css', 'js'])
 
 gulp.task('css', function () {
   return gulp.src('components/**/*.css')
@@ -33,7 +31,7 @@ gulp.task('js', function () {
     .pipe(gulp.dest('dist/components/'))
 })
 
-gulp.task('s3', function () {
+gulp.task('publish', function () {
   return gulp.src('dist/**')
     .pipe(s3({
       Bucket: process.env.MAPZEN_ASSET_BUCKET,
