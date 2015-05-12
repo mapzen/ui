@@ -11,7 +11,7 @@ var s3 = require('gulp-s3-upload')({
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
 })
 
-gulp.task('default', ['css', 'js'])
+gulp.task('default', ['css', 'js', 'images'])
 
 gulp.task('css', function () {
   return gulp.src('components/**/*.css')
@@ -28,6 +28,11 @@ gulp.task('js', function () {
     .pipe(rename({
       extname: '.min.js'
     }))
+    .pipe(gulp.dest('dist/components/'))
+})
+
+gulp.task('images', function () {
+  return gulp.src('components/**/*.png')
     .pipe(gulp.dest('dist/components/'))
 })
 
