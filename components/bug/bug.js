@@ -31,7 +31,6 @@ var MapzenBug = (function () {
       return false
     }
 
-    console.log('Event tracked:', TRACKING_CATEGORY, action, label, nonInteraction)
     ga('send', 'event', TRACKING_CATEGORY, action, label, value, nonInteraction)
   }
 
@@ -198,7 +197,6 @@ var MapzenBug = (function () {
     // Check if Google Analytics is present soon in the future; if not, load it.
     window.setTimeout(function () {
       if (typeof ga === 'undefined') {
-        console.log('Analytics not detected; loading Mapzen default...')
         _loadAnalytics()
         _track('analytics', 'fallback', null, true)
       }
