@@ -48,7 +48,16 @@
 
       $select.select2({
         placeholder: 'Search'
-      });
+      })
+
+      // Input into the search field should not bubble up and
+      // interact with other GUIs inserted onto page.
+      // Example: dat-gui listens for 'h' key to hide the UI
+      $select.on('select2:open', function (e) {
+        $('.select2-search__field').on('keydown', function (e) {
+          e.stopPropagation()
+        })
+      })
 
       $select.on('select2:select', function (e) {
         /* global map */
@@ -56,7 +65,6 @@
         var lat = el.dataset.lat
         var lng = el.dataset.lng
         var zoom = (el.dataset.zoom === 'undefined') ? null : el.dataset.zoom;
-        console.log(el, lat, lng, zoom)
         if (zoom) {
           map.setView([lat, lng], zoom);
         } else {
