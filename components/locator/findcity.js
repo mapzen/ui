@@ -6,7 +6,7 @@
 
   var STYLESHEET = 'findcity.css'
   var CITY_DATA
-  var CITY_DATA_URL = 'https://gist.githubusercontent.com/randymeech/1fb759d34521b43d373d/raw/3d2d7944ae32d819a17d60a44c6702b4406e6c91/cities'
+  var CITY_DATA_URL = '//s3.amazonaws.com/assets-staging.mapzen.com/ui/components/locator/cities.json'
 
   function _loadExternalStylesheet () {
     var el = document.createElement('link')
