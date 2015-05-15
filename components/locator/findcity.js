@@ -1,12 +1,17 @@
+// (c) 2015 Mapzen
+//
+// City dropdown
+// --------------------------------------------------------
 /* global jQuery, select2 */
 (function ($) {
   'use strict'
 
+  // Exit if demo is iframed.
   if (window.self !== window.top) return false
 
   var STYLESHEET = 'findcity.css'
-  var CITY_DATA
   var CITY_DATA_URL = '//s3.amazonaws.com/assets-staging.mapzen.com/ui/components/locator/cities.json'
+  var CITY_DATA
 
   function _loadExternalStylesheet () {
     var el = document.createElement('link')
@@ -19,7 +24,7 @@
   _loadExternalStylesheet()
 
   $.get(CITY_DATA_URL, function (data) {
-    CITY_DATA = JSON.parse(data);
+    CITY_DATA = JSON.parse(data)
 
     // Process data
     CITY_DATA = CITY_DATA.map(function (item) {
@@ -31,14 +36,7 @@
       }
     })
 
-    // Sort
-    CITY_DATA.sort(function (a, b) {
-      if (a.name < b.name)
-        return -1;
-      if (a.name > b.name)
-        return 1;
-      return 0;
-    });
+    // Assume the JSON is sorted already.
 
     $(document).ready(function () {
       var $select = $('.js-citylocate-select2');
