@@ -9,9 +9,13 @@
   // Exit if demo is iframed.
   if (window.self !== window.top) return false
 
-  var STYLESHEET = 'findcity.css'
+  var STYLESHEET = '//s3.amazonaws.com/assets-staging.mapzen.com/ui/components/locator/findcity.min.css'
   var CITY_DATA_URL = '//s3.amazonaws.com/assets-staging.mapzen.com/ui/components/locator/cities.json'
+  CITY_DATA_URL ='https://gist.githubusercontent.com/randymeech/1fb759d34521b43d373d/raw/3d2d7944ae32d819a17d60a44c6702b4406e6c91/cities'
   var CITY_DATA
+
+  var CITY_SELECT_PLACEHOLDER_TEXT = 'Search'
+  var GEOLOCATOR_TITLE_TEXT = 'Get current location'
 
   function _loadExternalStylesheet () {
     var el = document.createElement('link')
@@ -21,7 +25,55 @@
     document.head.appendChild(el)
   }
 
+  function _createElsAndAppend () {
+    var el = document.createElement('div')
+
+    el.id = 'mz-locator'
+    el.className = 'mz-locator'
+    el.setAttribute('role', 'widget')
+
+    // Create city locator
+    var cityContainerEl = document.createElement('div')
+    var citySelectEl = document.createElement('select')
+    var citySelectOptionEl = document.createElement('option')
+    var citySelectOptionText = document.createTextNode(CITY_SELECT_PLACEHOLDER_TEXT)
+
+    citySelectOptionEl.setAttribute('disabled', '')
+    citySelectOptionEl.setAttribute('selected', '')
+    citySelectOptionEl.appendChild(citySelectOptionText)
+
+    citySelectEl.className = 'js--mz-citylocator-select2'
+    citySelectEl.appendChild(citySelectOptionEl)
+
+    cityContainerEl.id = 'mz-citylocator'
+    cityContainerEl.className = 'mz-citylocator'
+    cityContainerEl.appendChild(citySelectEl)
+
+    // Create geo locator
+    var geoContainerEl = document.createElement('div')
+    var geoButtonEl = document.createElement('div')
+    var geoIconEl = document.createElement('span')
+
+    geoIconEl.className = 'mz-geolocator-icon'
+
+    geoButtonEl.className = 'mz-geolocator-button'
+    geoButtonEl.setAttribute('title', GEOLOCATOR_TITLE_TEXT)
+    geoButtonEl.appendChild(geoIconEl)
+
+    geoContainerEl.id = 'mz-geolocator'
+    geoContainerEl.className = 'mz-geolocator'
+    geoContainerEl.appendChild(geoButtonEl)
+
+    // Build DOM
+    el.appendChild(cityContainerEl)
+    el.appendChild(geoContainerEl)
+    document.body.appendChild(el)
+
+    return el
+  }
+
   _loadExternalStylesheet()
+  _createElsAndAppend()
 
   $.get(CITY_DATA_URL, function (data) {
     CITY_DATA = JSON.parse(data)
@@ -39,7 +91,7 @@
     // Assume the JSON is sorted already.
 
     $(document).ready(function () {
-      var $select = $('.js-citylocate-select2');
+      var $select = $('.js--mz-citylocator-select2');
       CITY_DATA.forEach(function (item) {
         $select.append('<option value="' + item.name + '" data-lat="' + item.lat + '" data-lng="' + item.lng + '" data-zoom="' + item.zoom + '">' + item.name + '</option>')
       })
