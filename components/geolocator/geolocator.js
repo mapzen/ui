@@ -1,11 +1,57 @@
+// (c) 2015 Mapzen
+//
+// MAPZEN GEOLOCATOR
+//
+// "Locate me" button for demos
+// --------------------------------------------------------
 /* global map */
-(function () {
+var MapzenGeolocator = (function () {
   'use strict'
+
   var latitude
   var longitude
+  var protocol = (window.location.protocol === 'https:') ? 'https:' : 'http:'
+  var STYLESHEET = protocol + '//s3.amazonaws.com/assets-staging.mapzen.com/ui/components/geolocator/geolocator.min.css'
 
-  if (!map) return false
+  var GEOLOCATOR_TITLE_TEXT = 'Get current location'
+
+//  if (!map) return false
   if (window.self !== window.top) return false
+
+  _createElAndAppend()
+  _loadExternalStylesheet(STYLESHEET)
+
+  // PLACEHOLDER
+  var MapzenGeolocator = function (mapObj, options) {
+  }
+
+  function _loadExternalStylesheet (stylesheetUrl) {
+    var el = document.createElement('link')
+    el.setAttribute('rel', 'stylesheet')
+    el.setAttribute('type', 'text/css')
+    el.setAttribute('href', stylesheetUrl)
+    document.head.appendChild(el)
+  }
+
+  function _createElAndAppend () {
+    // Create geo locator
+    var el = document.createElement('div')
+    var buttonEL = document.createElement('div')
+    var iconEl = document.createElement('span')
+
+    iconEl.className = 'mz-geolocator-icon'
+
+    buttonEL.className = 'mz-geolocator-button'
+    buttonEL.setAttribute('title', GEOLOCATOR_TITLE_TEXT)
+    buttonEL.appendChild(iconEl)
+
+    el.id = 'mz-geolocator'
+    el.className = 'mz-geolocator'
+    el.appendChild(buttonEL)
+
+    document.body.appendChild(el)
+    return el
+  }
 
   var getCurrentLocation = function (success, error) {
     var geolocator = window.navigator.geolocation
@@ -53,4 +99,6 @@
     e.target.classList.add('mz-geolocator-active')
     getCurrentLocation(onGeolocateSuccess, onGeolocateError)
   })
+
+  return MapzenGeolocator
 })()
