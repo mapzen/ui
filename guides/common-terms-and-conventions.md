@@ -1,8 +1,8 @@
 #Common terms and writing conventions
 
-In general, defer to the dictionary, such as merriam-webster, or the Microsoft Manual of Style and the (Apple Style Guide)[https://help.apple.com/asg/mac/2013/ASG_2013.pdf]
+Use this style guide in conjunction with other sources of style information, such as a dictionary like [Merriam-Webster](http://www.merriam-webster.com/), the Microsoft Manual of Style (available in print only), and the [Apple Style Guide](https://help.apple.com/asg/mac/2013/ASG_2013.pdf). For example, if you want to know how to refer to an item in Mac OS, defer to the term Apple uses for it. This document brings together some of the most commonly encountered terms from those other guides, and may add Mapzen flavor to them.
 
-This list is a living document that will be added to or changed as terminology is encountered.
+This list is a living document that will be added to or changed as terminology is encountered. The document is public, so you can also add your own content to it.
 
 ##Numbers
 - Spell out one through nine unless it precedes a unit or is to be input, write the numerals for 10 and above.
@@ -23,7 +23,7 @@ This list is a living document that will be added to or changed as terminology i
 
 ##Titles and headings
 - Use sentence-style capitalization (First word capitalized), rather than title case (All Words Capitalized). Sentence-style is easier to read.
-- Use imperative verbs, rather than gerunds for titles and headings. For example, name a section, "Add a point to the map", rather than "Adding a point to the map". Imperative is clearer and easier to translate. 
+- Use imperative verbs, rather than gerunds for titles and headings. For example, name a section, "Add a point to the map", rather than "Adding a point to the map". Imperative is clearer and easier to translate. Nouns are also acceptable for titles and headings.
 
 ##Common words
-- Because, since - use because for causation (because you checked your email, you saw the meeting invitation) and since for a period of time (been hours since you checked email)
+- Because, since - use because for causation (because you checked your email, you saw the meeting invitation) and since for a period of time (it's been hours since you checked email).
