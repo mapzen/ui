@@ -15,6 +15,7 @@ This list is a living document that will be added to or changed as terminology i
 - filename is one word
 - Finder is the application for browsing folders on a Mac. Apple says to use it as "the Finder", not "Finder".
 - administrator should not be shortened to "admin"
+- plug-in (n., related to extending functionality, such as for a browser) always has a hyphen. Plug in (v.) without a hyphen describes the action of plugging in a cable.
 
 ##Abbreviations and acronyms
 - Spell out a term if you think the audience does not know it. Put the spelled-out term first and the acronym in parentheses, such as Internet Service Provider (ISP).
