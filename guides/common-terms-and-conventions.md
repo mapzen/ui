@@ -20,6 +20,7 @@ This list is a living document that will be added to or changed as terminology i
 - Spell out a term if you think the audience does not know it. Put the spelled-out term first and the acronym in parentheses, such as Internet Service Provider (ISP).
 - Do not add an apostrophe if you make acronym plural (for example, DVDs not DVD's).
 - Abbreviate MB and GB
+- Avoid using Latin words, such as e.g., i.e., et al., and etc. Instead, use for example, that is, and others, and so on.
 
 ##Titles and headings
 - Use sentence-style capitalization (First word capitalized), rather than title case (All Words Capitalized). Sentence-style is easier to read.
