@@ -42,19 +42,9 @@ Branding, social sharing, and tracking UI component for standalone demos. [[sepa
 
 ## Building
 
-Install `npm` and dependencies, then:
+Install `npm` and dependencies.
 
-```
-npm install
-```
-
-You may also need to install gulp globally:
-
-```
-npm install gulp -g
-```
-
-Then, each time you want to build everything:
+To build everything:
 
 ```shell
 gulp          # Files are generated in dist/
