@@ -1,70 +1,12 @@
-mapzen ui
-=========
+mapzen ui **deprecated**
+========================
 
-## Map UI
+If you are looking for map scarab, it is here now: https://github.com/mapzen/scarab/
 
-**Work in progress**
+If you are looking for Mapzen's styleguide: https://github.com/mapzen/styleguide
 
-Adds map UI components to Mapzen demos. Currently it assumes a globally accessible `map` object that is a Leaflet instance.
+If you are looking for Mapzen's wiki: https://github.com/mapzen/wiki/wiki
 
-Add script to your demo:
-```html
-<script src='https://mapzen.com/common/ui/mapzen-ui.min.js'></script>
-```
-
-Initialize components:
-```js
-MPZN.bug({
-  name: 'Tangram',
-  link: 'https://mapzen.com/projects/tangram',
-  tweet: 'Tangram: real-time WebGL maps from @mapzen',
-  repo: 'https://github.com/tangrams/tangram'
-});
-```
-
-Included components:
-
-- Bug (branding, social sharing, tracking UI)
-- City search dropdown
-- Geolocation
-
-### Baseline UI standards
-
-- Zoom in/out buttons, if present, are hidden on touch-enabled devices. See below.
-- Links inside of an iframe are asked to open on top of the iframe unless explicitly told otherwise in the anchor `target` attribute.
-- URLs should reflect the lat/lng and zoom state of full-screen maps. See `leaflet-hash.js` section below.
-
-## Components
-
-### Bug (separate module)
-
-Branding, social sharing, and tracking UI component for standalone demos. [[separate module](https://github.com/mapzen/ui/tree/master/src/components/bug)]
-
-## Building
-
-Install `npm` and dependencies, then:
-
-```
-npm install
-```
-
-You may also need to install gulp globally:
-
-```
-npm install gulp -g
-```
-
-Then, each time you want to build everything:
-
-```shell
-gulp          # Files are generated in dist/
-```
-
-To publish to S3: (env variables containing S3 credentials are expected)
-
-```shell
-gulp publish
-```
 
 ## Third party libraries
 
